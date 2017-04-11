@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Junho Lee on 2017.03.22 
+Copyright © 2017 Junho Lee. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="Map"></h:outputText>
+        </ui:define>
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+
+            <div align="center">
+
+                <!-- 
+                Style the Google Map with id="map" using the 'map' style class defined in
+                siteStyles.css. This style definition is accessed in map.js in creating the map.
+                -->
+                <div id="map" class="map"></div>
+
+                <!-- Name, Latitude, and Longitude of the selected crimes are accessed in map.js -->
+                <h:inputHidden id="crimeCode" value="#{CrimeCaseController.selected.code}" />
+				<h:inputHidden id="crimeDate" value="#{CrimeCaseController.selected.date}" />
+				<h:inputHidden id="crimeTime" value="#{CrimeCaseController.selected.time}" />
+                <h:inputHidden id="crimeCoorX" value="#{CrimeCaseController.selected.coorX}" />
+                <h:inputHidden id="crimeCoorY" value="#{CrimeCaseController.selected.coorY}" />
+                
+                <!-- JSON data for crimes in a given category are parsed and used in map.js -->
+                <h:inputHidden id="jsonCategoryResult" value="#{CrimeCaseController.jsonCategoryData}" />
+
+            </div>
+            <script type="text/javascript">
+                initializeMap();  // Initialize and display a Google Map of VT campus
+            </script>
+
+        </ui:define>
+
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>
