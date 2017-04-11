@@ -7,16 +7,23 @@ _Note: If you wish to store any output from a git command in a file, do so with 
 ### Iterative Development
 
 ##### `git status`
-List the files that have been modified, as well as files that have not yet been
+List the files that have been modified, as well as files that have not yet been added to the repo.
 ##### `git commit <filename(s)> -m <commit_message>`
 Commit one or more files by listing their file names, and adding a message. Remember to give meaningful commit messages. 
 ##### `git commit -am <commit_message>`
 Commit all files which have been modified. 
+##### `git add <file_name(s)`
+Add files to the repo, they will still need to be committed!
 
-### Logs and Versions
-##### `git checkout <branch_name|commit_id>`
-Checkout a branch or a specific commit. This is a very useful command for when a section of your project was working and is now broken.  
+### Branches and Logs
+_Note: The term "checkout" refers to the action of changing all of the files in your repo to match a particular branch or commit._
+##### `git checkout <branch_name>`
+Checkout a branch, make sure you've committed your changes to your local branch.
+##### `git checkout <commit_id>`
+Checkout a specific commit. This is a very useful command for when a section of your project was working and is now broken.  
 Warning, this command will not save uncommited changes made to your local branch (git usually issues a warning / error about this).
+##### `git checkout -b <new_branch_name> <commit_id>`
+Create a new branch with the name `<new_branch_name>` using the commit `<commit_id>`.
 ##### `git diff <commit> <commit>`
 This will output the differences between two different commits, very helpful for debugging. You may want to send the output of this command to a different file via the `>` utility (available in git bash).
 ##### `git log`
