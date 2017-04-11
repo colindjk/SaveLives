@@ -12,7 +12,7 @@ List the files that have been modified, as well as files that have not yet been 
 Commit one or more files by listing their file names, and adding a message. Remember to give meaningful commit messages. 
 ##### `git commit -am <commit_message>`
 Commit all files which have been modified. 
-##### `git add <file_name(s)`
+##### `git add <file_name(s)>`
 Add files to the repo, they will still need to be committed!
 
 ### Branches and Logs
@@ -24,6 +24,8 @@ Checkout a specific commit. This is a very useful command for when a section of 
 Warning, this command will not save uncommited changes made to your local branch (git usually issues a warning / error about this).
 ##### `git checkout -b <new_branch_name> <commit_id>`
 Create a new branch with the name `<new_branch_name>` using the commit `<commit_id>`.
+##### `git branch`
+Display the branch you are currently using.
 ##### `git diff <commit> <commit>`
 This will output the differences between two different commits, very helpful for debugging. You may want to send the output of this command to a different file via the `>` utility (available in git bash).
 ##### `git log`
