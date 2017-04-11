@@ -67,6 +67,13 @@
                                      icon="ui-icon-refresh"
                                      action="#{mongoDBController.clearValues()}" 
                                      immediate="true" />
+                    
+                    <p:commandButton value="Crime Case Data" 
+                                     ajax="false" 
+                                     styleClass="commandButton" 
+                                     icon="ui-icon-refresh"
+                                     action="#{crimeCaseController.dataQuery()}" 
+                                     immediate="true" />
 
                 </h:panelGrid>
                 <h:messages styleClass="errorMessages"> </h:messages>
