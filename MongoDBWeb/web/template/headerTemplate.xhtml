@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Colin Kirkpatrick on 2017.02.16 
+Copyright © 2017 Colin Kirkpatrick. All rights reserved.
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!--
+    *********************************************
+    * Header Component of Template siteTemplate *
+    *********************************************
+    This page's content is displayed on the top of each page created based on the siteTemplate.
+    Changes made in this file will show up automatically with all pages created based on the
+    siteTemplate for the entire site, achieving great maintainability.
+    -->
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+    <ui:composition>
+        <h:panelGrid columns="2" columnClasses="leftTopCornerAlign, rightTopCornerAlign">
+            <!-- 
+            Use absolute path for the image file since it will be accessed from all pages.
+            max-height and max-width make the image shrink when the browser window size shrinks.
+            -->
+            <h:link outcome="index"><img src="resources/images/VideosLogo.png"
+                                         style="width:100%; height:100%; max-height:50px; max-width:230px; border: none"
+                                         alt="Videos Logo" />
+            </h:link>
+
+            <h:panelGroup>
+                <h:link outcome="index" styleClass="arialTen">
+                    <i class="fa fa-home">&nbsp;</i>Home
+                </h:link>&nbsp;&nbsp;
+
+                <!-- Clicking "Recipes I Like" displays the RecipesILike.xhtml file -->
+                <h:link outcome="VideosILike" styleClass="arialTen">
+                    <i class="fa fa-youtube-play">&nbsp;</i>Public Videos
+                </h:link>&nbsp;&nbsp;
+
+                <!--<h:link outcome="SignInAccount" styleClass="arialTen">-->
+                <h:link outcome="index" styleClass="arialTen">
+                    <i class="fa fa-youtube-play">&nbsp;</i>Sign In
+                </h:link>&nbsp;&nbsp;
+
+                <!--<h:link outcome="CreateAccount" styleClass="arialTen">-->
+                <h:link outcome="index" styleClass="arialTen">
+                    <i class="fa fa-youtube-play">&nbsp;</i>Create an Account
+                </h:link>&nbsp;&nbsp;
+
+            </h:panelGroup>
+        </h:panelGrid>
+
+    </ui:composition>
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+</html>
