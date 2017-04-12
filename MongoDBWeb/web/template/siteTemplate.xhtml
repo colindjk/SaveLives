@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Created by Osman Balci on 2016.12.07 
-Copyright © 2016 Osman Balci. All rights reserved.
+Created by Osman Balci on 2017.01.28
+Copyright © 2017 Osman Balci. All rights reserved.
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -15,13 +15,24 @@ Copyright © 2016 Osman Balci. All rights reserved.
     **********************************************************************
     -->
     <h:head>
-        <title>MongoDB Web</title>
+        <!-- 
+        The <title> element (a) defines a title in the browser's toolbar,
+        (b) provides a title for the page when it is added to favorites, and
+        (c) displays a title for the page in search-engine results.
+        [http://www.w3schools.com/tags/tag_title.asp]
+
+        If you want to change it for a page, use:
+            <ui:define name="title">
+                <h:outputText value="enter page title here"></h:outputText>
+            </ui:define>
+        -->
+        <title><ui:insert name="title">Cloud Drive</ui:insert></title>
 
         <!-- 
-        The following <meta> viewport element must be included in all your web pages so that your user
-        interface scales down to fit to the screen sizes of smartphones, tablets, and other mobile devices.
+        Instruct the web browser on how to control the page's dimensions
+        and scaling on mobile devices. 
         -->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
         <!-- 
         The siteStyles CSS file is linked for use by the entire site. 

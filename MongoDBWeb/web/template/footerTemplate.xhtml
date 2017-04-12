@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Created by Colin Kirkpatrick on 2017.02.16 
-Copyright © 2017 Colin Kirkpatrick. All rights reserved.
+Created by Osman Balci on 2017.01.28
+Copyright © 2017 Osman Balci. All rights reserved.
 -->
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <!--
@@ -21,10 +19,10 @@ Copyright © 2017 Colin Kirkpatrick. All rights reserved.
 
     <!-- Do not enter tags before the composition line since they are ignored by JSF -->
     <ui:composition>
-        <div align="center" >
-            <h:panelGrid id="footerPanelGrid" columns="2" >
 
-                <h:panelGroup>
+        <table width="80%" border="0" align="center" cellpadding="5" cellspacing="0">
+            <tr>
+                <td align="left" valign="middle">
                     <a class="social-roll" href="https://www.facebook.com/">
                         <img src="./resources/images/socialMediaIcons/facebook.png" /></a>
                     <a class="social-roll" href="https://twitter.com/">
@@ -33,28 +31,26 @@ Copyright © 2017 Colin Kirkpatrick. All rights reserved.
                         <img src="./resources/images/socialMediaIcons/linkedIn.png" /></a>
                     <a class="social-roll" href="https://plus.google.com/">
                         <img src="./resources/images/socialMediaIcons/googlePlus.png" /></a>
-                </h:panelGroup>
-
-                <h:panelGroup  id="rightAlignPanelGroup">
-                    <!-- 
+                </td>
+                <td align="right" valign="middle">
+                <!-- 
                     With the i tag, you can access an icon given at http://fontawesome.io/icons/ by using
                     its class name. For this to work, the following must be specified in the siteTemplate file:
                     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" />
                     -->
-                    <a href="https://www.youtube.com">
-                        <i class="fa fa-youtube">&nbsp;</i>Youtube</a>&nbsp;&nbsp;
-                    <a href="https://www.vimeo.com">
-                        <i class="fa fa-vimeo">&nbsp;</i>Vimeo</a>&nbsp;&nbsp;
-                    <a href="https://www.metacafe.com">
-                        <i class="fa fa-video-camera">&nbsp;</i>Metacafe</a>
-                </h:panelGroup>
+                    <a href="https://www.youtube.com/">
+                        <i class="fa fa-youtube" aria-hidden="true">&nbsp;</i>YouTube</a>&nbsp;&nbsp;
+                    <a href="https://vimeo.com/">
+                        <i class="fa fa-vimeo" aria-hidden="true">&nbsp;</i>Vimeo</a>&nbsp;&nbsp;
+                    <a href="http://www.metacafe.com/">
+                        <i class="fa fa-video-camera" aria-hidden="true">&nbsp;</i>Metacafe</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center" valign="middle" class="arialTen"><a href="http://manta.cs.vt.edu/cs3984/">CS3984 Cloud Software Development</a> course final project, Saving Lives.</td>
+            </tr>
+        </table>
 
-            </h:panelGrid>
-
-            <br />
-            A <a href="http://manta.cs.vt.edu/cs3984/">CS3984 Cloud Software Development</a> Assignment 4 app created by
-            <a href="https://github.com/colindjk/">Colin Kirkpatrick</a> for educational purposes.
-        </div>
     </ui:composition>
     <!-- Do not enter tags after the composition line since they are ignored by JSF -->
 
