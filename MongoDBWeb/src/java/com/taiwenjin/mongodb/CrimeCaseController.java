@@ -8,10 +8,16 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import org.primefaces.json.JSONArray;
@@ -35,10 +41,16 @@ public class CrimeCaseController implements Serializable {
 
         JSONArray jsonArray;
         String password = "CSD@s17";
-
-        //MongoCredential credential = MongoCredential.createCredential("CS3984", "TestDatabase", password.toCharArray());
-        //mongoClient = new MongoClient(new ServerAddress("localhost", 27017), Arrays.asList(credential));
-        mongoClient = new MongoClient("localhost", 27017);
+        List<ServerAddress> seeds = new ArrayList<ServerAddress>();
+        List<MongoCredential> credentialsList = new ArrayList<MongoCredential>();
+        
+        ServerAddress serverAddress = new ServerAddress("localhost", 27017);
+        seeds.add(serverAddress);
+   
+        MongoCredential credential = MongoCredential.createCredential("CS3984", "admin", password.toCharArray());
+        credentialsList.add(credential);
+        
+        mongoClient = new MongoClient(seeds, credentialsList);
         db = mongoClient.getDB("TestDatabase");
         coll = db.getCollection("CrimeCaseCollection");
 
@@ -70,7 +82,8 @@ public class CrimeCaseController implements Serializable {
                         .append("weapon", weapon)
                         .append("post", post)
                         .append("district", district)
-                        .append("coordinates", coor);
+                        .append("coorX", coorX)
+                        .append("coorY", coorY);
                 coll.insert(doc);
             }
 
