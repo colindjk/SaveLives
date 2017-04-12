@@ -47,10 +47,11 @@ public class CrimeCaseController implements Serializable {
         ServerAddress serverAddress = new ServerAddress("localhost", 27017);
         seeds.add(serverAddress);
    
-        MongoCredential credential = MongoCredential.createCredential("CS3984", "admin", password.toCharArray());
-        credentialsList.add(credential);
+        //  MongoCredential credential = MongoCredential.createCredential("CS3984", "admin", password.toCharArray());
+        //  credentialsList.add(credential);
         
-        mongoClient = new MongoClient(seeds, credentialsList);
+        //  mongoClient = new MongoClient(seeds, credentialsList);
+        mongoClient = new MongoClient(seeds);
         db = mongoClient.getDB("TestDatabase");
         coll = db.getCollection("CrimeCaseCollection");
 
