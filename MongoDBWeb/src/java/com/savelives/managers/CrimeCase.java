@@ -2,7 +2,7 @@
  * Created by Taiwen Jin on 2017.04.10  * 
  * Copyright © 2017 Taiwen Jin. All rights reserved. * 
  */
-package com.taiwenjin.mongodb;
+package com.savelives.managers;
 
 /**
  *
