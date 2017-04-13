@@ -5,92 +5,71 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <!--    <h:head>
-            <title>MongoDB Web</title>
-    
-             
-            The following <meta> viewport element must be included in all your web pages so that your user
-            interface scales down to fit to the screen sizes of smartphones, tablets, and other mobile devices.
-            
-            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-        </h:head>-->
-
-    <!--    <h:body>    -->
     <ui:composition template="/template/siteTemplate.xhtml">
-
-        <!-- Create the content for this page below -->
         <ui:define name="editableContent">
-
             <div align="center">
-
                 <h:outputStylesheet library="css" name="globalStyles.css"/>
                 <h:form id="userDataEntryForm">
                     <br />
-                    <br />
                     <h1>Enter User Data</h1>
-                    <br />
-                    <h:panelGrid columns="2" columnClasses="rightAlign, leftAlign">
-
-                        <h:outputLabel for="name" value="Name:" /> 
-                        <h:inputText id="name"
-                                     value="#{mongoDBController.name}"
-                                     required="true"
-                                     styleClass="dataText">
-                        </h:inputText>
-
-                        <h:outputLabel for="email" value="Email:" /> 
-                        <h:inputText id="email"
-                                     value="#{mongoDBController.email}"
-                                     required="true"
-                                     styleClass="dataText">
-                        </h:inputText>
-
-                        <h:outputLabel for="phone" value="Phone:" /> 
-                        <h:inputText id="phone"
-                                     value="#{mongoDBController.phone}"
-                                     required="true"
-                                     styleClass="dataText">
-                        </h:inputText>
-
-                        <h:outputLabel for="major" value="Major:" /> 
-                        <h:inputText id="major"
-                                     value="#{mongoDBController.major}"
-                                     required="true"
-                                     styleClass="dataText">
-                        </h:inputText>
-
-                        <h:outputText value="&nbsp;" />    <!-- &nbsp; represents a non-breaking space -->
-                        <h:outputText value="&nbsp;" />    <!-- &nbsp; represents a non-breaking space -->
-                        <p:commandButton value="Create User" 
-                                         id="insertButton"  
-                                         ajax="false" 
-                                         styleClass="commandButton"
-                                         action="#{mongoDBController.insertData()}" />
-                        <p:commandButton value="Clear User Data" 
-                                         id="clearValuesButton"  
-                                         ajax="false" 
-                                         styleClass="commandButton" 
-                                         icon="ui-icon-refresh"
-                                         action="#{mongoDBController.clearValues()}" 
-                                         immediate="true" />
-
-                        <p:commandButton value="Crime Case Data" 
-                                         ajax="false" 
-                                         styleClass="commandButton" 
-                                         icon="ui-icon-refresh"
-                                         action="#{crimeCaseController.dataQuery()}" 
-                                         immediate="true" />
-
-                    </h:panelGrid>
+                    <h:panelGroup id="display">
+                        <h:panelGrid columns="2" columnClasses="rightAlign, leftAlign">
+                            <h:outputLabel for="name" value="Name:" /> 
+                            <h:inputText id="name"
+                                         value="#{mongoDBController.name}"
+                                         required="true"
+                                         styleClass="dataText">
+                            </h:inputText>
+                            <h:outputLabel for="email" value="Email:" /> 
+                            <h:inputText id="email"
+                                         value="#{mongoDBController.email}"
+                                         required="true"
+                                         styleClass="dataText">
+                            </h:inputText>
+                            <h:outputLabel for="phone" value="Phone:" /> 
+                            <h:inputText id="phone"
+                                         value="#{mongoDBController.phone}"
+                                         required="true"
+                                         styleClass="dataText">
+                            </h:inputText>
+                            <h:outputLabel for="major" value="Major:" /> 
+                            <h:inputText id="major"
+                                         value="#{mongoDBController.major}"
+                                         required="true"
+                                         styleClass="dataText">
+                            </h:inputText>
+                            <h:outputText value="&nbsp;" />    <!-- &nbsp; represents a non-breaking space -->
+                            <h:outputText value="&nbsp;" />    <!-- &nbsp; represents a non-breaking space -->
+                        </h:panelGrid>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <p:spacer height="10" />
+                        <div align="center">
+                            <p:commandButton value="Create User" 
+                                             id="insertButton"  
+                                             ajax="false" 
+                                             styleClass="commandButton"
+                                             action="#{mongoDBController.insertData()}" />
+                            <p:commandButton value="Clear User Data" 
+                                             id="clearValuesButton"  
+                                             ajax="false" 
+                                             styleClass="commandButton" 
+                                             icon="ui-icon-refresh"
+                                             action="#{mongoDBController.clearValues()}" 
+                                             immediate="true" />
+                            <p:commandButton value="Crime Case Data" 
+                                             ajax="false" 
+                                             styleClass="commandButton" 
+                                             icon="ui-icon-refresh"
+                                             action="#{crimeCaseController.dataQuery()}" 
+                                             immediate="true" />
+                        </div>
+                    </h:panelGroup>
                     <h:messages styleClass="errorMessages"> </h:messages>
                 </h:form>
-
             </div>
         </ui:define>
     </ui:composition>
-    <!--<br />
 <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />
 </h:body>-->
-
 </html>
