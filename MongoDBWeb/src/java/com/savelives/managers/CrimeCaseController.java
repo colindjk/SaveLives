@@ -2,9 +2,11 @@
  * Created by Taiwen Jin on 2017.04.10  * 
  * Copyright © 2017 Taiwen Jin. All rights reserved. * 
  */
-package com.savelives.managers;
+package com.taiwenjin.mongodb;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
@@ -32,15 +34,15 @@ public class CrimeCaseController implements Serializable {
     private final String crimeCaseJSONDataURL = "https://data.baltimorecity.gov/resource/4ih5-d5d5.json";
 
     private MongoClient mongoClient;
-    private MongoDatabase db;
-    private MongoCollection coll;
+    private DB db;
+    private DBCollection coll;
 
     public void dataQuery() {
 
         JSONArray jsonArray;
         String password = "CSD@s17";
-        List<ServerAddress> seeds = new ArrayList<>();
-        List<MongoCredential> credentialsList = new ArrayList<>();
+        List<ServerAddress> seeds = new ArrayList<ServerAddress>();
+        List<MongoCredential> credentialsList = new ArrayList<MongoCredential>();
         
         ServerAddress serverAddress = new ServerAddress("localhost", 27017);
         seeds.add(serverAddress);
@@ -50,7 +52,7 @@ public class CrimeCaseController implements Serializable {
         
         //  mongoClient = new MongoClient(seeds, credentialsList);
         mongoClient = new MongoClient(seeds);
-        db = mongoClient.getDatabase("SaveLives");
+        db = mongoClient.getDB("TestDatabase");
         coll = db.getCollection("CrimeCaseCollection");
 
         try {
@@ -58,8 +60,9 @@ public class CrimeCaseController implements Serializable {
             String CrimeCaseJSONData = readUrlContent(crimeCaseJSONDataURL);
 
             jsonArray = new JSONArray(CrimeCaseJSONData);
-            JSONObject tempCrimeCaseJSONObject = jsonArray.getJSONObject(0);
+            
             for (int i = 0; i < 50; i++) {
+                JSONObject tempCrimeCaseJSONObject = jsonArray.getJSONObject(i);
                 String date = tempCrimeCaseJSONObject.optString("crimedate", "");
                 String time = tempCrimeCaseJSONObject.optString("crimetime", "");
 
@@ -83,7 +86,7 @@ public class CrimeCaseController implements Serializable {
                         .append("district", district)
                         .append("coorX", coorX)
                         .append("coorY", coorY);
-                coll.insertOne(doc);
+                coll.insert(doc);
             }
 
         } catch (Exception ex) {
