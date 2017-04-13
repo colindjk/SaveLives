@@ -2,12 +2,15 @@
  * Created by Taiwen Jin on 2017.02.26  * 
  * Copyright © 2017 Taiwen Jin. All rights reserved. * 
  */
-package com.taiwenjin.mongodb;
+package com.savelives.managers;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import static com.savelives.managers.Constants.DATABASE_HOSTNAME;
+import static com.savelives.managers.Constants.DATABASE_NAME;
+import static com.savelives.managers.Constants.DATABASE_PORT;
 
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -20,21 +23,22 @@ import java.io.Serializable;
 @Named(value = "mongoDBController")
 @SessionScoped
 
-public class MongoDBController implements Serializable {
+public class AccountManager implements Serializable {
 
     private final MongoClient mongoClient;
-    private final DB db;
-    private final DBCollection coll;
-
+    private final MongoDatabase db;
+    private final MongoCollection coll;
+    private static final String UserCollectionName = "UsersCollection";
+    
     private String name;
     private String email;
     private String phone;
     private String major;
 
-    public MongoDBController() {
-        mongoClient = new MongoClient("localhost", 27017);
-        db = mongoClient.getDB("TestDatabase");
-        coll = db.getCollection("UserInfoCollection");
+    public AccountManager() {
+        mongoClient = new MongoClient(DATABASE_HOSTNAME, DATABASE_PORT);
+        db = mongoClient.getDatabase(DATABASE_NAME);
+        coll = db.getCollection(UserCollectionName);
     }
 
     public String insertData() {
@@ -42,7 +46,7 @@ public class MongoDBController implements Serializable {
                 .append("email", email)
                 .append("phone", phone)
                 .append("major", major);
-        coll.insert(doc);
+        coll.insertOne(doc);
         return "results?faces-redirect=true";
     }
     
