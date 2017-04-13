@@ -12,4 +12,6 @@ final class Constants {
     public static final String DATABASE_NAME = "SaveLives";
     public static final String DATABASE_HOSTNAME = "localhost";
     public static final int DATABASE_PORT = 27017;
+    public static final String DATABASE_USER = "root";
+    public static final String DATABASE_PASSWORD = "CSD@s17";
 }

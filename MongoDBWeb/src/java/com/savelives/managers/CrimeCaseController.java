@@ -4,7 +4,6 @@
  */
 package com.savelives.managers;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
@@ -12,6 +11,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import static com.savelives.managers.Constants.DATABASE_HOSTNAME;
 import static com.savelives.managers.Constants.DATABASE_NAME;
+import static com.savelives.managers.Constants.DATABASE_PASSWORD;
+import static com.savelives.managers.Constants.DATABASE_USER;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Serializable;
@@ -41,58 +42,62 @@ public class CrimeCaseController implements Serializable {
     public void dataQuery() {
 
         JSONArray jsonArray;
-        String password = "CSD@s17";
-        List<ServerAddress> seeds = new ArrayList<ServerAddress>();
-        List<MongoCredential> credentialsList = new ArrayList<MongoCredential>();
-        
+
+        List<ServerAddress> seeds = new ArrayList<>();
+        List<MongoCredential> credentialsList = new ArrayList<>();
+
         ServerAddress serverAddress = new ServerAddress(DATABASE_HOSTNAME, 27017);
         seeds.add(serverAddress);
-   
-        //  MongoCredential credential = MongoCredential.createCredential("CS3984", "admin", password.toCharArray());
-        //  credentialsList.add(credential);
-        
-        //  mongoClient = new MongoClient(seeds, credentialsList);
-        mongoClient = new MongoClient(seeds);
+
+        MongoCredential credential = MongoCredential.createCredential(DATABASE_USER, DATABASE_NAME, DATABASE_PASSWORD.toCharArray());
+        credentialsList.add(credential);
+        mongoClient = new MongoClient(seeds, credentialsList);
+        //mongoClient = new MongoClient(seeds);
         db = mongoClient.getDatabase(DATABASE_NAME);
         coll = db.getCollection(CrimeCollectionName);
+     
+        if (coll.count() == 0) {
+            try {
 
-        try {
+                String CrimeCaseJSONData = readUrlContent(crimeCaseJSONDataURL);
 
-            String CrimeCaseJSONData = readUrlContent(crimeCaseJSONDataURL);
+                jsonArray = new JSONArray(CrimeCaseJSONData);
 
-            jsonArray = new JSONArray(CrimeCaseJSONData);
-            
-            for (int i = 0; i < 50; i++) {
-                JSONObject tempCrimeCaseJSONObject = jsonArray.getJSONObject(i);
-                String date = tempCrimeCaseJSONObject.optString("crimedate", "");
-                String time = tempCrimeCaseJSONObject.optString("crimetime", "");
+                for (int i = 0; i < 50; i++) {
+                    JSONObject tempCrimeCaseJSONObject = jsonArray.getJSONObject(i);
+                    String date = tempCrimeCaseJSONObject.optString("crimedate", "");
+                    String time = tempCrimeCaseJSONObject.optString("crimetime", "");
 
-                String code = tempCrimeCaseJSONObject.optString("crimecode", "");
-                String location = tempCrimeCaseJSONObject.optString("location", "");
-                String description = tempCrimeCaseJSONObject.optString("description", "");
-                String weapon = tempCrimeCaseJSONObject.optString("weapon", "");
-                String post = tempCrimeCaseJSONObject.optString("post", "");
-                String district = tempCrimeCaseJSONObject.optString("district", "");
-                JSONObject location_1 = tempCrimeCaseJSONObject.getJSONObject("location_1");
-                JSONArray coor = location_1.getJSONArray("coordinates");
-                Double coorX = (Double) coor.get(0);
-                Double coorY = (Double) coor.get(1);
-                Document doc = new Document("crimedate", date)
-                        .append("crimetime", time)
-                        .append("crimecode", code)
-                        .append("location", location)
-                        .append("description", description)
-                        .append("weapon", weapon)
-                        .append("post", post)
-                        .append("district", district)
-                        .append("coorX", coorX)
-                        .append("coorY", coorY);
-                coll.insertOne(doc);
+                    String code = tempCrimeCaseJSONObject.optString("crimecode", "");
+                    String location = tempCrimeCaseJSONObject.optString("location", "");
+                    String description = tempCrimeCaseJSONObject.optString("description", "");
+                    String weapon = tempCrimeCaseJSONObject.optString("weapon", "");
+                    String post = tempCrimeCaseJSONObject.optString("post", "");
+                    String district = tempCrimeCaseJSONObject.optString("district", "");
+                    JSONObject location_1 = tempCrimeCaseJSONObject.getJSONObject("location_1");
+                    JSONArray coor = location_1.getJSONArray("coordinates");
+                    Double coorX = (Double) coor.get(0);
+                    Double coorY = (Double) coor.get(1);
+                    Document doc = new Document("crimedate", date)
+                            .append("crimetime", time)
+                            .append("crimecode", code)
+                            .append("location", location)
+                            .append("description", description)
+                            .append("weapon", weapon)
+                            .append("post", post)
+                            .append("district", district)
+                            .append("coorX", coorX)
+                            .append("coorY", coorY);
+                    coll.insertOne(doc);
+                }
+
+            } catch (Exception ex) {
+                System.out.println("EXCEPTION: " + ex.getMessage());
             }
-
-        } catch (Exception ex) {
-            System.out.println("EXCEPTION: " + ex.getMessage());
+        }else{
+            System.out.println("LOG: Database already contains crime cases");
         }
+
     }
 
     public String readUrlContent(String webServiceURL) throws Exception {
