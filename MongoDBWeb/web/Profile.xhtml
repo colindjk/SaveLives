@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <h:head>
+        <title>My Account</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!-- <h:outputStylesheet library="css" name="siteStyles.css" /> -->
+        <link rel="stylesheet" type="text/css" href="resources/css/siteStyles.css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" />
+    </h:head>
+
+    <h:body>
+        <p:growl id="growl" life="5000" />
+
+        <h:form id="UserProfileForm">
+ 
+            <table width="100%" border="0" cellspacing="0" cellpadding="10">
+                <tr>
+                    <!-- The first <td> contains the VERTICAL NAVIGATION MENU -->
+                    <td width="180" align="left" valign="middle" nowrap="nowrap">
+                        <ul class="verticalMenu">
+
+                            <li class="verticalMenuItem">
+                                <!-- HOME -->
+                                <h:link outcome="index">
+                                    <i class="fa fa-home">&nbsp;</i>Home
+                                </h:link>
+                            </li>
+
+                            <li class="verticalMenuItem">
+                                <!-- EDIT PROFILE -->
+                                <h:link outcome="EditAccount">
+                                    <i class="fa fa-pencil-square-o">&nbsp;</i>Edit Profile
+                                </h:link>
+                            </li>
+
+                            <li class="verticalMenuItem">
+                                <!-- CHANGE PASSWORD -->
+                                <h:link outcome="AnswerSecurityQuestion">
+                                    <i class="fa fa-key">&nbsp;</i>Change Password
+                                </h:link>
+                            </li>
+
+                            <li class="verticalMenuItem">
+                                <!-- SIGN OUT -->
+                                <h:commandLink action="#{userController.logout()}">
+                                    <i class="fa fa-sign-out">&nbsp;</i>Sign Out
+                                </h:commandLink>
+                            </li>
+                        </ul>
+
+                    </td>
+
+                    <!-- The second <td> contains the USER PROFILE DATA -->
+                    <td align="center" valign="top">
+
+                        <h2> #{userController.currentUser.firstName} #{userController.currentUser.lastName}'s Account Profile </h2>
+
+                        <!-- USER'S PROFILE PHOTO -->
+                        <h:graphicImage class="profilePhoto" value="#{accountManager.userPhoto()}" />
+                        <br />
+                        <br />
+                        <p:panelGrid columns="2" columnClasses="profileColumn1, profileColumn2" >
+
+                            <h:outputText value="First Name"/>
+                            <h:outputText value="#{userController.currentUser.firstName}" />
+
+                            <h:outputText value="Middel Name"/>
+                            <h:outputText value="#{userController.currentUser.middleName}" />
+                            
+                            <h:outputText value="Last Name"/>
+                            <h:outputText value="#{userController.currentUser.lastName}" />
+                            
+                            <h:outputText value="Address Line 1"/>
+                            <h:outputText value="#{userController.currentUser.address1}" />
+                            
+                            <h:outputText value="Address Line 2"/>
+                            <h:outputText value="#{userController.currentUser.address2}" />
+                            
+                            <h:outputText value="City"/>
+                            <h:outputText value="#{userController.currentUser.city}" />
+                            
+                            <h:outputText value="Zipcode"/>
+                            <h:outputText value="#{userController.currentUser.zipCode}" />
+                            
+                            <h:outputText value="Email"/>
+                            <h:outputText value="#{userController.currentUser.email}" />
+
+                            <h:outputText value="Username"/>
+                            <h:outputText value="#{userController.currentUser.username}" />
+
+                        </p:panelGrid>
+
+                    </td>
+                </tr>
+            </table>
+
+        </h:form>
+    </h:body>
+</html>

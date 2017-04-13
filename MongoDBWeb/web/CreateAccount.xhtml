@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <h:head>
+        <title>Create Your Account</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!-- <h:outputStylesheet library="css" name="siteStyles.css" /> -->
+        <link rel="stylesheet" type="text/css" href="resources/css/siteStyles.css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" />
+    </h:head>
+
+    <h:body>
+        <div align="center" style="width:50%; margin:0 auto;">
+
+
+
+            <h:outputLabel id="form-error-message" class="errorMessages" value="#{userController.createAccountMessage}"/>
+            <p:growl id="growl" life="5000" />
+            <h:form id="AccountCreationForm">
+
+                <h2>Create Your Account</h2>
+
+                <f:event listener="#{userController.validateInformation}" type="postValidate"/>
+
+                <p:panelGrid columns="2" columnClasses="accountColumn1, accountColumn2">
+
+                    <p:outputLabel value="First Name: " for="firstName" />
+                    <p:inputText id="firstName" value="#{userController.user.firstName}" required="true" styleClass="accountInputTextField"
+                                 requiredMessage="First Name Required!" label="First Name">
+                        <f:validateLength minimum="2" />
+                    </p:inputText>   
+
+                    <p:outputLabel value="Middle Name: " for="middleName" />
+                    <p:inputText id="middleName" value="#{userController.user.middleName}"
+                                 required="false" styleClass="accountInputTextField" label="Middle Name">
+                    </p:inputText>
+
+
+                    <p:outputLabel value="Last Name: " for="lastName" />
+                    <p:inputText id="lastName" value="#{userController.user.lastName}" required="true" styleClass="accountInputTextField"
+                                 requiredMessage="Last Name Required!" label="Last Name">
+                        <f:validateLength minimum="2" />
+                    </p:inputText>
+
+                    <p:outputLabel value="Address Line 1: " for="address1" />
+                    <p:inputText id="address1" value="#{userController.user.address1}" required="true" styleClass="accountInputTextField"
+                                 requiredMessage="Address Line 1 Required" label="Address Line 1">
+                        <f:validateLength minimum="2" />
+                    </p:inputText>
+
+
+                    <p:outputLabel value="Address Line 2: " for="address2" />
+                    <p:inputText id="address2" value="#{userController.user.address2}" label="Address Line 2" styleClass="accountInputTextField">
+                    </p:inputText>
+
+                    <p:outputLabel value="City: " for="city" />
+                    <p:inputText id="city" value="#{userController.user.city}" required="true" styleClass="accountInputTextField"
+                                 requiredMessage="City Required!" label="City">
+                        <f:validateLength minimum="2" />
+                    </p:inputText>
+
+                    <p:outputLabel value="State: " for="state" />
+                    <h:selectOneMenu id="state" value="#{userController.user.state}" required="true">
+                        <f:selectItems value="#{userController.listOfStates}" var="state"
+                                       itemLabel="#{state}" itemValue="#{state}" />
+                    </h:selectOneMenu>
+
+                    <p:outputLabel value="Zipcode: " for="zipcode" />
+                    <p:inputText id="zipcode" value="#{userController.user.zipCode}" required="true" styleClass="accountInputTextField"
+                                 requiredMessage="Zipcode is Required to Create Account!" label="Zip Code">
+                        <f:validateLength minimum="5" />
+                    </p:inputText>
+
+
+                    <p:outputLabel value="Security Question: " for="securityQuestion" />
+                    <p:selectOneMenu id="securityQuestion" label="Security Questions"
+                                     value="#{userController.user.securityQuestion}" required="true" >
+                        <f:selectItems value="#{userController.security_questions}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Security Answer" for="securityAnswer" />
+                    <p:inputText id="securityAnswer" value="#{userController.user.securityAnswer}" required="true" styleClass="accountInputTextField"
+                                 requiredMessage="Security Answer is Required to Create Account!" label="Security Answer">
+                        <f:validateLength minimum="2" />
+                    </p:inputText>
+
+                    <p:outputLabel value="Username: " for="username" />
+                    <p:inputText id="username" value="#{userController.user.username}" required="true" styleClass="accountInputTextField"
+                                 requiredMessage="Username Required!" label="Username">
+                    </p:inputText>
+
+                    <h:outputLabel value="Password: *" for="password" />
+                    <p:password id="password" value="#{userController.user.password}" 
+                                requiredMessage="Password Required!" feedback="true" required="true" styleClass="accountInputTextField">
+
+                    </p:password>
+
+                    <h:outputLabel value="Confirm Password: *" for="confirmPassword" />
+                    <p:password id="confirmPassword" value="ToBeReadFromThisFieldByAccountManager" required="true" 
+                                requiredMessage="Comfirm Password Required!" styleClass="accountInputTextField"/>
+
+
+                </p:panelGrid>
+                <br />
+
+                <p:commandButton id="Submit" value="Submit" action="#{userController.createAccount()}" 
+                                 styleClass="commandButton" ajax="false" icon="ui-icon-extlink" />
+
+                <p:button outcome="SignIn" value="Sign In" icon="ui-icon-extlink" styleClass="commandButton" />
+
+                <p:button outcome="index" value="Cancel" icon="ui-icon-cancel" styleClass="commandButton" />
+
+            </h:form>
+        </div>
+    </h:body>
+</html>
