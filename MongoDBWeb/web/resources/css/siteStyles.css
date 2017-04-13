@@ -1,0 +1,340 @@
+/*********************************************
+Cascading Style Sheets (CSS) Style Definitions
+Composed by Osman Balci on May 24, 2016.
+*********************************************/
+
+html, body {
+    /*---------------------------------------------------------------------------------
+    If you use a background image, make sure that its size is very small, i.e., < 100KB
+    -----------------------------------------------------------------------------------
+    Expression Language (EL) variable 'resource' is an implicit object
+    for javax.faces.application.ResourceHandler. The 'resources' is
+    the default directory the handler looks for resource files in.
+    */
+    /* background-image: url("#{resource['images:background.jpg']}"); */
+
+    /*---------------------------------------------------------------------------------
+    Preferably, use a background color. Uncomment the one you like from examples below.
+    See more HTML colors at http://www.w3schools.com/colors/colors_names.asp
+    ---------------------------------------------------------------------------------*/
+    /* background-color: #F0F8FF;   /* AliceBlue */
+    /* background-color: #F0FFFF;   /* Azure */
+    /* background-color: #F5F5DC;   /* Beige */
+    /* background-color: #DCDCDC;   /* Gainsboro */
+    /* background-color: #FFFFF0;   /* Ivory */
+    background-color: #FAF0E6;   /* Linen */
+    /* background-color: #FDF5E6;   /* OldLace */
+    /* background-color: #FFEFD5;   /* PapayaWhip */
+    /* background-color: #F5DEB3;   /* Wheat */
+    /* background-color: #B0E0E6;   /* PowderBlue */
+
+    /* Stretch the background image to cover the entire screen. 
+    This is used only if you choose to display a background image. */
+    -webkit-background-size: cover; /* For WebKit */
+    -moz-background-size: cover;    /* For Mozilla */
+    -o-background-size: cover;      /* For Opera */
+    background-size: cover;         /* Generic */
+    background-repeat: no-repeat;   /* Do not repeat the image */
+
+    width: 100%;                    /* Set page width horizontally 100% */
+    height: 100%;                   /* Set page height vertically 100% */
+}
+
+/* Style the text used under the standard HTML tag "body" */
+body {
+    font-family: "Times New Roman", Times, Serif;
+    font-size: 12pt;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    color: black;
+}
+
+/* Style the text used under the standard HTML tag "p" for paragraph */
+p {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 12pt;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    text-align: left;
+    color: black;
+}
+
+/* Style the text used under the standard HTML tag "h1" for header 1 */
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12pt;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    color: #006400; /* Dark Green */
+}
+
+/* Style the text used under the standard HTML tag "h2" for header 2 */
+h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12pt;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    color: #800000; /* Maroon */
+}
+
+/*
+==================
+Styling Hyperlinks
+==================
+Hyperlinks (or links) are styled differently depending on what state they are in:
+    a:link      - normal state (unvisited link)
+    a:visited   - visited state (link clicked on by user earlier)
+    a:hover     - mouse over state (link when the user hovers over it)
+    a:active    - active state (link currently clicked on by user)
+*/
+
+/* Set the font family for the standard HTML tag "a" for hyperlinks */
+a {
+    font-family: Arial, Helvetica, sans-serif
+}
+
+a:link {
+    text-decoration: none; /* Do not underline the link in normal state */
+}
+
+a:visited {
+    text-decoration: none; /* Do not underline the link in visited state */
+}
+
+a:hover {
+    text-decoration: underline; /* Underline the link in hover state */
+}
+
+a:active {
+    text-decoration: underline; /* Underline the link in active state */
+}
+
+/*
+===============================
+Site Template Component Styling
+===============================
+
+In XHTML code, we refer to a CSS style defined in a CSS file by using Selectors. 
+
+See CSS Selector Reference at http://www.w3schools.com/cssref/css_selectors.asp
+
+#id defines the style of a page component whose unique identification is id.
+.stylename defines the style of all elements marked as class="stylename" or
+styleClass="stylename". Note that styleClass is converted to class.
+
+Since id's are unique, the #id styling is used only once.
+.stylename can be used many times to style a class of elements.
+*/
+
+/* 
+Style the div component whose unique id is "page" per reference
+<div id="page"> in siteTemplate.xhtml
+*/
+#page {
+    font-family: "Times New Roman", Times, Serif;
+    font-size: 12pt;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    color: black;
+}
+/* 
+Style the div component whose unique id is "header" per reference 
+<div id="header"> in siteTemplate.xhtml
+*/
+#header {
+    background-color: #B0E0E6;   /* PowderBlue */
+    width: 100%;
+    height: 84px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    margin-bottom: 16px;
+}
+/* 
+Style the div component whose unique id is "editableContent" per reference 
+<div id="editableContent"> in siteTemplate.xhtml
+*/
+#editableContent {
+    /* height = 100% window height - (header height 84px + footer height 100px) */
+    height: calc(100% - 184px); 
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 100px;
+    margin-bottom: 16px;
+}
+/* 
+Style the div component whose unique id is "footer" per reference 
+<div id="footer"> in siteTemplate.xhtml
+*/
+#footer {
+    height: 100px;
+    width: 100%;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+/* 
+Style the div component whose unique id is "footerPanelGrid" per reference
+<h:panelGrid id="footerPanelGrid" columns="2"> in footerTemplate.xhtml 
+*/
+#footerPanelGrid {
+    width: 80%;
+}
+/* 
+Style the div component whose unique id is "rightAlignPanelGroup" per reference
+<h:panelGroup id="rightAlignPanelGroup"> in footerTemplate.xhtml 
+*/
+#rightAlignPanelGroup {
+    float: right;
+}
+/* 
+Place the logo image on the left top corner per reference
+<h:panelGrid columns="2" columnClasses="leftTopCornerAlign, rightTopCornerAlign">
+in headerTemplate.xhtml
+*/
+.leftTopCornerAlign {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 7px;
+}
+/* 
+Place the navigation menu bar on the right top corner per reference
+<h:panelGrid columns="2" columnClasses="leftTopCornerAlign, rightTopCornerAlign">
+in headerTemplate.xhtml 
+*/
+.rightTopCornerAlign {
+    position: absolute;
+    right: 0;
+    top: 12px;
+    padding: 10px;
+}
+
+/* 
+Right align column 1 text and disallow line breaks per reference
+<p:panelGrid columns="2" columnClasses="columnOne, columnTwo">
+in Create.xhtml, View.xhtml, and Edit.xhtml. 
+*/
+.columnOne {
+    text-align: right;
+    white-space: nowrap;  /* Disallow line break */
+}
+/* 
+Left align column 2 text and disallow line breaks per reference
+<p:panelGrid columns="2" columnClasses="columnOne, columnTwo">
+in Create.xhtml, View.xhtml, and Edit.xhtml. 
+*/
+.columnTwo {
+    text-align: left;
+    white-space: nowrap;  /* Disallow line break */
+}
+
+/*
+=======================
+Other Style Definitions
+=======================
+*/
+
+/* Style the Create, View, and Edit data fields */
+.dataFields {
+    width: 300px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    color: black;
+}
+
+/*
+==================================
+Social Media Buttons Spin Animated
+==================================
+Animate the social media icons in footerTemplate.xhtml by spinning them
+360 degrees on mouseover (hovering over).
+
+CSS Transitions allow property changes in CSS values to occur smoothly over a
+specified duration. This smoothing animates the changing of a CSS value when
+triggered by a mouse click. The timing function value “all ease 0.3s” allows
+the speed of the transition to change over time. 
+*/
+.social-roll {
+    height: 36px;
+    width: 36px;
+    margin: 5px;
+    float: left;
+    border-radius: 50%;
+    -webkit-transition: all ease 0.3s;  /* For WebKit */
+    -moz-transition: all ease 0.3s;     /* For Mozilla */
+    -o-transition: all ease 0.3s;       /* For Opera */
+    -ms-transition: all ease 0.3s;      /* For IE10+ */
+    transition: all ease 0.3s;          /* Generic */
+}
+
+/* Mouseover (hovering over) the social media icon animates its 360-degree rotation */
+.social-roll:hover {
+    -webkit-transform:rotate(360deg);  /* For WebKit */
+    -moz-transform:rotate(360deg);     /* For Mozilla */
+    -o-transform:rotate(360deg);       /* For Opera */
+    -ms-transform:rotate(360deg);      /* For IE10+ */
+    transform:rotate(360deg);          /* Generic */
+}
+
+/*
+=================================
+Skinning PrimeFaces UI Components
+=================================
+
+Approach 1: 
+    Check the documentation of a PrimeFaces UI component to identify
+    which styles are used so that you can override them.
+
+    You can also Inspect the UI element under the Chrome web browser
+    to determine which CSS style is used so that you can override it. 
+
+Approach 2: 
+    Define a style in this file and apply it to the PrimeFaces element
+    using the styleClass attribute to override the PrimeFaces style.
+
+Styles are applied in a cascading order. To make sure that a
+style is applied regardless of where the style is defined in the
+cascading hierarchy, use the !important attribute.
+*/
+
+/* Approach 1: Override PrimeFaces style definitions to use smaller Arial font */
+.ui-datatable-data, .facetHeader, .ui-panel-titlebar, .ui-paginator, .ui-dialog-content, .ui-confirm-dialog-message, .ui-widget-content {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+/* Approach 2: Override PrimeFaces p:commandButton style */
+.commandButton {
+    border-radius: 2em !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 10pt !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    text-decoration: none;
+    color: black;
+}
+
+/* Approach 2: Override PrimeFaces p:menubar style */
+.menubar {
+    background: none;
+    border: none;
+}
+
+/* Approach 2: Override PrimeFaces p:dataTable style */
+.dataTable {
+    padding-right: 5px;
+}
