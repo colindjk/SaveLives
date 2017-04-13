@@ -2,37 +2,35 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>MongoDB User Report</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </h:head>
-    <h:body>
-        <h:outputStylesheet library="css" name="globalStyles.css"/>
-        <div align="center">
-            <h:form id="userResultsForm">
-                <br /><br />
-                <h1>MongoDB User Creation Report</h1>
-                <br />
-                <h:panelGrid columns="2" columnClasses="rightAlign, leftAlign">
-                    <h:outputText value="User Name:" />                  
-                    <h:outputText value="#{mongoDBController.name}" styleClass="dataText" />
-                    <h:outputText value="User Email" />                  
-                    <h:outputText value="#{mongoDBController.email}" styleClass="dataText" />
-                    <h:outputText value="User Phone:" />                  
-                    <h:outputText value="#{mongoDBController.phone}" styleClass="dataText" />
-                    <h:outputText value="User Major:" />                  
-                    <h:outputText value="#{mongoDBController.major}" styleClass="dataText" />
-                </h:panelGrid>
-                <br />
-                <br />
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="template/siteTemplate.xhtml">
+        <ui:define name="editableContent">
+            <div align="center">
+                <h:form id="userResultsForm">
+                    <br /><br />
+                    <h1>MongoDB User Creation Report</h1>
+                    <br />
+                    <h:panelGrid columns="2" columnClasses="rightAlign, leftAlign">
+                        <h:outputText value="User Name:" />                  
+                        <h:outputText value="#{mongoDBController.name}" styleClass="dataText" />
+                        <h:outputText value="User Email:" />                  
+                        <h:outputText value="#{mongoDBController.email}" styleClass="dataText" />
+                        <h:outputText value="User Phone:" />                  
+                        <h:outputText value="#{mongoDBController.phone}" styleClass="dataText" />
+                        <h:outputText value="User Major:" />                  
+                        <h:outputText value="#{mongoDBController.major}" styleClass="dataText" />
+                    </h:panelGrid>
+                    <br />
+                    <br />
 
-                <p:commandButton value="Go Back" 
-                                 ajax="false" 
-                                 styleClass="commandButton" 
-                                 icon="ui-icon-arrowthick-1-w" 
-                                 action="index?faces-redirect=true" />
-            </h:form>
-        </div>
-    </h:body>
+                    <p:commandButton value="Go Back" 
+                                     ajax="false" 
+                                     styleClass="commandButton" 
+                                     icon="ui-icon-arrowthick-1-w" 
+                                     action="index?faces-redirect=true" />
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
 </html>
