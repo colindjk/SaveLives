@@ -2,7 +2,7 @@
  * Created by Taiwen Jin on 2017.04.10  * 
  * Copyright © 2017 Taiwen Jin. All rights reserved. * 
  */
-package com.taiwenjin.mongodb;
+package com.savelives.managers;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -34,8 +34,8 @@ public class CrimeCaseController implements Serializable {
     private final String crimeCaseJSONDataURL = "https://data.baltimorecity.gov/resource/4ih5-d5d5.json";
 
     private MongoClient mongoClient;
-    private DB db;
-    private DBCollection coll;
+    private MongoDatabase db;
+    private MongoCollection coll;
 
     public void dataQuery() {
 
@@ -52,7 +52,7 @@ public class CrimeCaseController implements Serializable {
         
         //  mongoClient = new MongoClient(seeds, credentialsList);
         mongoClient = new MongoClient(seeds);
-        db = mongoClient.getDB("TestDatabase");
+        db = mongoClient.getDatabase("TestDatabase");
         coll = db.getCollection("CrimeCaseCollection");
 
         try {
@@ -86,7 +86,7 @@ public class CrimeCaseController implements Serializable {
                         .append("district", district)
                         .append("coorX", coorX)
                         .append("coorY", coorY);
-                coll.insert(doc);
+                coll.insertOne(doc);
             }
 
         } catch (Exception ex) {
