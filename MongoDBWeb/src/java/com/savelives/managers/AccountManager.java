@@ -15,6 +15,7 @@ import static com.savelives.managers.Constants.DATABASE_PORT;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import org.bson.Document;
 
 /**
  *
@@ -28,7 +29,7 @@ public class AccountManager implements Serializable {
     private final MongoClient mongoClient;
     private final MongoDatabase db;
     private final MongoCollection coll;
-    private static final String UserCollectionName = "UsersCollection";
+    private final String UserCollectionName = "UsersCollection";
     
     private String name;
     private String email;
@@ -42,7 +43,7 @@ public class AccountManager implements Serializable {
     }
 
     public String insertData() {
-        BasicDBObject doc = new BasicDBObject("name", name)
+        Document doc = new Document("name", name)
                 .append("email", email)
                 .append("phone", phone)
                 .append("major", major);

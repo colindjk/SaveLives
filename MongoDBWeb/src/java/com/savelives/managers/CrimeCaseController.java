@@ -5,13 +5,13 @@
 package com.savelives.managers;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import static com.savelives.managers.Constants.DATABASE_HOSTNAME;
+import static com.savelives.managers.Constants.DATABASE_NAME;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Serializable;
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import org.bson.Document;
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONObject;
 
@@ -32,7 +33,7 @@ import org.primefaces.json.JSONObject;
 public class CrimeCaseController implements Serializable {
 
     private final String crimeCaseJSONDataURL = "https://data.baltimorecity.gov/resource/4ih5-d5d5.json";
-
+    private final String CrimeCollectionName = "CrimeCaseCollection";
     private MongoClient mongoClient;
     private MongoDatabase db;
     private MongoCollection coll;
@@ -44,7 +45,7 @@ public class CrimeCaseController implements Serializable {
         List<ServerAddress> seeds = new ArrayList<ServerAddress>();
         List<MongoCredential> credentialsList = new ArrayList<MongoCredential>();
         
-        ServerAddress serverAddress = new ServerAddress("localhost", 27017);
+        ServerAddress serverAddress = new ServerAddress(DATABASE_HOSTNAME, 27017);
         seeds.add(serverAddress);
    
         //  MongoCredential credential = MongoCredential.createCredential("CS3984", "admin", password.toCharArray());
@@ -52,8 +53,8 @@ public class CrimeCaseController implements Serializable {
         
         //  mongoClient = new MongoClient(seeds, credentialsList);
         mongoClient = new MongoClient(seeds);
-        db = mongoClient.getDatabase("TestDatabase");
-        coll = db.getCollection("CrimeCaseCollection");
+        db = mongoClient.getDatabase(DATABASE_NAME);
+        coll = db.getCollection(CrimeCollectionName);
 
         try {
 
@@ -76,7 +77,7 @@ public class CrimeCaseController implements Serializable {
                 JSONArray coor = location_1.getJSONArray("coordinates");
                 Double coorX = (Double) coor.get(0);
                 Double coorY = (Double) coor.get(1);
-                BasicDBObject doc = new BasicDBObject("crimedate", date)
+                Document doc = new Document("crimedate", date)
                         .append("crimetime", time)
                         .append("crimecode", code)
                         .append("location", location)
@@ -90,7 +91,7 @@ public class CrimeCaseController implements Serializable {
             }
 
         } catch (Exception ex) {
-
+            System.out.println("EXCEPTION: " + ex.getMessage());
         }
     }
 
