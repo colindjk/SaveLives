@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Junho Lee on 2017.03.22 
+Copyright © 2017 Junho Lee. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="Crime Info"></h:outputText>
+        </ui:define>
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+
+            <div align="center">
+
+                <!-- Error messages will be shown here if any  -->
+                <p:messages id="msgs" showIcon="false"/>
+                <h:outputLabel id="form-error-message" class="errorMessages" value="#{CrimeCaseController.statusMessage}"/>
+
+                <h:form>
+                    <div class="crimeInfo">
+                        <h:outputLabel class="heading" value="#{CrimeCaseController.selected.name} (#{CrimeCaseController.selected.abbreviation})"/>
+                        <br/><br/>
+
+                        <h:outputText value="#{CrimeCaseController.selectedCrimeDescription()}" styleClass="scrollableOutputText" />
+                        <br/>
+                    </div>
+                    
+                    <h:link outcome="index"><i class="fa fa-arrow-left"></i>&nbsp;Go Back&nbsp;&nbsp;</h:link>
+                    <h:commandLink action="#{CrimeCaseController.showOnMapFromCrimeInfo()}"><i class="fa fa-map"></i>&nbsp;Show on Map</h:commandLink>
+                </h:form>
+
+            </div>
+
+        </ui:define>
+
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>

@@ -128,57 +128,13 @@ function displaySingleCrime() {
 
 }
 
-
 // Displays the geolocations of all VT buildings in the given category
 function displayCrimesByDate() {
     
-    /*
-     document.getElementById("jsonCategoryResult").value --> Obtains the JSON data for all VT buildings
-     in a given category from the hidden input element with id="jsonCategoryResult" in ShowOnMap.xhtml 
-    
-    For example, document.getElementById("jsonCategoryResult").value --> returns the following JSON data for the category 'Athletic':
-    [
-    {"abbreviation":"TC","category":"Athletic","descriptionUrl":"http://manta.cs.vt.edu/vt/buildings/tc/tc.txt","id":10,"imageUrl":"http://manta.cs.vt.edu/vt/buildings/tc/tc.jpg","latitude":37.2148423470,"longitude":-80.4193116325,"name":"Burrows-Burleson Tennis Center"},
-    {"abbreviation":"COL","category":"Athletic","descriptionUrl":"http://manta.cs.vt.edu/vt/buildings/col/col.txt","id":14,"imageUrl":"http://manta.cs.vt.edu/vt/buildings/col/col.jpg","latitude":37.2225472975,"longitude":-80.4189774813,"name":"Cassell Coliseum"},
-    {"abbreviation":"BBPF","category":"Athletic","descriptionUrl":"http://manta.cs.vt.edu/vt/buildings/bbpf/bbpf.txt","id":34,"imageUrl":"http://manta.cs.vt.edu/vt/buildings/bbpf/bbpf.jpg","latitude":37.2235306695,"longitude":-80.4182276484,"name":"Hahn Hurst Basketball Practice Center"},
-    {"abbreviation":"JAMC","category":"Athletic","descriptionUrl":"http://manta.cs.vt.edu/vt/buildings/jamc/jamc.txt","id":44,"imageUrl":"http://manta.cs.vt.edu/vt/buildings/jamc/jamc.jpg","latitude":37.2221614070,"longitude":-80.4187417030,"name":"Jamerson Athletic Center"},
-    {"abbreviation":"STAD","category":"Athletic","descriptionUrl":"http://manta.cs.vt.edu/vt/buildings/stad/stad.txt","id":49,"imageUrl":"http://manta.cs.vt.edu/vt/buildings/stad/stad.jpg","latitude":37.2200492457,"longitude":-80.4180559870,"name":"Lane Stadium / Worsham Field"},
-    {"abbreviation":"MCCOM","category":"Athletic","descriptionUrl":"http://manta.cs.vt.edu/vt/buildings/mccom/mccom.txt","id":58,"imageUrl":"http://manta.cs.vt.edu/vt/buildings/mccom/mccom.jpg","latitude":37.2203073567,"longitude":-80.4224733516,"name":"McComas Hall"},
-    {"abbreviation":"MRYMN","category":"Athletic","descriptionUrl":"http://manta.cs.vt.edu/vt/buildings/mrymn/mrymn.txt","id":61,"imageUrl":"http://manta.cs.vt.edu/vt/buildings/mrymn/mrymn.jpg","latitude":37.2215480711,"longitude":-80.4190727526,"name":"Merryman Athletic Facility"},
-    {"abbreviation":"RFH","category":"Athletic","descriptionUrl":"http://manta.cs.vt.edu/vt/buildings/rfh/rfh.txt","id":85,"imageUrl":"http://manta.cs.vt.edu/vt/buildings/rfh/rfh.jpg","latitude":37.2189872178,"longitude":-80.4216880690,"name":"Rector Field House"}
-    ]
-    
-    The JSON data comes as one Array containing JavaScript objects (also called dictionaries). The Array is represented by brackets [].
-    Each JavaScript object is defined by key:value pairs within curly braces {}.
-    So, the above JSON data contain 8 JavaScript objects (i.e., data for 8 VT buildings in the category 'Athletic').
-    
-    The JSON.parse() method parses the JSON data into an Array. Each element of the Array contains a JavaScript object (i.e., VT building).
-     */
-    //var jsonData = JSON.parse(document.getElementById("date").value);
-    
-    var MongoClient = require('mongodb').MongoClient;
-    
-    //FLAG
-    MongoClient.connect("mongodb://localhost:27017/localmongo", function(err, db) {
-        if (err) {
-            return console.dir(err);
-        }
-    }
-    
-    db.localmongo.find(
-            {
-                field: "coorX"
-            }).forEach(function(obj) {
-                print(obj.fieldname)
-            }))
-    
-    
-    
-    
-    
+    var jsonData = JSON.parse(document.getElementById("jsonCategoryResult").value);
     
     // Obtain the number of VT buildings (JavaScript objects) in the given category
-    var numberOfCrimes = CrimeCaseController.entries().length;
+    var numberOfBuildings = jsonData.length;
 
     // Instantiate a new InfoWindow object to display the VT building's name when the pin marker is clicked
     var infoWindow = new google.maps.InfoWindow();
@@ -186,15 +142,15 @@ function displayCrimesByDate() {
     j = 0;
 
     // Iterate for all VT buildings in the given category (e.g., Academic, Athletic, Research)
-    while (j < numberOfCrimes) {
+    while (j < numberOfBuildings) {
         
         var marker = null;
         
         // Instantiate a new pin marker and dress it up with the VT building's properties
         marker = new google.maps.Marker({
-            position: new google.maps.LatLng(jsonData[j].crimeCoorX, jsonData[j].crimeCoorY),
+            position: new google.maps.LatLng(jsonData[j].coorX, jsonData[j].coorY),
             map: map,
-            code: jsonData[j].code
+            title: jsonData[j].name
         });
 
         // Place the newly created pin marker on the VT campus map
@@ -202,7 +158,7 @@ function displayCrimesByDate() {
 
         // Attach an event handler to the pin marker to display the VT building's name when the pin marker is clicked
         google.maps.event.addListener(marker, "click", function () {
-            infoWindow.setContent(this.get('code'));
+            infoWindow.setContent(this.get('title'));
             infoWindow.open(map, this);
         });
 
