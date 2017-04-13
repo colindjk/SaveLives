@@ -60,8 +60,9 @@ public class CrimeCaseController implements Serializable {
             String CrimeCaseJSONData = readUrlContent(crimeCaseJSONDataURL);
 
             jsonArray = new JSONArray(CrimeCaseJSONData);
-            JSONObject tempCrimeCaseJSONObject = jsonArray.getJSONObject(0);
+            
             for (int i = 0; i < 50; i++) {
+                JSONObject tempCrimeCaseJSONObject = jsonArray.getJSONObject(i);
                 String date = tempCrimeCaseJSONObject.optString("crimedate", "");
                 String time = tempCrimeCaseJSONObject.optString("crimetime", "");
 
