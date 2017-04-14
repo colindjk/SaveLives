@@ -67,7 +67,7 @@
                                      icon="ui-icon-refresh"
                                      action="#{mongoDBController.clearValues()}" 
                                      immediate="true" />
-                    
+
                     <p:commandButton value="Crime Case Data" 
                                      ajax="false" 
                                      styleClass="commandButton" 
@@ -78,6 +78,16 @@
                 </h:panelGrid>
                 <h:messages styleClass="errorMessages"> </h:messages>
             </h:form>
+        </div>
+
+        <br/>
+        <div style="text-align: center">
+            <h:link outcome="CreateAccount" styleClass="arialTen">
+                <i class="fa fa-home">&nbsp;</i>Create Account
+            </h:link>&nbsp;&nbsp;
+            <h:link outcome="SignIn" styleClass="arialTen">
+                <i class="fa fa-home">&nbsp;</i>Sign In
+            </h:link>&nbsp;&nbsp;
         </div>
     </h:body>
 </html>

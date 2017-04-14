@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <h:head>
+        <title>My Account</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!-- <h:outputStylesheet library="css" name="siteStyles.css" /> -->
+        <link rel="stylesheet" type="text/css" href="resources/css/siteStyles.css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" />
+    </h:head>
+
+    <h:body>
+        <p:growl id="growl" life="5000" />
+
+        <h:form id="UserProfileForm">
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="10">
+                <tr>
+                    <!-- The first <td> contains the VERTICAL NAVIGATION MENU -->
+                    <td width="180" align="left" valign="middle" nowrap="nowrap">
+                        <ul class="verticalMenu">
+
+                            <li class="verticalMenuItem">
+                                <!-- HOME -->
+                                <h:link outcome="index">
+                                    <i class="fa fa-home">&nbsp;</i>Home
+                                </h:link>
+                            </li>
+
+                            <li class="verticalMenuItem">
+                                <!-- EDIT PROFILE -->
+                                <h:link outcome="EditAccount">
+                                    <i class="fa fa-pencil-square-o">&nbsp;</i>Edit Profile
+                                </h:link>
+                            </li>
+
+                            <li class="verticalMenuItem">
+                                <!-- CHANGE PASSWORD -->
+                                <h:link outcome="AnswerSecurityQuestion">
+                                    <i class="fa fa-key">&nbsp;</i>Change Password
+                                </h:link>
+                            </li>
+
+                            <li class="verticalMenuItem">
+                                <!-- SIGN OUT -->
+                                <h:commandLink action="#{accountManager.logout()}">
+                                    <i class="fa fa-sign-out">&nbsp;</i>Sign Out
+                                </h:commandLink>
+                            </li>
+                        </ul>
+
+                    </td>
+
+                    <!-- The second <td> contains the USER PROFILE DATA -->
+                    <td align="center" valign="top">
+
+                        <h2> #{accountManager.selected.firstName} #{accountManager.selected.lastName}'s Account Profile </h2>
+
+                        <br />
+                        <br />
+                        <p:panelGrid columns="2" columnClasses="profileColumn1, profileColumn2" >
+
+                            <h:outputText value="#{bundle.ViewUserLabel_firstName}"/>
+                            <h:outputText value="#{accountManager.selected.firstName}" />
+
+                            <h:outputText value="#{bundle.ViewUserLabel_middleName}"/>
+                            <h:outputText value="#{accountManager.selected.middleName}" />
+
+                            <h:outputText value="#{bundle.ViewUserLabel_lastName}"/>
+                            <h:outputText value="#{accountManager.selected.lastName}" />
+
+                            <h:outputText value="#{bundle.ViewUserLabel_address1}"/>
+                            <h:outputText value="#{accountManager.selected.address1}" />
+
+                            <h:outputText value="#{bundle.ViewUserLabel_address2}"/>
+                            <h:outputText value="#{accountManager.selected.address2}" />
+
+                            <h:outputText value="#{bundle.ViewUserLabel_city}"/>
+                            <h:outputText value="#{accountManager.selected.city}" />
+
+                            <h:outputText value="#{bundle.ViewUserLabel_state}"/>
+                            <h:outputText value="#{accountManager.selected.state}" />
+
+                            <h:outputText value="#{bundle.ViewUserLabel_zipcode}"/>
+                            <h:outputText value="#{accountManager.selected.zipcode}" />
+
+                            <h:outputText value="#{bundle.ViewUserLabel_email}"/>
+                            <h:outputText value="#{accountManager.selected.email}" />
+
+                            <h:outputText value="#{bundle.ViewUserLabel_username}"/>
+                            <h:outputText value="#{accountManager.selected.username}" />
+
+                        </p:panelGrid>
+
+                    </td>
+                </tr>
+            </table>
+
+        </h:form>
+    </h:body>
+</html>
