@@ -13,7 +13,7 @@ import org.bson.Document;
  */
 public class CrimeCase {
 
-    private Date date;
+    private String date;
     private String time;
     private String code;
     private String location;
@@ -34,7 +34,7 @@ public class CrimeCase {
         this.time = doc.getString("crimetime");
         this.coorX = doc.getDouble("coorX");
         this.coorY = doc.getDouble("coorY");
-        this.date = doc.getDate("crimedate");
+        this.date = doc.getString("crimedate");
         this.description = doc.getString("description");
         this.location = doc.getString("location");
         this.weapon = doc.getString("weapon");
@@ -42,11 +42,11 @@ public class CrimeCase {
         this.district = doc.getString("district");
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
