@@ -4,6 +4,8 @@
  */
 package com.savelives.entityclasses;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.bson.Document;
 
@@ -13,7 +15,7 @@ import org.bson.Document;
  */
 public class CrimeCase {
 
-    private String date;
+    private Date date;
     private String time;
     private String code;
     private String location;
@@ -23,18 +25,19 @@ public class CrimeCase {
     private String district;
     private Double coorX;
     private Double coorY;
-
+    
     /**
      * Custom constructor. Builds CrimeCase object 
      * based on given document
      * @param doc document
+     * @throws java.text.ParseException
      */
-    public CrimeCase(Document doc) {
+    public CrimeCase(Document doc) throws ParseException {
         this.code = doc.getString("crimecode");
         this.time = doc.getString("crimetime");
         this.coorX = doc.getDouble("coorX");
         this.coorY = doc.getDouble("coorY");
-        this.date = doc.getString("crimedate");
+        this.date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse(doc.getString("crimedate"));
         this.description = doc.getString("description");
         this.location = doc.getString("location");
         this.weapon = doc.getString("weapon");
@@ -42,11 +45,11 @@ public class CrimeCase {
         this.district = doc.getString("district");
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
