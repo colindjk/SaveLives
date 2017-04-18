@@ -39,9 +39,26 @@ public class CrimeCaseController implements Serializable {
         ejbFacade = new CrimeCaseFacade();
         crimeModel = new DefaultMapModel();
         List<CrimeCase> crimeList = ejbFacade.getAll();
+        
+        //no filter
         crimeList.forEach((CrimeCase crime) -> {
             crimeModel.addOverlay(new Marker(new LatLng(crime.getCoorY() , crime.getCoorX()), crime.getDescription()));
         });
+    }
+    
+    public void populateMap() {
+        
+        crimeModel.getMarkers().clear();
+        
+        //List<CrimeCase> crimeList
+        //call method returnCrimeLists
+            //(string startDate, string endDate, string crimeType, string weapon, string district)
+        
+        //crimeList.forEach((CrimeCase crime) -> {
+        //    crimeModel.addOverlay(new Marker(new LatLng(crime.getCoorY() , crime.getCoorX()), crime.getDescription()));
+        //});
+        
+        
     }
     
     /****************************

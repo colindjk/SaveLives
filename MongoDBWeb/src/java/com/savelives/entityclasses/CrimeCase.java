@@ -14,6 +14,8 @@ import org.bson.Document;
 public class CrimeCase {
 
     private String date;
+    private String startDate;
+    private String endDate;
     private String time;
     private String code;
     private String location;
@@ -48,6 +50,22 @@ public class CrimeCase {
 
     public void setDate(String date) {
         this.date = date;
+    }
+    
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+    
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     public String getTime() {

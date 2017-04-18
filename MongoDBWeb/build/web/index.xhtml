@@ -28,20 +28,31 @@
         <p:panelGrid columns="2" columnClasses="columnOne, columnTwo" style="width:100%">
            
                 <p:panelGrid columns="2">
-                        <p:outputLabel value="Filter by Date:"/>
-                        <!--requiredMessage="{bundle.CreatePublicVideoRequiredMessage_datePublished}, required="true""-->
+                        <p:outputLabel value="Start Date:"/>
                         <p:calendar id="datePublished"
                                         mode="popup"
                                         showOn="both"
-                                        mindate="14-02-2005"
+                                        mindate="01-01-2012"
                                         pattern ="MM/dd/yyyy"
                                         effect="fadeIn" 
-                                        style="width:100%"/>
+                                        style="width:100%"
+                                        value="#{crimeCaseController.selected.startDate}"/>
+                        
+                        <p:outputLabel value="End Date:"/>
+                        <p:calendar id="datePublished2"
+                                        mode="popup"
+                                        showOn="both"
+                                        mindate="01-01-2012"
+                                        pattern ="MM/dd/yyyy"
+                                        effect="fadeIn" 
+                                        style="width:100%"
+                                        value="#{crimeCaseController.selected.endDate}"/>
                         
                         <p:outputLabel value="Filter by Crime Type:"/>
-                        <p:selectOneMenu style="width:85%">
+                        <p:selectOneMenu style="width:85%"
+                                         value="#{crimeCaseController.selected.description}">
                                     <f:selectItem itemLabel="Select Crime Filter" itemValue="" />
-                                    <f:selectItem itemLabel="Aggravated Assault" itemValue="Aggravated Assault" />
+                                    <f:selectItem itemLabel="Agg. Assault" itemValue="Aggravated Assault" />
                                     <f:selectItem itemLabel="Arson" itemValue="Arson" />
                                     <f:selectItem itemLabel="Assault by Threat" itemValue="Assault by Threat" />
                                     <f:selectItem itemLabel="Auto Theft" itemValue="Auto Theft" />
@@ -54,7 +65,8 @@
                         </p:selectOneMenu>
                         
                         <p:outputLabel value="Filter by Weapon:"/>
-                        <p:selectOneMenu style="width:85%">
+                        <p:selectOneMenu style="width:85%"
+                                         value="#{crimeCaseController.selected.weapon}">
                                     <f:selectItem itemLabel="Select Weapon Filter" itemValue="" />
                                     <f:selectItem itemLabel="Firearm" itemValue="Firearm" />
                                     <f:selectItem itemLabel="Hands" itemValue="Hands" />
@@ -63,7 +75,8 @@
                         </p:selectOneMenu>
                         
                         <p:outputLabel value="Filter by District:"/>
-                        <p:selectOneMenu style="width:85%">
+                        <p:selectOneMenu style="width:85%"
+                                         value="#{crimeCaseController.selected.district}">
                                     <f:selectItem itemLabel="Select District Filter" itemValue="" />
                                     <f:selectItem itemLabel="Central" itemValue="Central" />
                                     <f:selectItem itemLabel="Eastern" itemValue="Eastern" />
@@ -75,6 +88,12 @@
                                     <f:selectItem itemLabel="Southwestern" itemValue="Southwestern" />
                                     <f:selectItem itemLabel="Western" itemValue="Western" />
                         </p:selectOneMenu>
+                        
+                        <p:commandButton value="Filter" 
+                                         id="ajax"
+                                         
+                                         actionListener="#{crimeCaseController.populateMap}" 
+                                         style="width:80px"/>
                     
                 </p:panelGrid>
             
