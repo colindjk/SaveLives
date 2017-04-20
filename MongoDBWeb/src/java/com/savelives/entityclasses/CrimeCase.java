@@ -25,24 +25,27 @@ public class CrimeCase {
     private String district;
     private Double coorX;
     private Double coorY;
-    
+
     /**
-     * Custom constructor. Builds CrimeCase object 
-     * based on given document
+     * Custom constructor. Builds CrimeCase object based on given document
+     *
      * @param doc document
      * @throws java.text.ParseException
      */
     public CrimeCase(Document doc) throws ParseException {
+
         this.code = doc.getString("crimecode");
         this.time = doc.getString("crimetime");
-        this.coorX = doc.getDouble("coorX");
-        this.coorY = doc.getDouble("coorY");
+        //temp = doc.getString("coorX");
+        this.coorX = doc.containsKey("coorX") ? doc.getDouble("coorX") : null;
+        this.coorY = doc.containsKey("coorY") ? doc.getDouble("coorY") : null;
         this.date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse(doc.getString("crimedate"));
         this.description = doc.getString("description");
         this.location = doc.getString("location");
         this.weapon = doc.getString("weapon");
         this.post = doc.getString("post");
         this.district = doc.getString("district");
+
     }
 
     public Date getDate() {
@@ -125,4 +128,7 @@ public class CrimeCase {
         this.coorY = coorY;
     }
 
+    public boolean hasLocation() {
+        return (this.getCoorX() != null) && (this.getCoorY() != null);
+    }
 }

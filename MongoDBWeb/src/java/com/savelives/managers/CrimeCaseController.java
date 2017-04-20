@@ -8,9 +8,9 @@ import com.savelives.entityclasses.CrimeCase;
 import com.savelives.sessionbeans.CrimeCaseFacade;
 import java.io.Serializable;
 import java.util.List;
-import java.util.function.Consumer;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
@@ -24,32 +24,37 @@ import org.primefaces.model.map.Marker;
 @SessionScoped
 @Named(value = "crimeCaseController")
 public class CrimeCaseController implements Serializable {
+
     @EJB
     private final CrimeCaseFacade ejbFacade;
     private final MapModel crimeModel;
-
-    
+    private final String mapIcon = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/resources/images/map-icon.png";
     private List<CrimeCase> items = null;
     private CrimeCase selected;
-    
+
     /**
      * Default Constructor
      */
-    public CrimeCaseController(){
+    public CrimeCaseController() {
         ejbFacade = new CrimeCaseFacade();
         crimeModel = new DefaultMapModel();
         List<CrimeCase> crimeList = ejbFacade.getAll();
         crimeList.forEach((CrimeCase crime) -> {
-            crimeModel.addOverlay(new Marker(new LatLng(crime.getCoorY() , crime.getCoorX()), crime.getDescription()));
+            if (crime.hasLocation()) {
+                crimeModel.addOverlay(new Marker(new LatLng(crime.getCoorY(), crime.getCoorX()), crime.getDescription(), crime, mapIcon));
+            }
         });
     }
-    
-    /****************************
-     * Getters and Setters      *
-     ****************************/
+
+    /**
+     * **************************
+     * Getters and Setters *
+     ***************************
+     */
     private CrimeCaseFacade getFacade() {
         return ejbFacade;
     }
+
     public MapModel getCrimeModel() {
         return crimeModel;
     }
@@ -57,12 +62,14 @@ public class CrimeCaseController implements Serializable {
     public CrimeCase getSelected() {
         return selected;
     }
+
     /**
      * Get a list of every crime case
+     *
      * @return list of crime cases
      */
-    public List<CrimeCase> getItems(){
-        if(items == null) {
+    public List<CrimeCase> getItems() {
+        if (items == null) {
             items = getFacade().getAll();
         }
         return items;

@@ -4,12 +4,21 @@
  */
 package com.savelives.sessionbeans;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.JsonReader;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.savelives.entityclasses.CrimeCase;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +26,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import org.bson.Document;
-import org.primefaces.json.JSONArray;
-import org.primefaces.json.JSONObject;
 
 @Stateless
 /**
@@ -39,86 +46,102 @@ public class CrimeCaseFacade {
     }
 
     public List<CrimeCase> getAll() {
-        MongoCollection<Document> collection = crimeCaseClient.getCollection();
-        if (collection.count() == 0) {
-            populateCollection();
-        }
-        FindIterable<Document> cursor = collection.find();
         List<CrimeCase> crimes = new ArrayList<>();
-        for (Document doc : cursor) {
-            try {
-                crimes.add(new CrimeCase(doc));
-            } catch (ParseException ex) {
-                Logger.getLogger(CrimeCaseFacade.class.getName()).log(Level.SEVERE, null, ex);
+        try {
+            MongoCollection<Document> collection = crimeCaseClient.getCollection();
+            if (collection.count() == 0) {
+
+                populateCollection(collection);
+
             }
+
+            FindIterable<Document> cursor = collection.find().limit(50);
+            //Document item = collection.find().first();
+            //crimes.add(new CrimeCase(item));
+            for (Document doc : cursor) {
+
+                crimes.add(new CrimeCase(doc));
+
+            }
+        } catch (IOException | ParseException ex) {
+            Logger.getLogger(CrimeCaseFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         return crimes;
-
     }
 
     /**
      * Call this to populate local database if it doesn't contain any crime data
+     *
+     * @param collection
+     * @throws IOException
      */
-    private void populateCollection() {
-        try {
-
-            String CrimeCaseJSONData = readUrlContent("https://data.baltimorecity.gov/resource/4ih5-d5d5.json");
-
-            JSONArray jsonArray = new JSONArray(CrimeCaseJSONData);
-            MongoCollection coll = crimeCaseClient.getCollection();
-            for (int i = 0; i < 50; i++) {
-                JSONObject tempCrimeCaseJSONObject = jsonArray.getJSONObject(i);
-                String date = tempCrimeCaseJSONObject.optString("crimedate", "");
-                String time = tempCrimeCaseJSONObject.optString("crimetime", "");
-
-                String code = tempCrimeCaseJSONObject.optString("crimecode", "");
-                String location = tempCrimeCaseJSONObject.optString("location", "");
-                String description = tempCrimeCaseJSONObject.optString("description", "");
-                String weapon = tempCrimeCaseJSONObject.optString("weapon", "");
-                String post = tempCrimeCaseJSONObject.optString("post", "");
-                String district = tempCrimeCaseJSONObject.optString("district", "");
-                JSONObject location_1 = tempCrimeCaseJSONObject.getJSONObject("location_1");
-                JSONArray coor = location_1.getJSONArray("coordinates");
-                Double coorX = (Double) coor.get(0);
-                Double coorY = (Double) coor.get(1);
-                Document doc = new Document("crimedate", date)
-                        .append("crimetime", time)
-                        .append("crimecode", code)
-                        .append("location", location)
-                        .append("description", description)
-                        .append("weapon", weapon)
-                        .append("post", post)
-                        .append("district", district)
-                        .append("coorX", coorX)
-                        .append("coorY", coorY);
-                coll.insertOne(doc);
-            }
-
-        } catch (Exception ex) {
-            System.out.println("EXCEPTION: " + ex.getMessage());
-        }
-    }
-
-    private String readUrlContent(String webServiceURL) throws Exception {
-
-        BufferedReader reader = null;
+    private void populateCollection(MongoCollection<Document> collection) throws IOException {
+        JsonReader reader = null;
+        String CrimeCaseURL = "https://data.baltimorecity.gov/resource/4ih5-d5d5.json?$$app_token=yjfXOuQMUxKqegMpx42YoV9RJ&$limit=5000000";
 
         try {
-            URL url = new URL(webServiceURL);
-            reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            BufferedReader r = new BufferedReader(new InputStreamReader(
+                    new URL(CrimeCaseURL).openStream(), Charset.forName("UTF-8")));
 
-            StringBuilder buffer = new StringBuilder();
+            reader = new JsonReader(r);
 
-            char[] chars = new char[10240];
+            JsonParser parser = new JsonParser();
 
-            int numberOfCharactersRead;
+            reader.beginArray(); // the initial '['
+            while (reader.hasNext()) {
+                JsonObject tempCrimeCaseJSONObject = parser.parse(reader).getAsJsonObject();
 
-            while ((numberOfCharactersRead = reader.read(chars)) != -1) {
-                buffer.append(chars, 0, numberOfCharactersRead);
+                JsonElement code = tempCrimeCaseJSONObject.get("crimecode");
+                JsonElement date = tempCrimeCaseJSONObject.get("crimedate");
+                JsonElement time = tempCrimeCaseJSONObject.get("crimetime");
+                JsonElement description = tempCrimeCaseJSONObject.get("description");
+
+                JsonElement district = tempCrimeCaseJSONObject.get("district");
+
+                JsonElement location = tempCrimeCaseJSONObject.get("location");
+                JsonElement weapon = tempCrimeCaseJSONObject.get("weapon");
+                JsonElement post = tempCrimeCaseJSONObject.get("post");
+                JsonObject location_1 = tempCrimeCaseJSONObject.getAsJsonObject("location_1");
+                JsonArray coor = (location_1 == null) ? null : location_1.getAsJsonArray("coordinates");
+                Double coorX = (coor == null) ? null : coor.get(0).getAsDouble();
+                Double coorY = (coor == null) ? null : coor.get(1).getAsDouble();
+                JsonElement neighborhood = tempCrimeCaseJSONObject.get("neighborhood");
+
+                Document doc = new Document();
+                if (date != null) {
+                    doc.append("crimedate", date.getAsString());
+                }
+                if (time != null) {
+                    doc.append("crimetime", time.getAsString());
+                }
+                if (code != null) {
+                    doc.append("crimecode", code.getAsString());
+                }
+                if (location != null) {
+                    doc.append("location", location.getAsString());
+                }
+                if (description != null) {
+                    doc.append("description", description.getAsString());
+                }
+                if (weapon != null) {
+                    doc.append("weapon", weapon.getAsString());
+                }
+                if (post != null) {
+                    doc.append("post", post.getAsString());
+                }
+                if (district != null) {
+                    doc.append("district", district.getAsString());
+                }
+                if ((coorX != null) && (coorY != null)) {
+                    doc.append("coorX", coorX).append("coorY", coorY);
+                }
+                if (neighborhood != null) {
+                    doc.append("neighborhood", neighborhood.getAsString());
+                }
+                collection.insertOne(doc);
             }
-
-            return buffer.toString();
-
+        } catch (JsonIOException | JsonSyntaxException | IOException ex) {
+            Logger.getLogger(CrimeCaseFacade.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (reader != null) {
                 reader.close();
