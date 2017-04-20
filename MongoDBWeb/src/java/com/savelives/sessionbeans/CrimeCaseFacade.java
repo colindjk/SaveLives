@@ -55,13 +55,10 @@ public class CrimeCaseFacade {
 
             }
 
-            FindIterable<Document> cursor = collection.find().limit(50);
-            //Document item = collection.find().first();
-            //crimes.add(new CrimeCase(item));
+            FindIterable<Document> cursor = collection.find().limit(50000);
+         
             for (Document doc : cursor) {
-
                 crimes.add(new CrimeCase(doc));
-
             }
         } catch (IOException | ParseException ex) {
             Logger.getLogger(CrimeCaseFacade.class.getName()).log(Level.SEVERE, null, ex);

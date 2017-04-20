@@ -44,6 +44,7 @@ public class CrimeCaseController implements Serializable {
                 crimeModel.addOverlay(new Marker(new LatLng(crime.getCoorY(), crime.getCoorX()), crime.getDescription(), crime, mapIcon));
             }
         });
+        System.out.println("PATHHH: "+ mapIcon);
     }
 
     /**
