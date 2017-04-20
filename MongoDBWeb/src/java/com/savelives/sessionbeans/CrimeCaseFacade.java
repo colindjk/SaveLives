@@ -26,6 +26,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import org.bson.Document;
+import org.primefaces.model.map.DefaultMapModel;
+import org.primefaces.model.map.MapModel;
 
 @Stateless
 /**
@@ -56,11 +58,29 @@ public class CrimeCaseFacade {
             }
 
             FindIterable<Document> cursor = collection.find().limit(50000);
-         
+
             for (Document doc : cursor) {
                 crimes.add(new CrimeCase(doc));
             }
         } catch (IOException | ParseException ex) {
+            Logger.getLogger(CrimeCaseFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return crimes;
+    }
+
+    public MapModel getCrimesModel() {
+        
+        MapModel crimes = new DefaultMapModel();
+        try {
+            MongoCollection<Document> collection = crimeCaseClient.getCollection();
+            FindIterable<Document> cursor = collection.find().limit(5000);
+            for (Document doc : cursor) {
+                if (doc.containsKey("coorX") && doc.containsKey("coorY")) {
+                    crimes.addOverlay(new CrimeCase(doc));
+                }
+
+            }
+        } catch (ParseException ex) {
             Logger.getLogger(CrimeCaseFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         return crimes;
