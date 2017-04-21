@@ -142,7 +142,7 @@ Style the div component whose unique id is "header" per reference
 #header {
     background-color: #F0FFFF;   /* Azure */
     width: 100%;
-    height: 84px;
+    height: 120px;
     position: absolute;
     left: 0px;
     top: 0px;
@@ -159,7 +159,7 @@ Style the div component whose unique id is "editableContent" per reference
     width: 100%;
     margin-left: 10px;
     margin-right: 10px;
-    margin-top: 100px;
+    margin-top: 150px;
     margin-bottom: 16px;
 }
 /* 

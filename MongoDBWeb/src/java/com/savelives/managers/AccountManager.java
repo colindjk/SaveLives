@@ -10,8 +10,16 @@ package com.savelives.managers;
 import com.savelives.entityclasses.User;
 import com.savelives.sessionbeans.UserFacade;
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Random;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.ejb.EJBException;
@@ -87,7 +95,6 @@ public class AccountManager implements Serializable {
      */
     @EJB
     private UserFacade userFacade;
-
 
     // Constructor method instantiating an instance of AccountManager
     public AccountManager() {
@@ -218,8 +225,6 @@ public class AccountManager implements Serializable {
         return userFacade;
     }
 
-
-
     /*
     private Map<String, Object> security_questions;
         String      int
@@ -267,12 +272,12 @@ public class AccountManager implements Serializable {
              */
             Map<String, Object> map = FacesContext.getCurrentInstance()
                     .getExternalContext().getSessionMap();
-            String userPrimaryKey = (String)map.get("user_id");
+            String userPrimaryKey = (String) map.get("user_id");
             /*
             Given the primary key, obtain the object reference of the User
             object and store it into the instance variable selected.
              */
-           
+
             selected = getUserFacade().findById(userPrimaryKey);
         }
         // Return the object reference of the selected User object
@@ -316,6 +321,16 @@ public class AccountManager implements Serializable {
                 // Instantiate a new User object
                 User newUser = new User();
 
+                // Generate the salt
+                SecureRandom random = new SecureRandom();
+                byte salt[] = new byte[32];
+                random.nextBytes(salt);
+
+                int iterations = 5;
+
+                // Hash the entered password to the passwordKey
+                byte[] passwordKey = hashPassword(password.toCharArray(), salt, iterations, 256); // TODO: number of interations needs to be test                          
+                password = null;
                 /*
                 Set the properties of the newly created newUser object with the values
                 entered by the user in the AccountCreationForm in CreateAccount.xhtml
@@ -332,7 +347,9 @@ public class AccountManager implements Serializable {
                 newUser.setSecurityAnswer(securityAnswer);
                 newUser.setEmail(email);
                 newUser.setUsername(username);
-                newUser.setPassword(password);
+                newUser.setPasswordKey(passwordKey);
+                newUser.setSalt(salt);
+                newUser.setIterations(iterations);
 
                 getUserFacade().create(newUser);
 
@@ -384,17 +401,7 @@ public class AccountManager implements Serializable {
                 editUser.setZipcode(this.selected.getZipcode());
                 editUser.setEmail(this.selected.getEmail());
 
-                // It is optional for the user to change his/her password
-                String new_Password = getNewPassword();
-
-                if (new_Password == null || new_Password.isEmpty()) {
-                    // Do nothing. The user does not want to change the password.
-                } else {
-                    editUser.setPassword(new_Password);
-                    // Password changed successfully!
-                    // Password was first validated by invoking the validatePasswordChange method below.
-                }
-
+                // We do not allow user to change the password from edit Profile
                 // Store the changes in the User database
                 getUserFacade().edit(editUser);
 
@@ -421,7 +428,7 @@ public class AccountManager implements Serializable {
             int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
 
             try {
-            
+
                 // Delete the User entity, whose primary key is user_id, from the Users database
                 getUserFacade().deleteUser(user_id);
 
@@ -596,14 +603,11 @@ public class AccountManager implements Serializable {
         if (!entered_password.equals(entered_confirm_password)) {
             statusMessage = "Password and Confirm Password must match!";
         } else {
-            // Obtain the logged-in User's username
+            // Find current user
             String user_name = (String) FacesContext.getCurrentInstance().
                     getExternalContext().getSessionMap().get("username");
-
-            // Obtain the object reference of the signed-in User object
             User user = getUserFacade().findByUsername(user_name);
-
-            if (entered_password.equals(user.getPassword())) {
+            if (isCorrectPassword(user, entered_password)) {
                 // entered password = signed-in user's password
                 statusMessage = "";
             } else {
@@ -686,5 +690,23 @@ public class AccountManager implements Serializable {
 
         // Redirect to show the index (Home) page
         return "/index.xhtml?faces-redirect=true";
+    }
+
+    public static byte[] hashPassword(final char[] password, final byte[] salt, final int iterations, final int keyLength) {
+
+        try {
+            SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
+            PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, keyLength);
+            SecretKey key = skf.generateSecret(spec);
+            byte[] res = key.getEncoded();
+            return res;
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private boolean isCorrectPassword(User user, String entered_password) {
+        byte[] entered_passwordKey = hashPassword(entered_password.toCharArray(), user.getSalt(), user.getIterations(), 256);
+        return Arrays.equals(entered_passwordKey, user.getPasswordKey());
     }
 }
