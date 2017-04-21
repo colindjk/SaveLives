@@ -146,11 +146,7 @@ public class LoginManager implements Serializable {
     }
     
     private boolean isCorrectPassword(User user, String entered_password) {
-        System.out.println("shang1");
-        System.out.println(entered_password);
         byte[] entered_passwordKey = hashPassword(entered_password.toCharArray(), user.getSalt(), user.getIterations(), 256);
-        System.out.println(entered_passwordKey.toString());
-        System.out.println(user.getPasswordKey().toString());
         return Arrays.equals(entered_passwordKey, user.getPasswordKey());
     }
 }
