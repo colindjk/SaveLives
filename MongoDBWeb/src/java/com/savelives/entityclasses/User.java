@@ -4,6 +4,7 @@
  */
 package com.savelives.entityclasses;
 
+import javax.xml.bind.DatatypeConverter;
 import org.bson.Document;
 
 /*
@@ -13,7 +14,9 @@ public class User {
 
     private String id;
     private String username;
-    private String password;
+    private byte[] passwordKey;
+    private byte[] salt;
+    private int iterations;
     private String firstName;
     private String middleName;
     private String lastName;
@@ -32,12 +35,13 @@ public class User {
     public User(String id) {
         this.id = id;
     }
+
     /**
-     * Custom Constructor. Builds user object
-     * based on given parameter
+     * Custom Constructor. Builds user object based on given parameter
+     *
      * @param id user id
      * @param username username
-     * @param password user password
+     * @param passwordKey user passwordKey
      * @param firstName First Name
      * @param lastName Last Name
      * @param address1 Address Line 1
@@ -47,16 +51,19 @@ public class User {
      * @param securityQuestion Security Question Number
      * @param securityAnswer Security Answer
      * @param email user email
+     * @param salt Salt
+     * @param iterations iteration number
      */
     public User(String id, String username,
-            String password, String firstName,
+            byte[] passwordKey, String firstName,
             String lastName, String address1,
             String city, String state,
             String zipCode, int securityQuestion,
-            String securityAnswer, String email) {
+            String securityAnswer, String email,
+            byte[] salt, int iterations) {
         this.id = id;
         this.username = username;
-        this.password = password;
+        this.passwordKey = passwordKey;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address1 = address1;
@@ -66,10 +73,13 @@ public class User {
         this.securityQuestion = securityQuestion;
         this.securityAnswer = securityAnswer;
         this.email = email;
+        this.salt = salt;
+        this.iterations = iterations;
     }
+
     /**
-     * Custom constructor. Converts given document 
-     * to user object
+     * Custom constructor. Converts given document to user object
+     *
      * @param doc document
      */
     public User(Document doc) {
@@ -81,12 +91,15 @@ public class User {
         this.firstName = doc.getString("firstName");
         this.middleName = doc.getString("middleName");
         this.lastName = doc.getString("lastName");
-        this.password = doc.getString("password");
+        // Convert String in JSON to byte[]
+        this.passwordKey = DatatypeConverter.parseBase64Binary(doc.getString("passwordKey"));
         this.securityAnswer = doc.getString("securityAnswer");
         this.securityQuestion = doc.getInteger("securityQuestion");
         this.state = doc.getString("state");
         this.username = doc.getString("username");
         this.zipCode = doc.getString("zipCode");
+        this.iterations = doc.getInteger("iterations");
+        this.salt = DatatypeConverter.parseBase64Binary(doc.getString("salt"));
     }
 
     /* Getters and Setters */
@@ -106,12 +119,12 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public byte[] getPasswordKey() {
+        return passwordKey;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordKey(byte[] passwordKey) {
+        this.passwordKey = passwordKey;
     }
 
     public String getFirstName() {
@@ -210,10 +223,26 @@ public class User {
         return zipCode;
     }
 
+    public byte[] getSalt() {
+        return salt;
+    }
+
+    public void setSalt(byte[] salt) {
+        this.salt = salt;
+    }
+
+    public int getIterations() {
+        return iterations;
+    }
+
+    public void setIterations(int iterations) {
+        this.iterations = iterations;
+    }
+
     public Document toDocument() {
         return new Document()
                 .append("username", getUsername())
-                .append("password", getPassword())
+                .append("passwordKey", DatatypeConverter.printBase64Binary(getPasswordKey()))
                 .append("firstName", getFirstName())
                 .append("middleName", getMiddleName())
                 .append("lastName", getLastName())
@@ -224,6 +253,8 @@ public class User {
                 .append("zipCode", getZipCode())
                 .append("securityQuestion", getSecurityQuestion())
                 .append("securityAnswer", getSecurityAnswer())
-                .append("email", getEmail());
+                .append("email", getEmail())
+                .append("iterations", getIterations())
+                .append("salt", DatatypeConverter.printBase64Binary(getSalt()));
     }
 }
