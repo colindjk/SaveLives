@@ -13,6 +13,9 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.gte;
+import static com.mongodb.client.model.Filters.lte;
 import com.savelives.entityclasses.CrimeCase;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,8 +23,11 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Date;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -37,53 +43,66 @@ import org.primefaces.model.map.MapModel;
 public class CrimeCaseFacade {
 
     private static final Logger LOGGER = Logger.getLogger(CrimeCaseFacade.class.getName());
-    private final Client crimeCaseClient;
-    private final String COLLECTION_NAME = "CrimeCases";
-
-    /**
-     * Default Constructor
-     */
-    public CrimeCaseFacade() {
-        crimeCaseClient = new Client(COLLECTION_NAME);
-    }
-
-    public List<CrimeCase> getAll() {
-        List<CrimeCase> crimes = new ArrayList<>();
-        try {
-            MongoCollection<Document> collection = crimeCaseClient.getCollection();
-            if (collection.count() == 0) {
-
-                populateCollection(collection);
-
-            }
-
-            FindIterable<Document> cursor = collection.find().limit(50000);
-
-            for (Document doc : cursor) {
-                crimes.add(new CrimeCase(doc));
-            }
-        } catch (IOException | ParseException ex) {
-            Logger.getLogger(CrimeCaseFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return crimes;
-    }
+    private static final String COLLECTION_NAME = "CrimeCases";
+    private static final Client CLIENT = new Client(COLLECTION_NAME);
 
     public MapModel getCrimesModel() {
-        
-        MapModel crimes = new DefaultMapModel();
-        try {
-            MongoCollection<Document> collection = crimeCaseClient.getCollection();
-            FindIterable<Document> cursor = collection.find().limit(5000);
-            for (Document doc : cursor) {
-                if (doc.containsKey("coorX") && doc.containsKey("coorY")) {
-                    crimes.addOverlay(new CrimeCase(doc));
-                }
 
+        MapModel crimes = new DefaultMapModel();
+        MongoCollection<Document> collection = CLIENT.getCollection();
+        collection.find().limit(500).forEach(new Consumer<Document>() {
+            @Override
+            public void accept(Document doc) {
+                if (doc.containsKey("coorX") && doc.containsKey("coorY")) {
+                    try {
+                        crimes.addOverlay(new CrimeCase(doc));
+                    } catch (ParseException ex) {
+                        LOGGER.log(Level.SEVERE, null, ex);
+                    }
+                }
             }
-        } catch (ParseException ex) {
-            Logger.getLogger(CrimeCaseFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        });
+
         return crimes;
+    }
+
+    /**
+     * Get crimes committed between given Date. from must be before to
+     *
+     * @param from must be earlier or equal to 'to'
+     * @param to must be later or equal to 'from'
+     * @return List of crimes
+     * @throws IllegalArgumentException
+     */
+    public MapModel getCrimesByDateRange(Date from, Date to) throws IllegalArgumentException {
+        //Validate parameters
+        if (from.after(to)) {
+            throw new IllegalArgumentException("'from' Date must be earlier than 'to' Date.");
+        }
+        LocalDate f = new java.sql.Date(from.getTime()).toLocalDate();
+        LocalDate t = new java.sql.Date(to.getTime()).toLocalDate();
+        if (Period.between(f, t).getMonths() > 12) {
+            throw new UnsupportedOperationException("Range must be no more than a year.");
+        }
+        // Query database
+        MongoCollection<Document> collection = CLIENT.getCollection();
+        SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
+        FindIterable<Document> cursor = collection.find(and(gte("crimedate", formater.format(from) + "T00:00:00.000"), lte("crimedate", formater.format(to) + "T23:59:59.999")));
+        MapModel crimes = new DefaultMapModel();
+        cursor.forEach(new Consumer<Document>() {
+            @Override
+            public void accept(Document doc) {
+                if (doc.containsKey("coorX") && doc.containsKey("coorY")) {
+                    try {
+                        crimes.addOverlay(new CrimeCase(doc));
+                    } catch (ParseException ex) {
+                        LOGGER.log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        });
+        return crimes;
+
     }
 
     /**
@@ -158,7 +177,7 @@ public class CrimeCaseFacade {
                 collection.insertOne(doc);
             }
         } catch (JsonIOException | JsonSyntaxException | IOException ex) {
-            Logger.getLogger(CrimeCaseFacade.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         } finally {
             if (reader != null) {
                 reader.close();

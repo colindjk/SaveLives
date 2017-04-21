@@ -6,6 +6,9 @@ package com.savelives.entityclasses;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import javax.faces.context.FacesContext;
 import org.bson.Document;
@@ -20,7 +23,7 @@ public class CrimeCase extends Marker {
 
     private static final String MARKER_ICON = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/resources/images/map-icon.png";
     private Date date;
-    private String time;
+    private LocalTime time;
     private String code;
     private String location;
     private String weapon;
@@ -30,8 +33,8 @@ public class CrimeCase extends Marker {
     /**
      * Custom constructor. Builds CrimeCase object based on given document
      *
-     * @param doc document
-     * @throws java.text.ParseException
+     * @param doc document to be converted
+     * @throws java.text.ParseException if an attribute could not be parsed
      */
     public CrimeCase(Document doc) throws ParseException {
 
@@ -43,8 +46,17 @@ public class CrimeCase extends Marker {
         if ((!doc.containsKey("coorY")) || (!doc.containsKey("coorX"))) {
             super.setVisible(false);
         }
+
         this.code = doc.getString("crimecode");
-        this.time = doc.getString("crimetime");
+        try{
+            this.time = LocalTime.parse(doc.getString("crimetime"), DateTimeFormatter.ofPattern("HH:mm:ss"));
+        } catch(DateTimeParseException ex){
+            // This exeception is thrown since some of the time values are in the format HHmm.ss. e.g. 2228.00
+            // so retry formatting with that format. A better alternative to this could be checking the length of
+            // the string and formatting accordingly. 
+            this.time = LocalTime.parse(doc.getString("crimetime"), DateTimeFormatter.ofPattern("Hmm.ss"));
+        }
+        
         this.date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse(doc.getString("crimedate"));
 
         this.location = doc.getString("location");
@@ -62,11 +74,11 @@ public class CrimeCase extends Marker {
         this.date = date;
     }
 
-    public String getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(LocalTime time) {
         this.time = time;
     }
 
