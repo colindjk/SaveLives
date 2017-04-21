@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Taiwen Jin on 2017.03.31 
+Copyright © 2017 Taiwen Jin. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:composition>
+        <h:form>
+
+            <table border="0" cellspacing="0" cellpadding="10" width="100%">
+                <tr>
+                    <td align="left" valign="middle">
+                        <h:link outcome="index"><img src="resources/images/OpenBaltimore.png"
+                                                     style="width:100%; height:100%; max-height:94px; max-width:308px; border: none"
+                                                     alt="Open Baltimore" />
+                        </h:link>
+                    </td>
+                    <td align="right" valign="middle">
+
+                        <h:link outcome="index" styleClass="arialTen">
+                            <i class="fa fa-home">&nbsp;</i>Home
+                        </h:link>&nbsp;&nbsp;
+
+                        <h:link outcome="CrimeMap" styleClass="arialTen">
+                            <i class="fa fa-map">&nbsp;</i>Crime Map
+                        </h:link>&nbsp;&nbsp;
+                        <h:link outcome="CreateAccount" styleClass="arialTen">
+                            <i class="fa fa-user-circle">&nbsp;</i>Create Account
+                        </h:link>&nbsp;&nbsp;
+                        <h:link outcome="SignIn" styleClass="arialTen">
+                            <i class="fa fa-sign-in">&nbsp;</i>Sign In
+                        </h:link>&nbsp;&nbsp;
+                    </td>
+                </tr>
+            </table>
+
+        </h:form>
+
+    </ui:composition>
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+</html>
