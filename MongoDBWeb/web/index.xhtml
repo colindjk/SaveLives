@@ -42,11 +42,14 @@
         <p:panel>
             <h:form>
                 <h:panelGrid columns="2" cellpadding="1">
+                    <!-- CALENDAR 1 -->
                     <p:outputLabel for="restricted1" value="From:" />
-                    <p:calendar id="restricted1" value="#{crimeCaseController.date1}" mindate="1/1/12" maxdate="2/18/17" />
-
+                    <p:calendar id="restricted1" value="#{crimeCaseController.date1}" 
+                                mindate="1/1/12" maxdate="2/18/17" navigator="true"/>
+                    <!--CALENDAR 2 -->
                     <p:outputLabel for="restricted2" value="To:" />
-                    <p:calendar id="restricted2" value="#{crimeCaseController.date2}" mindate="1/1/12" maxdate="2/18/17" />
+                    <p:calendar id="restricted2" value="#{crimeCaseController.date2}" 
+                                mindate="1/1/12" maxdate="2/18/17" navigator="true" />
 
                 </h:panelGrid>
                 <p:commandButton value="Submit" update="gmap" actionListener="#{crimeCaseController.submit()}" 
