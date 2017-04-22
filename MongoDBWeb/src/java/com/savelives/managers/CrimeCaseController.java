@@ -12,7 +12,9 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.MapModel;
+import org.primefaces.model.map.Marker;
 
 /**
  *
@@ -54,7 +56,7 @@ public class CrimeCaseController implements Serializable {
         return crimeModel;
     }
 
-    public CrimeCase getSelected() {
+    public Marker getSelected() {
         return selected;
     }
 
@@ -100,6 +102,9 @@ public class CrimeCaseController implements Serializable {
     }
 
     //============== INSTANCE METHODS =====================//
+    public void onMarkerSelect(OverlaySelectEvent event) {
+        selected = (CrimeCase) event.getOverlay();
+    }
     public void submit() {
         crimeModel = null;
         if (selectedCategories == null || selectedCategories.isEmpty()) {

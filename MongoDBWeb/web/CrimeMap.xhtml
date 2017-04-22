@@ -15,7 +15,22 @@
 
             <p:gmap id="gmap" center="39.288752, -76.613069" zoom="13" disableDefaultUI="true" 
                     widgetVar="map" model="#{crimeCaseController.crimeModel}" 
-                    type="HYBRID" style="width:97%;height:500px" />
+                    type="HYBRID" style="width:97%;height:500px" >
+                <p:ajax event="overlaySelect" listener="#{crimeCaseController.onMarkerSelect}" />
+                <p:gmapInfoWindow id="infoWindow">
+                    <p:outputPanel style="text-align: center; display: block; margin: auto">
+                        <h:panelGrid columns="1" cellpadding="1">
+                            <h:outputText value="#{crimeCaseController.selected.title}" />
+                            <h:outputText value="#{crimeCaseController.selected.data.code}" />
+                            <h:outputText value="#{crimeCaseController.selected.data.weapon}" />
+                            <h:outputText value="#{crimeCaseController.selected.data.post}" />
+                            <h:outputText value="#{crimeCaseController.selected.data.date}" />
+                            <h:outputText value="#{crimeCaseController.selected.data.district}" />
+                            <h:outputText value="#{crimeCaseController.selected.data.neighborhood}" />
+                        </h:panelGrid>
+                    </p:outputPanel>
+                </p:gmapInfoWindow>
+            </p:gmap>
             <div align="center">
                 <!-- FILTERS -->
                 <h:form>

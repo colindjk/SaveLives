@@ -29,6 +29,7 @@ public class CrimeCase extends Marker {
     private String weapon;
     private String post;
     private String district;
+    private String neighborhood;
 
     /**
      * Custom constructor. Builds CrimeCase object based on given document
@@ -48,22 +49,23 @@ public class CrimeCase extends Marker {
         }
 
         this.code = doc.getString("crimecode");
-        try{
+        try {
             this.time = LocalTime.parse(doc.getString("crimetime"), DateTimeFormatter.ofPattern("HH:mm:ss"));
-        } catch(DateTimeParseException ex){
+        } catch (DateTimeParseException ex) {
             // This exeception is thrown since some of the time values are in the format HHmm.ss. e.g. 2228.00
             // so retry formatting with that format. A better alternative to this could be checking the length of
             // the string and formatting accordingly. 
             this.time = LocalTime.parse(doc.getString("crimetime"), DateTimeFormatter.ofPattern("Hmm.ss"));
         }
-        
+
         this.date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse(doc.getString("crimedate"));
 
         this.location = doc.getString("location");
         this.weapon = doc.getString("weapon");
         this.post = doc.getString("post");
         this.district = doc.getString("district");
-
+        this.neighborhood = doc.containsKey("neighborhood") ? doc.getString("neighborhood") : null;
+        super.setData(this);
     }
 
     public Date getDate() {
@@ -146,6 +148,15 @@ public class CrimeCase extends Marker {
         }
     }
 
+    public String getNeighborhood() {
+        return neighborhood;
+    }
+
+    public void setNeighborhood(String neighborhood) {
+        this.neighborhood = neighborhood;
+    }
+
+    //========= INSTANCE METHODS =====================//
     public boolean hasLocation() {
         return super.isVisible();
     }
