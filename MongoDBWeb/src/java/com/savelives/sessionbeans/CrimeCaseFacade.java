@@ -15,6 +15,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.gte;
+import static com.mongodb.client.model.Filters.in;
 import static com.mongodb.client.model.Filters.lte;
 import com.savelives.entityclasses.CrimeCase;
 import java.io.BufferedReader;
@@ -26,7 +27,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,11 +49,17 @@ public class CrimeCaseFacade {
     private static final String COLLECTION_NAME = "CrimeCases";
     private static final Client CLIENT = new Client(COLLECTION_NAME);
 
-    public MapModel getCrimesModel() {
+    /**
+     * Get a number of crimes from the database
+     *
+     * @param NumbOfCrimes number of crimes to get
+     * @return list of crimes as map model
+     */
+    public MapModel getCrimesModel(int NumbOfCrimes) {
 
         MapModel crimes = new DefaultMapModel();
         MongoCollection<Document> collection = CLIENT.getCollection();
-        collection.find().limit(500).forEach(new Consumer<Document>() {
+        collection.find().limit(NumbOfCrimes).forEach(new Consumer<Document>() {
             @Override
             public void accept(Document doc) {
                 if (doc.containsKey("coorX") && doc.containsKey("coorY")) {
@@ -66,28 +75,19 @@ public class CrimeCaseFacade {
         return crimes;
     }
 
-    /**
-     * Get crimes committed between given Date. from must be before to
-     *
-     * @param from must be earlier or equal to 'to'
-     * @param to must be later or equal to 'from'
-     * @return List of crimes
-     * @throws IllegalArgumentException
-     */
-    public MapModel getCrimesByDateRange(Date from, Date to) throws IllegalArgumentException {
-        //Validate parameters
-        if (from.after(to)) {
-            throw new IllegalArgumentException("'from' Date must be earlier than 'to' Date.");
-        }
-        LocalDate f = new java.sql.Date(from.getTime()).toLocalDate();
-        LocalDate t = new java.sql.Date(to.getTime()).toLocalDate();
-        if (Period.between(f, t).getMonths() > 12) {
-            throw new UnsupportedOperationException("Range must be no more than a year.");
-        }
+    public MapModel filterCrimes(Date from, Date to, List<String> categories, List<String> crimeCodes) {
+        
+        //validate dates (this will throw exceptions if it fails)
+        this.validateDates(from, to);
+
         // Query database
         MongoCollection<Document> collection = CLIENT.getCollection();
+        //Filter by date first
         SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
-        FindIterable<Document> cursor = collection.find(and(gte("crimedate", formater.format(from) + "T00:00:00.000"), lte("crimedate", formater.format(to) + "T23:59:59.999")));
+        FindIterable<Document> cursor = collection.find(and(gte("crimedate", formater.format(from) + "T00:00:00.000"),
+                lte("crimedate", formater.format(to) + "T23:59:59.999"), in("description", categories), in("crimecode", crimeCodes)));
+
+        //Filter by category
         MapModel crimes = new DefaultMapModel();
         cursor.forEach(new Consumer<Document>() {
             @Override
@@ -102,7 +102,39 @@ public class CrimeCaseFacade {
             }
         });
         return crimes;
+    }
 
+    /**
+     * Helper function to check validity of dates Throws exceptions with error
+     * message if validation fails
+     *
+     * @param from start date
+     * @param to end date
+     */
+    private void validateDates(Date from, Date to) {
+        //dates cannot be null
+        if (from == null || to == null) {
+            throw new IllegalArgumentException("A date range is required");
+        }
+        //Validate parameter consistency
+        if (from.after(to)) {
+            throw new IllegalArgumentException("'from' Date must be earlier than 'to' Date.");
+        }
+        LocalDate f = new java.sql.Date(from.getTime()).toLocalDate();
+        LocalDate t = new java.sql.Date(to.getTime()).toLocalDate();
+        if (Period.between(f, t).getMonths() > 12) {
+            throw new UnsupportedOperationException("Range cannot be longer than a year.");
+        }
+    }
+    
+    /**
+     * Get a list of distinct values for a given field name
+     * @param fieldName field name
+     * @return list of values
+     */
+    public List<String> getDistinct(String fieldName) {
+        List<String> result = new ArrayList<>();
+        return CLIENT.getCollection().distinct(fieldName, String.class).into(result);
     }
 
     /**
