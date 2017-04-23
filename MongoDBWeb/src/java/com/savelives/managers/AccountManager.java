@@ -328,7 +328,7 @@ public class AccountManager implements Serializable {
                 int iterations = 5;
 
                 // Hash the entered password to the passwordKey
-                byte[] passwordKey = hashPassword(password.toCharArray(), salt, iterations, 256); // TODO: number of interations needs to be test                          
+                byte[] passwordKey = hashPassword(password.toCharArray(), salt, iterations, 256); // TODO: number of interations needs to be tested                          
                 password = null;
                 /*
                 Set the properties of the newly created newUser object with the values

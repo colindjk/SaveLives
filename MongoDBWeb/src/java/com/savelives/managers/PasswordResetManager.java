@@ -6,6 +6,7 @@ package com.savelives.managers;
 
 import com.savelives.entityclasses.User;
 import com.savelives.sessionbeans.UserFacade;
+import static com.savelives.managers.AccountManager.hashPassword;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -14,7 +15,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.xml.bind.DatatypeConverter;
 
 @Named(value = "passwordResetManager")
 @SessionScoped
@@ -34,6 +37,8 @@ public class PasswordResetManager implements Serializable {
     private String answer;
     private String password;
 
+    @Inject
+    private AccountManager accountManager;
     /*
     The instance variable 'userFacade' is annotated with the @EJB annotation.
     The @EJB annotation directs the EJB Container (of the GlassFish AS) to inject (store) the object reference
@@ -201,17 +206,15 @@ public class PasswordResetManager implements Serializable {
         if (message == null || message.isEmpty()) {
 
             // Obtain the object reference of the User object with username
+            System.out.println(username);
             User user = getUserFacade().findByUsername(username);
 
             try {
-                //TODO: set password function has been commented out
-                // as it is not the right function to call
-                // Reset User object's password
-                //user.setPassword(password);
-
-                // Update the database
+                byte[] passwordKey = hashPassword(password.toCharArray(), user.getSalt(), user.getIterations(), 256);
+                user.setPasswordKey(passwordKey);
                 getUserFacade().edit(user);
-
+                accountManager.logout();
+                
                 // Initialize the instance variables
                 username = message = answer = password = "";
 
