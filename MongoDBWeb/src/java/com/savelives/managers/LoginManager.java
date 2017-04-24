@@ -5,8 +5,10 @@
 package com.savelives.managers;
 
 import com.savelives.entityclasses.User;
+import static com.savelives.managers.AccountManager.hashPassword;
 import com.savelives.sessionbeans.UserFacade;
 import java.io.Serializable;
+import java.util.Arrays;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -110,10 +112,7 @@ public class LoginManager implements Serializable {
 
         } else {
 
-            String actualPassword = user.getPassword();
-            String enteredPassword = getPassword();
-
-            if (!actualPassword.equals(enteredPassword)) {
+            if (!isCorrectPassword(user, getPassword())) {
                 errorMessage = "Invalid Username or Password!";
                 return "";
             }
@@ -144,5 +143,10 @@ public class LoginManager implements Serializable {
                 getSessionMap().put("username", username);
         FacesContext.getCurrentInstance().getExternalContext().
                 getSessionMap().put("user_id", user.getId());
+    }
+    
+    private boolean isCorrectPassword(User user, String entered_password) {
+        byte[] entered_passwordKey = hashPassword(entered_password.toCharArray(), user.getSalt(), user.getIterations(), 256);
+        return Arrays.equals(entered_passwordKey, user.getPasswordKey());
     }
 }

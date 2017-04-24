@@ -4,6 +4,8 @@
  */
 package com.savelives.managers;
 
+import javax.faces.context.FacesContext;
+
 /**
  *
  * @author berth
