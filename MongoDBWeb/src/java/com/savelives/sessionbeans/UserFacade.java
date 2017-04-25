@@ -4,11 +4,13 @@
  */
 package com.savelives.sessionbeans;
 
-
 import com.savelives.entityclasses.User;
 import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
+import com.mongodb.MongoException;
+import com.mongodb.MongoWriteConcernException;
+import com.mongodb.MongoWriteException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import static com.mongodb.client.model.Filters.*;
@@ -57,14 +59,15 @@ public class UserFacade {
         MongoCollection<Document> collection = userClient.getCollection();
 
         if (u != null) {
-            collection.updateOne(new Document("id", u.getId()), new Document("$set", u.toDocument()));
+            collection.updateOne(eq("_id", new ObjectId(u.getId())), new Document("$set", u.toDocument()));
+
         }
     }
 
     public void delete(User u) {
 
         MongoCollection<Document> collection = userClient.getCollection();
-        collection.deleteOne(new Document("id", u.getId()));
+        collection.deleteOne(new Document("_id", u.getId()));
     }
 
     public List<User> find(String filter) {
@@ -98,7 +101,7 @@ public class UserFacade {
             return null;
         } else {
             d = collection.find(eq("username", username)).first();
-            
+
         }
         if (d == null) {
             return null;
@@ -110,6 +113,7 @@ public class UserFacade {
 
     /**
      * Get user using given user id
+     *
      * @param userId user objectId in database
      * @return user if found or null
      */
@@ -125,6 +129,7 @@ public class UserFacade {
         }
         return new User(doc);
     }
+
     //TODO: implement this
     public void deleteUser(int user_id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
