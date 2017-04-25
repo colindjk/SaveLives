@@ -13,6 +13,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
 
     <!-- This page is constructed based on the siteTemplate -->
     <ui:composition template="template/siteTemplate.xhtml">
+        
 
         <ui:define name="title">
             <!-- Set the page title -->
@@ -21,14 +22,8 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
 
         <!-- Create the content for this page below -->
         <ui:define name="editableContent">
-
+            <p:growl id="growl" life="4000"/>
             <div align="center" style="width:50%; margin:0 auto;">
-
-                <!-- Error messages will be shown here if any -->
-                <p:messages id="msgs" showIcon="false"/>
-                <h:outputLabel id="form-error-message" class="errorMessages" value="#{passwordResetManager.message}"/>
-                <br />
-
                 <h:form id="EnterUsernameForm">
                     <h2>Please Enter Your Username</h2>
                     <fieldset>
@@ -38,7 +33,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                                          styleClass="usernameInputTextField" />
                         </div>
                         <br/>
-                        <p:commandButton id="submit" value="Submit" update="msgs" icon="ui-icon-extlink"
+                        <p:commandButton id="submit" value="Submit" icon="ui-icon-extlink"
                                          action="#{passwordResetManager.usernameSubmit()}" 
                                          styleClass="commandButton" />
 

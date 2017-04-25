@@ -17,6 +17,7 @@ import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.gte;
 import static com.mongodb.client.model.Filters.in;
 import static com.mongodb.client.model.Filters.lte;
+import com.mycompany.jsfclasses.util.JsfUtil;
 import com.savelives.entityclasses.CrimeCase;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,6 +35,8 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import org.bson.Document;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.MapModel;
@@ -78,6 +81,7 @@ public class CrimeCaseFacade {
     public MapModel filterCrimes(Date from, Date to, List<String> categories, List<String> crimeCodes) {
         
         //validate dates (this will throw exceptions if it fails)
+        System.out.println("errorerrorerror");
         this.validateDates(from, to);
 
         // Query database
@@ -97,6 +101,7 @@ public class CrimeCaseFacade {
                         crimes.addOverlay(new CrimeCase(doc));
                     } catch (ParseException ex) {
                         LOGGER.log(Level.SEVERE, null, ex);
+                        JsfUtil.addErrorMessage(ex, "Error - Transfer MongoDB data model to MapModel");
                     }
                 }
             }

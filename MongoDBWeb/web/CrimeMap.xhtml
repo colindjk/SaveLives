@@ -10,9 +10,9 @@
 
 
     <ui:composition template="/template/siteTemplate.xhtml">
-
+            
         <ui:define name="editableContent">
-
+            <p:growl id="growl" life="4000"/>            
             <p:gmap id="gmap" center="39.288752, -76.613069" zoom="13" disableDefaultUI="true" 
                     widgetVar="map" model="#{crimeCaseController.crimeModel}" 
                     type="HYBRID" style="width:97%;height:500px" >
