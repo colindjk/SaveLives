@@ -94,7 +94,7 @@ public class UserFacade {
 
         MongoCollection<Document> collection = userClient.getCollection();
 
-        if (username.isEmpty()) {
+        if (username == null) {
             return null;
         } else {
             d = collection.find(eq("username", username)).first();
@@ -115,7 +115,7 @@ public class UserFacade {
      */
     public User findById(String userId) {
         MongoCollection<Document> collection = userClient.getCollection();
-        if (userId.isEmpty()) {
+        if (userId == null) {
             return null;
         }
         BasicDBObject query = new BasicDBObject("_id", new ObjectId(userId));
