@@ -4,6 +4,7 @@
  */
 package com.savelives.managers;
 
+import com.mycompany.jsfclasses.util.JsfUtil;
 import com.savelives.entityclasses.User;
 import com.savelives.sessionbeans.UserFacade;
 import static com.savelives.managers.AccountManager.hashPassword;
@@ -98,19 +99,19 @@ public class PasswordResetManager implements Serializable {
      */
     // Process the submitted username
     public String usernameSubmit() {
-
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
         // Obtain the object reference of the User object with username
         User user = getUserFacade().findByUsername(username);
 
         if (user == null) {
             message = "Entered username does not exist!";
-
+            JsfUtil.addErrorMessage(message);
             // Redirect to show the EnterUsername page
             return "EnterUsername?faces-redirect=true";
         } else {
             // Entered username exists
             message = "";
-
             // Redirect to show the SecurityQuestion page
             return "SecurityQuestion?faces-redirect=true";
         }
@@ -118,7 +119,8 @@ public class PasswordResetManager implements Serializable {
 
     // Process the submitted answer to the security question
     public String securityAnswerSubmit() {
-
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
         // Obtain the object reference of the User object with username
         User user = getUserFacade().findByUsername(username);
 
@@ -134,7 +136,7 @@ public class PasswordResetManager implements Serializable {
         } else {
             // Answer to the security question is wrong
             message = "Security question answer is incorrect!";
-
+            JsfUtil.addErrorMessage(message);
             // Redirect to show the SecurityQuestion page
             return "SecurityQuestion?faces-redirect=true";
         }
@@ -155,7 +157,8 @@ public class PasswordResetManager implements Serializable {
 
     // Validate if the entered password matches the entered confirm password
     public void validateInformation(ComponentSystemEvent event) {
-
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
         /*
         FacesContext contains all of the per-request state information related to the processing of
         a single JavaServer Faces request, and the rendering of the corresponding response.
@@ -196,17 +199,18 @@ public class PasswordResetManager implements Serializable {
 
         if (!entered_password.equals(entered_confirm_password)) {
             message = "Password and Confirm Password must match!";
+            JsfUtil.addErrorMessage(message);
         } else {
             message = "";
         }
     }
 
     public String resetPassword() {
-
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
         if (message == null || message.isEmpty()) {
 
             // Obtain the object reference of the User object with username
-            System.out.println(username);
             User user = getUserFacade().findByUsername(username);
 
             try {
@@ -220,7 +224,7 @@ public class PasswordResetManager implements Serializable {
 
             } catch (EJBException e) {
                 message = "Something went wrong while resetting your password, please try again!";
-
+                JsfUtil.addErrorMessage(message);
                 // Redirect to show the ResetPassword page
                 return "ResetPassword?faces-redirect=true";
             }

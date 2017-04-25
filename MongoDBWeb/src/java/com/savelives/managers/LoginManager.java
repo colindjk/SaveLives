@@ -4,6 +4,7 @@
  */
 package com.savelives.managers;
 
+import com.mycompany.jsfclasses.util.JsfUtil;
 import com.savelives.entityclasses.User;
 import static com.savelives.managers.AccountManager.hashPassword;
 import com.savelives.sessionbeans.UserFacade;
@@ -108,12 +109,13 @@ public class LoginManager implements Serializable {
 
         if (user == null) {
             errorMessage = "Entered username " + getUsername() + " does not exist!";
+            JsfUtil.addErrorMessage(errorMessage);
+
             return "";
-
         } else {
-
             if (!isCorrectPassword(user, getPassword())) {
                 errorMessage = "Invalid Username or Password!";
+                JsfUtil.addErrorMessage(errorMessage);
                 return "";
             }
 

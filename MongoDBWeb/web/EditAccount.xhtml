@@ -11,14 +11,10 @@
     <ui:composition template="/template/siteTemplate.xhtml">
 
         <ui:define name="editableContent">
-
+            <p:growl id="growl" life="4000"/>            
             <div align="center" style="width:50%; margin:0 auto;">
-
-
-
                 <h:outputLabel id="form-error-message" class="errorMessages" value="#{accountManager.statusMessage}"/>
-                <p:growl id="growl" life="5000" />
-                
+
                 <h:form id="AccountEditForm">
 
                     <h2>Edit Your Account</h2>

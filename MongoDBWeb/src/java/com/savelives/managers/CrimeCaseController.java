@@ -4,13 +4,17 @@
  */
 package com.savelives.managers;
 
+import com.mycompany.jsfclasses.util.JsfUtil;
 import com.savelives.entityclasses.CrimeCase;
 import com.savelives.sessionbeans.CrimeCaseFacade;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.MapModel;
@@ -119,12 +123,14 @@ public class CrimeCaseController implements Serializable {
         try {
             //Perform the filtering
             crimeModel = getFacade().filterCrimes(date1, date1, selectedCategories, selectedCrimeCodes);
-        } catch (UnsupportedOperationException ex) {
+        } catch (UnsupportedOperationException | IllegalArgumentException ex) {
             // only catch this type of exception as it is the one returned when the date
             // range is longer than a year. the message contained in the exception can
             // be displayed to the UI to inform the user
             //TODO: handle this exception
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("ERROR", "Filtering data from database"));
+            JsfUtil.addErrorMessage(ex, "Error - Filtering data from database");
         }
-
     }
 }

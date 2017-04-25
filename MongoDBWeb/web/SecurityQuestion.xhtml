@@ -21,13 +21,8 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
 
         <!-- Create the content for this page below -->
         <ui:define name="editableContent">
-
+            <p:growl id="growl" life="4000"/>
             <div align="center" style="width:50%; margin:0 auto;">
-
-                <!-- Error messages will be shown here if any -->
-                <p:messages id="msgs" showIcon="false"/>
-                <h:outputLabel id="form-error-message" class="errorMessages" value="#{passwordResetManager.message}"/>
-
                 <h:form>
                     <h2>Please Answer Your Security Question</h2>
 
@@ -43,7 +38,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                         </div>
 
                         <br/>
-                        <p:commandButton id="submit" value="Submit" update="msgs" icon="ui-icon-extlink"
+                        <p:commandButton id="submit" value="Submit" icon="ui-icon-extlink"
                                          action="#{passwordResetManager.securityAnswerSubmit()}" 
                                          styleClass="commandButton" />
                         &nbsp;

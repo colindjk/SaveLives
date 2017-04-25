@@ -22,7 +22,6 @@ Copyright © 2017 Taiwen Jin. All rights reserved.
                         </h:link>
                     </td>
                     <td align="right" valign="middle">
-
                         <h:link outcome="index" styleClass="arialTen">
                             <i class="fa fa-home">&nbsp;</i>Home
                         </h:link>&nbsp;&nbsp;
@@ -30,12 +29,29 @@ Copyright © 2017 Taiwen Jin. All rights reserved.
                         <h:link outcome="CrimeMap" styleClass="arialTen">
                             <i class="fa fa-map">&nbsp;</i>Crime Map
                         </h:link>&nbsp;&nbsp;
-                        <h:link outcome="CreateAccount" styleClass="arialTen">
-                            <i class="fa fa-plus">&nbsp;</i>Create Account
-                        </h:link>&nbsp;&nbsp;
-                        <h:link outcome="SignIn" styleClass="arialTen">
-                            <i class="fa fa-sign-in">&nbsp;</i>Sign In
-                        </h:link>&nbsp;&nbsp;
+                        <c:if test="${accountManager.isLoggedIn()}">
+
+                            <!-- Clicking "Sign Out" invokes accountManager's logout() method -->
+                            <h:commandLink action="#{accountManager.logout()}" styleClass="arialTen" >
+                                <i class="fa fa-sign-out">&nbsp;</i>Sign Out
+                            </h:commandLink>&nbsp;&nbsp;
+
+                            <!-- Clicking "My Account" displays the Profile.xhtml file -->
+                            <h:link outcome="Profile" styleClass="arialTen">
+                                <i class="fa fa-user">&nbsp;</i>My Account
+                            </h:link>&nbsp;&nbsp;
+
+                        </c:if>
+                        <c:if test="${not accountManager.isLoggedIn()}">
+                            <h:link outcome="CreateAccount" styleClass="arialTen">
+                                <i class="fa fa-plus">&nbsp;</i>Create Account
+                            </h:link>&nbsp;&nbsp;
+                            <h:link outcome="SignIn" styleClass="arialTen">
+                                <i class="fa fa-sign-in">&nbsp;</i>Sign In
+                            </h:link>&nbsp;&nbsp;
+                        </c:if>
+
+
                     </td>
                 </tr>
             </table>
