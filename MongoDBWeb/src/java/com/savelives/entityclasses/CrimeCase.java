@@ -75,22 +75,6 @@ public class CrimeCase extends Marker {
     public void setDate(Date date) {
         this.date = date;
     }
-    
-    public String getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-    
-    public String getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
-    }
 
     public LocalTime getTime() {
         return time;
