@@ -28,7 +28,6 @@ import org.primefaces.model.map.Marker;
 @Named(value = "crimeCaseController")
 public class CrimeCaseController implements Serializable {
 
-    @EJB
     private final CrimeCaseFacade ejbFacade;
     private MapModel crimeModel;
     private CrimeCase selected;
@@ -109,28 +108,11 @@ public class CrimeCaseController implements Serializable {
     public void onMarkerSelect(OverlaySelectEvent event) {
         selected = (CrimeCase) event.getOverlay();
     }
+
     public void submit() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
         crimeModel = null;
-        if (selectedCategories == null || selectedCategories.isEmpty()) {
-            // set this to all categories since the user has not chosen any category
-            // otherwise the result will be an empty list of crimes. A workaround
-            // would be to make category selection mandatory
-            selectedCategories = this.getCrimeCategories();
-        }
-        if (selectedCrimeCodes == null || selectedCrimeCodes.isEmpty()) {
-            selectedCrimeCodes = crimeCodes;
-        }
-        try {
-            //Perform the filtering
-            crimeModel = getFacade().filterCrimes(date1, date1, selectedCategories, selectedCrimeCodes);
-        } catch (UnsupportedOperationException | IllegalArgumentException ex) {
-            // only catch this type of exception as it is the one returned when the date
-            // range is longer than a year. the message contained in the exception can
-            // be displayed to the UI to inform the user
-            //TODO: handle this exception
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("ERROR", "Filtering data from database"));
-            JsfUtil.addErrorMessage(ex, "Error - Filtering data from database");
-        }
+        crimeModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories);       
     }
 }

@@ -11,12 +11,17 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.gte;
 import static com.mongodb.client.model.Filters.in;
 import static com.mongodb.client.model.Filters.lte;
+
 import com.mycompany.jsfclasses.util.JsfUtil;
 import com.savelives.entityclasses.CrimeCase;
 import java.io.BufferedReader;
@@ -27,7 +32,6 @@ import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,11 +39,15 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import org.bson.Document;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.MapModel;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.Duration;
+import org.joda.time.Interval;
+import org.joda.time.Months;
+
 
 @Stateless
 /**
@@ -78,21 +86,49 @@ public class CrimeCaseFacade {
         return crimes;
     }
 
-    public MapModel filterCrimes(Date from, Date to, List<String> categories, List<String> crimeCodes) {
-        
-        //validate dates (this will throw exceptions if it fails)
-        System.out.println("errorerrorerror");
-        this.validateDates(from, to);
-
-        // Query database
-        MongoCollection<Document> collection = CLIENT.getCollection();
-        //Filter by date first
-        SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
-        FindIterable<Document> cursor = collection.find(and(gte("crimedate", formater.format(from) + "T00:00:00.000"),
-                lte("crimedate", formater.format(to) + "T23:59:59.999"), in("description", categories), in("crimecode", crimeCodes)));
-
-        //Filter by category
+    public MapModel filterCrimes(Date from, Date to, List<String> crimeCodes ,List<String> categories) {
         MapModel crimes = new DefaultMapModel();
+        
+        if (!validateDates(from, to)) {
+            return crimes;
+        }
+        
+        MongoCollection<Document> collection = CLIENT.getCollection();
+        
+        BasicDBList andQueryList = new BasicDBList();
+        SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
+
+        String fromDate = formater.format(from) + "T00:00:00.000";
+        String toDate = formater.format(to) + "T23:59:59.999";
+        
+        BasicDBObject dateQuery1 = new BasicDBObject("crimedate", new BasicDBObject("$gte", fromDate));
+        BasicDBObject dateQuery2 = new BasicDBObject("crimedate", new BasicDBObject("$lte", toDate));
+        
+        andQueryList.add(dateQuery1);
+        andQueryList.add(dateQuery2);
+        
+        if (crimeCodes != null && !crimeCodes.isEmpty()) {
+            
+            BasicDBList dblist = new BasicDBList();
+            dblist.addAll(crimeCodes);
+            BasicDBObject codeQuery = new BasicDBObject("crimecode", new BasicDBObject("$in", dblist));
+            andQueryList.add(codeQuery);
+        }
+        
+        if (categories != null && !categories.isEmpty()) {
+            
+            BasicDBList dblist = new BasicDBList();
+            dblist.addAll(categories);
+            BasicDBObject descriptionQuery = new BasicDBObject("description", new BasicDBObject("$in", dblist));
+            andQueryList.add(descriptionQuery);
+        }
+        
+        BasicDBObject queryObject = new BasicDBObject("$and", andQueryList);
+        
+        System.out.println(queryObject);
+        
+        FindIterable<Document> cursor = collection.find(queryObject);
+        
         cursor.forEach(new Consumer<Document>() {
             @Override
             public void accept(Document doc) {
@@ -100,7 +136,6 @@ public class CrimeCaseFacade {
                     try {
                         crimes.addOverlay(new CrimeCase(doc));
                     } catch (ParseException ex) {
-                        LOGGER.log(Level.SEVERE, null, ex);
                         JsfUtil.addErrorMessage(ex, "Error - Transfer MongoDB data model to MapModel");
                     }
                 }
@@ -116,24 +151,30 @@ public class CrimeCaseFacade {
      * @param from start date
      * @param to end date
      */
-    private void validateDates(Date from, Date to) {
+    private boolean validateDates(Date from, Date to) {
         //dates cannot be null
         if (from == null || to == null) {
-            throw new IllegalArgumentException("A date range is required");
+            JsfUtil.addErrorMessage("A date range is required");
+            return false;
         }
+
         //Validate parameter consistency
         if (from.after(to)) {
-            throw new IllegalArgumentException("'from' Date must be earlier than 'to' Date.");
+            JsfUtil.addErrorMessage("'from' Date must be earlier than 'to' Date.");
+            return false;
         }
-        LocalDate f = new java.sql.Date(from.getTime()).toLocalDate();
-        LocalDate t = new java.sql.Date(to.getTime()).toLocalDate();
-        if (Period.between(f, t).getMonths() > 12) {
-            throw new UnsupportedOperationException("Range cannot be longer than a year.");
+        DateTime fromTime = new DateTime(from);
+        DateTime toTime = new DateTime(to);
+        if ((new Interval(fromTime, toTime)).toDuration().getStandardDays() >= 366) {
+            JsfUtil.addErrorMessage("Range cannot be longer than a year.");
+            return false;
         }
+        return true;
     }
-    
+
     /**
      * Get a list of distinct values for a given field name
+     *
      * @param fieldName field name
      * @return list of values
      */
