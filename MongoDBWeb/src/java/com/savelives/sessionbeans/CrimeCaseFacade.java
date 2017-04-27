@@ -13,14 +13,8 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-import static com.mongodb.client.model.Filters.and;
-import static com.mongodb.client.model.Filters.gte;
-import static com.mongodb.client.model.Filters.in;
-import static com.mongodb.client.model.Filters.lte;
 
 import com.mycompany.jsfclasses.util.JsfUtil;
 import com.savelives.entityclasses.CrimeCase;
@@ -31,7 +25,6 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,11 +36,7 @@ import org.bson.Document;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.MapModel;
 import org.joda.time.DateTime;
-import org.joda.time.Days;
-import org.joda.time.Duration;
 import org.joda.time.Interval;
-import org.joda.time.Months;
-
 
 @Stateless
 /**
@@ -86,49 +75,65 @@ public class CrimeCaseFacade {
         return crimes;
     }
 
-    public MapModel filterCrimes(Date from, Date to, List<String> crimeCodes ,List<String> categories) {
+    public MapModel filterCrimes(Date from, Date to, List<String> crimeCodes, List<String> categories, List<String> weapons, List<String> neighborhoods) {
         MapModel crimes = new DefaultMapModel();
-        
+
         if (!validateDates(from, to)) {
             return crimes;
         }
-        
+
         MongoCollection<Document> collection = CLIENT.getCollection();
-        
+
         BasicDBList andQueryList = new BasicDBList();
         SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
 
         String fromDate = formater.format(from) + "T00:00:00.000";
         String toDate = formater.format(to) + "T23:59:59.999";
-        
+
         BasicDBObject dateQuery1 = new BasicDBObject("crimedate", new BasicDBObject("$gte", fromDate));
         BasicDBObject dateQuery2 = new BasicDBObject("crimedate", new BasicDBObject("$lte", toDate));
-        
+
         andQueryList.add(dateQuery1);
         andQueryList.add(dateQuery2);
-        
+
+        // CRIME CODES
         if (crimeCodes != null && !crimeCodes.isEmpty()) {
-            
+
             BasicDBList dblist = new BasicDBList();
             dblist.addAll(crimeCodes);
             BasicDBObject codeQuery = new BasicDBObject("crimecode", new BasicDBObject("$in", dblist));
             andQueryList.add(codeQuery);
         }
         
+        //CRIME CATEGORIES
         if (categories != null && !categories.isEmpty()) {
-            
+
             BasicDBList dblist = new BasicDBList();
             dblist.addAll(categories);
             BasicDBObject descriptionQuery = new BasicDBObject("description", new BasicDBObject("$in", dblist));
             andQueryList.add(descriptionQuery);
         }
+
+        //CRIME WEAPONS
+        if(weapons != null && !weapons.isEmpty()){
+            BasicDBList dblist = new BasicDBList();
+            dblist.addAll(weapons);
+            BasicDBObject weaponQuery = new BasicDBObject("weapon", new BasicDBObject("$in", dblist));
+            andQueryList.add(weaponQuery);
+        }
+        
+        //CRIME NEIGHBORHOOD
+        if(neighborhoods != null && !neighborhoods.isEmpty()){
+            BasicDBList dblist = new BasicDBList();
+            dblist.addAll(neighborhoods);
+            BasicDBObject neighborhoodQuery = new BasicDBObject("neighborhood", new BasicDBObject("$in", dblist));
+            andQueryList.add(neighborhoodQuery);
+        }
         
         BasicDBObject queryObject = new BasicDBObject("$and", andQueryList);
-        
-        System.out.println(queryObject);
-        
+
         FindIterable<Document> cursor = collection.find(queryObject);
-        
+
         cursor.forEach(new Consumer<Document>() {
             @Override
             public void accept(Document doc) {

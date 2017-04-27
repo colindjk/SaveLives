@@ -19,6 +19,7 @@
                     widgetVar="map" model="#{crimeCaseController.crimeModel}" 
                     type="HYBRID" style="width:97%;height:500px" >
                 <p:ajax event="overlaySelect" listener="#{crimeCaseController.onMarkerSelect}" />
+                
                 <p:gmapInfoWindow id="infoWindow">
                     <p:outputPanel style="text-align: center; display: block; margin: auto">
                         <h:panelGrid columns="1" cellpadding="1">
@@ -59,8 +60,20 @@
                                           filter="true" filterMatchMode="contains" >
                         <f:selectItems value="#{crimeCaseController.crimeCodes}" />
                     </p:selectCheckboxMenu>
+                    
+                    <!-- CRIME WEAPON -->
+                    <p:selectCheckboxMenu id="crimeweapons" value="#{crimeCaseController.selectedWeapons}" label="Weapons"
+                                          filter="true" filterMatchMode="contains" >
+                        <f:selectItems value="#{crimeCaseController.weapons}" />
+                    </p:selectCheckboxMenu>
+                    
+                    <!-- CRIME NEIGHBORHOOD -->
+                    <p:selectCheckboxMenu id="crimeneighborhood" value="#{crimeCaseController.selectedNeighborhoods}" label="Neighborhoods"
+                                          filter="true" filterMatchMode="contains" >
+                        <f:selectItems value="#{crimeCaseController.neighborhoods}" />
+                    </p:selectCheckboxMenu>
                     <!-- SUBMIT BUTTON -->
-                    <p:commandButton value="Submit" update="gmap" ajax="false" actionListener="#{crimeCaseController.submit}" 
+                    <p:commandButton value="Submit" update="gmap restricted1 restricted2" ajax="true" actionListener="#{crimeCaseController.submit}" 
                                      oncomplete="clusterMarkers();">
                     </p:commandButton>
                 </h:form>

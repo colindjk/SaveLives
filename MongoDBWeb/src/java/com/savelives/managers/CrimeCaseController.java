@@ -36,6 +36,10 @@ public class CrimeCaseController implements Serializable {
     private final CrimeCaseFacade ejbFacade;
     private MapModel crimeModel;
     private CrimeCase selected;
+    private final List<String> weapons;
+    private List<String> selectedWeapons;
+    private final List<String> neighborhoods;
+    private List<String> selectedNeighborhoods;
     private Date date1;
     private Date date2;
     private final List<String> crimeCategories;
@@ -59,6 +63,8 @@ public class CrimeCaseController implements Serializable {
         crimeModel = ejbFacade.getCrimesModel(NUMB_OF_CRIMES);
         crimeCategories = ejbFacade.getDistinct("description");
         crimeCodes = ejbFacade.getDistinct("crimecode");
+        weapons = ejbFacade.getDistinct("weapon");
+        neighborhoods = ejbFacade.getDistinct("neighborhood");
     }
 
     /*========== Getters and Setters ==============*/
@@ -123,6 +129,30 @@ public class CrimeCaseController implements Serializable {
         this.userFacade = userFacade;
     }
 
+    public List<String> getWeapons() {
+        return weapons;
+    }
+
+    public List<String> getSelectedWeapons() {
+        return selectedWeapons;
+    }
+
+    public void setSelectedWeapons(List<String> selectedWeapons) {
+        this.selectedWeapons = selectedWeapons;
+    }
+
+    public void setSelectedNeighborhoods(List<String> selectedNeighborhoods) {
+        this.selectedNeighborhoods = selectedNeighborhoods;
+    }
+
+    public List<String> getNeighborhoods() {
+        return neighborhoods;
+    }
+
+    public List<String> getSelectedNeighborhoods() {
+        return selectedNeighborhoods;
+    }
+
     //============== INSTANCE METHODS =====================//
     public void onMarkerSelect(OverlaySelectEvent event) {
         selected = (CrimeCase) event.getOverlay();
@@ -132,7 +162,7 @@ public class CrimeCaseController implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
         crimeModel = null;
-        crimeModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories);
+        crimeModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories, selectedWeapons, selectedNeighborhoods);
 
         if (accountManager.isLoggedIn()) {
             SearchQuery sq = new SearchQuery(LocalDateTime.now(), date1, date2,
@@ -148,7 +178,7 @@ public class CrimeCaseController implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
         crimeModel = null;
-        crimeModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories);
+        crimeModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories, selectedWeapons, selectedNeighborhoods);
     }
 
 }
