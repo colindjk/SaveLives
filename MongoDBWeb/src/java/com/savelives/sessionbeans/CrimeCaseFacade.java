@@ -59,6 +59,15 @@ public class CrimeCaseFacade {
 
         MapModel crimes = new DefaultMapModel();
         MongoCollection<Document> collection = CLIENT.getCollection();
+        
+        if(collection.count() == 0){
+            try {
+                this.populateCollection(collection);
+            } catch (IOException ex) {
+                Logger.getLogger(CrimeCaseFacade.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         collection.find().limit(NumbOfCrimes).forEach(new Consumer<Document>() {
             @Override
             public void accept(Document doc) {
@@ -138,6 +147,44 @@ public class CrimeCaseFacade {
     }
 
     /**
+     * Get crimes committed between given Date. from must be before to
+     *
+     * @param from must be earlier or equal to 'to'
+     * @param to must be later or equal to 'from'
+     * @return List of crimes
+     * @throws IllegalArgumentException
+     */
+    public MapModel getCrimesByDateRange(Date from, Date to) throws IllegalArgumentException {
+        //Validate parameters
+        if (from.after(to)) {
+            throw new IllegalArgumentException("'from' Date must be earlier than 'to' Date.");
+        }
+        LocalDate f = new java.sql.Date(from.getTime()).toLocalDate();
+        LocalDate t = new java.sql.Date(to.getTime()).toLocalDate();
+        if (Period.between(f, t).getMonths() > 12) {
+            throw new UnsupportedOperationException("Range must be no more than a year.");
+        }
+        // Query database
+        MongoCollection<Document> collection = CLIENT.getCollection();
+        SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
+        FindIterable<Document> cursor = collection.find(and(gte("crimedate", formater.format(from) + "T00:00:00.000"), lte("crimedate", formater.format(to) + "T23:59:59.999")));
+        MapModel crimes = new DefaultMapModel();
+        cursor.forEach(new Consumer<Document>() {
+            @Override
+            public void accept(Document doc) {
+                if (doc.containsKey("coorX") && doc.containsKey("coorY")) {
+                    try {
+                        crimes.addOverlay(new CrimeCase(doc));
+                    } catch (ParseException ex) {
+                        LOGGER.log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        });
+        return crimes;
+    }
+    
+    /**
      * Call this to populate local database if it doesn't contain any crime data
      *
      * @param collection
@@ -216,4 +263,5 @@ public class CrimeCaseFacade {
             }
         }
     }
+    
 }
