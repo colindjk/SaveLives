@@ -240,6 +240,7 @@ public class CrimeCaseController implements Serializable {
         barModel = model;
         
         barModel.getAxis(AxisType.Y).setLabel("Crime Count");
+        barModel.getAxis(AxisType.Y).setTickFormat("%d");
         barModel.getAxis(AxisType.Y).setMin(0);
         barModel.getAxis(AxisType.Y).setMax(100);
         
