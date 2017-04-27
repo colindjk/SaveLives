@@ -6,11 +6,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-
-
-
     <ui:composition template="/template/siteTemplate.xhtml">
-
+        
         <ui:define name="editableContent">
 
             <p:gmap id="gmap" center="39.288752, -76.613069" zoom="13" disableDefaultUI="true" 
@@ -31,6 +28,19 @@
                     </p:outputPanel>
                 </p:gmapInfoWindow>
             </p:gmap>
+            
+            <br />
+            
+            <div>
+                <p:panel style="width:97%">
+                    <p:chart id="crimeBarGraph" type="bar" 
+                             model="#{crimeCaseController.barModel}" 
+                             style="height:400px"/>
+                </p:panel>
+            </div>
+            
+            <br />
+            
             <div align="center">
                 <!-- FILTERS -->
                 <h:form>
@@ -39,11 +49,17 @@
                         <!-- CALENDAR 1 -->
                         <p:outputLabel for="restricted1" value="From:" />
                         <p:calendar id="restricted1" value="#{crimeCaseController.date1}" 
-                                    mindate="1/1/12" maxdate="2/18/17" navigator="true" required="true" />
+                                    mindate="1/1/12" maxdate="2/18/17" pattern="MM/dd/yyyy"
+                                    navigator="true" required="true" >
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </p:calendar>
                         <!--CALENDAR 2 -->
                         <p:outputLabel for="restricted2" value="To:" />
                         <p:calendar id="restricted2" value="#{crimeCaseController.date2}" 
-                                    mindate="1/1/12" maxdate="2/18/17" navigator="true" required="true" />
+                                    mindate="1/1/12" maxdate="2/18/17" pattern="MM/dd/yyyy"
+                                    navigator="true" required="true" >
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </p:calendar>
 
                     </h:panelGrid>
 

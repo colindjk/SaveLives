@@ -47,15 +47,36 @@ public class CrimeCase extends Marker {
         if ((!doc.containsKey("coorY")) || (!doc.containsKey("coorX"))) {
             super.setVisible(false);
         }
-
+        
         this.code = doc.getString("crimecode");
-        try {
+        /*try {
             this.time = LocalTime.parse(doc.getString("crimetime"), DateTimeFormatter.ofPattern("HH:mm:ss"));
         } catch (DateTimeParseException ex) {
             // This exeception is thrown since some of the time values are in the format HHmm.ss. e.g. 2228.00
             // so retry formatting with that format. A better alternative to this could be checking the length of
             // the string and formatting accordingly. 
             this.time = LocalTime.parse(doc.getString("crimetime"), DateTimeFormatter.ofPattern("Hmm.ss"));
+        }*/
+        
+        String crimeString = doc.getString("crimetime");
+        
+        switch(crimeString.length()) {
+            case 8:
+                this.time = LocalTime.parse(crimeString, DateTimeFormatter.ofPattern("HH:mm:ss"));
+                break;
+            case 6:
+                this.time = LocalTime.parse(crimeString, DateTimeFormatter.ofPattern("Hmm.ss"));
+                break;
+            case 5:
+                crimeString = "0" + crimeString;
+                this.time = LocalTime.parse(crimeString, DateTimeFormatter.ofPattern("Hmm.ss"));
+                break;
+            case 4:
+                crimeString = "00:" + crimeString;
+                this.time = LocalTime.parse(crimeString, DateTimeFormatter.ofPattern("HH:m.ss"));
+                break;
+            default:
+                break;
         }
 
         this.date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse(doc.getString("crimedate"));
