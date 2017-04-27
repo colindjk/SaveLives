@@ -6,8 +6,12 @@ package com.savelives.managers;
 
 import com.mycompany.jsfclasses.util.JsfUtil;
 import com.savelives.entityclasses.CrimeCase;
+import com.savelives.entityclasses.SearchQuery;
 import com.savelives.sessionbeans.CrimeCaseFacade;
+import com.savelives.sessionbeans.UserFacade;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -15,6 +19,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.MapModel;
@@ -38,6 +43,12 @@ public class CrimeCaseController implements Serializable {
     private List<String> selectedCategories;
     private List<String> selectedCrimeCodes;
     private final int NUMB_OF_CRIMES = 500;
+
+    @Inject
+    private AccountManager accountManager;
+
+    @EJB
+    private UserFacade userFacade;
 
     /**
      * Default Constructor
@@ -104,6 +115,14 @@ public class CrimeCaseController implements Serializable {
         this.selectedCrimeCodes = selectedCrimeCodes;
     }
 
+    public UserFacade getUserFacade() {
+        return userFacade;
+    }
+
+    public void setUserFacade(UserFacade userFacade) {
+        this.userFacade = userFacade;
+    }
+
     //============== INSTANCE METHODS =====================//
     public void onMarkerSelect(OverlaySelectEvent event) {
         selected = (CrimeCase) event.getOverlay();
@@ -113,6 +132,23 @@ public class CrimeCaseController implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
         crimeModel = null;
-        crimeModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories);       
+        crimeModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories);
+
+        if (accountManager.isLoggedIn()) {
+            SearchQuery sq = new SearchQuery(LocalDateTime.now(), date1, date2,
+                    (ArrayList<String>) selectedCrimeCodes, (ArrayList<String>) selectedCategories);
+            accountManager.getSelected().addHistorySearch(sq);
+            getUserFacade().edit(accountManager.getSelected());
+            //User u = getUserFacade().findById(accountManager.getSelected().getId());
+            //System.out.println(u.toDocument());
+        }
     }
+
+    public void submitWithoutAddHistory() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
+        crimeModel = null;
+        crimeModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories);
+    }
+
 }
