@@ -4,8 +4,11 @@
  */
 package com.savelives.entityclasses;
 
+import java.util.ArrayList;
 import javax.xml.bind.DatatypeConverter;
 import org.bson.Document;
+import org.primefaces.json.JSONArray;
+import org.primefaces.json.JSONObject;
 
 /*
  * @author ping
@@ -28,6 +31,8 @@ public class User {
     private int securityQuestion;
     private String securityAnswer;
     private String email;
+    private ArrayList<SearchQuery> historySearch;
+    private final int MAX_HISTORY = 10;
 
     public User() {
     }
@@ -53,6 +58,7 @@ public class User {
      * @param email user email
      * @param salt Salt
      * @param iterations iteration number
+     * @param historySearch history search
      */
     public User(String id, String username,
             byte[] passwordKey, String firstName,
@@ -60,7 +66,8 @@ public class User {
             String city, String state,
             String zipCode, int securityQuestion,
             String securityAnswer, String email,
-            byte[] salt, int iterations) {
+            byte[] salt, int iterations,
+            ArrayList<SearchQuery> historySearch) {
         this.id = id;
         this.username = username;
         this.passwordKey = passwordKey;
@@ -75,6 +82,7 @@ public class User {
         this.email = email;
         this.salt = salt;
         this.iterations = iterations;
+        this.historySearch = historySearch;
     }
 
     /**
@@ -100,6 +108,12 @@ public class User {
         this.zipCode = doc.getString("zipCode");
         this.iterations = doc.getInteger("iterations");
         this.salt = DatatypeConverter.parseBase64Binary(doc.getString("salt"));
+        this.historySearch = new ArrayList<>();
+        JSONObject obj = new JSONObject(doc);
+        JSONArray arr = obj.getJSONArray("historySearch");
+        for (int i = 0; i < arr.length(); i++){
+            this.historySearch.add(new SearchQuery(Document.parse(arr.get(i).toString())));
+        }
     }
 
     /* Getters and Setters */
@@ -239,7 +253,29 @@ public class User {
         this.iterations = iterations;
     }
 
+    public ArrayList<SearchQuery> getHistorySearch() {
+        return historySearch;
+    }
+
+    public void setHistorySearch(ArrayList<SearchQuery> historySearch) {
+        this.historySearch = historySearch;
+    }
+   
+    
+    public void addHistorySearch(SearchQuery sq){
+        this.historySearch.add(sq);
+        if(this.historySearch.size() > MAX_HISTORY){
+            this.historySearch = (ArrayList<SearchQuery>)this.historySearch
+                    .subList(this.historySearch.size()-MAX_HISTORY,this.historySearch.size()-1);
+        }
+    }
+
+    
     public Document toDocument() {
+        ArrayList<Document> docs = new ArrayList<>();
+        for(int i = 0; i < this.historySearch.size(); i++){
+            docs.add(historySearch.get(i).toDocument());
+        }
         return new Document()
                 .append("username", getUsername())
                 .append("passwordKey", DatatypeConverter.printBase64Binary(getPasswordKey()))
@@ -255,6 +291,7 @@ public class User {
                 .append("securityAnswer", getSecurityAnswer())
                 .append("email", getEmail())
                 .append("iterations", getIterations())
-                .append("salt", DatatypeConverter.printBase64Binary(getSalt()));
+                .append("salt", DatatypeConverter.printBase64Binary(getSalt()))
+                .append("historySearch",docs);
     }
 }

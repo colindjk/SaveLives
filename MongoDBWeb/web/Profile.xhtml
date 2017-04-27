@@ -44,11 +44,19 @@
                                 </li>
 
                                 <li class="verticalMenuItem">
+                                    <!-- HISTORY QUERY -->
+                                    <h:link outcome="HistorySearch">
+                                        <i class="fa fa-history">&nbsp;</i>History Search
+                                    </h:link>
+                                </li>
+
+                                <li class="verticalMenuItem">
                                     <!-- SIGN OUT -->
                                     <h:commandLink action="#{accountManager.logout()}">
                                         <i class="fa fa-sign-out">&nbsp;</i>Sign Out
                                     </h:commandLink>
                                 </li>
+
                             </ul>
 
                         </td>

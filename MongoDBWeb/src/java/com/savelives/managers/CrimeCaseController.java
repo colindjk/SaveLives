@@ -4,13 +4,22 @@
  */
 package com.savelives.managers;
 
+import com.mycompany.jsfclasses.util.JsfUtil;
 import com.savelives.entityclasses.CrimeCase;
+import com.savelives.entityclasses.SearchQuery;
 import com.savelives.sessionbeans.CrimeCaseFacade;
+import com.savelives.sessionbeans.UserFacade;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.MapModel;
@@ -41,10 +50,13 @@ import org.primefaces.model.chart.LineChartSeries;
 @Named(value = "crimeCaseController")
 public class CrimeCaseController implements Serializable {
 
-    @EJB
     private final CrimeCaseFacade ejbFacade;
     private MapModel crimeModel;
     private CrimeCase selected;
+    private final List<String> weapons;
+    private List<String> selectedWeapons;
+    private final List<String> neighborhoods;
+    private List<String> selectedNeighborhoods;
     private Date date1;
     private Date date2;
     private final List<String> crimeCategories;
@@ -54,6 +66,13 @@ public class CrimeCaseController implements Serializable {
     private final int NUMB_OF_CRIMES = 500;
     
     private BarChartModel barModel;
+    
+    @Inject
+    private AccountManager accountManager;
+
+    @EJB
+    private UserFacade userFacade;
+
     /**
      * Default Constructor
      */
@@ -63,6 +82,8 @@ public class CrimeCaseController implements Serializable {
         crimeModel = ejbFacade.getCrimesModel(NUMB_OF_CRIMES);
         crimeCategories = ejbFacade.getDistinct("description");
         crimeCodes = ejbFacade.getDistinct("crimecode");
+        weapons = ejbFacade.getDistinct("weapon");
+        neighborhoods = ejbFacade.getDistinct("neighborhood");
         
         createBarModel();
     }
@@ -323,30 +344,64 @@ public class CrimeCaseController implements Serializable {
         this.selectedCrimeCodes = selectedCrimeCodes;
     }
 
+    public UserFacade getUserFacade() {
+        return userFacade;
+    }
+
+    public void setUserFacade(UserFacade userFacade) {
+        this.userFacade = userFacade;
+    }
+
+    public List<String> getWeapons() {
+        return weapons;
+    }
+
+    public List<String> getSelectedWeapons() {
+        return selectedWeapons;
+    }
+
+    public void setSelectedWeapons(List<String> selectedWeapons) {
+        this.selectedWeapons = selectedWeapons;
+    }
+
+    public void setSelectedNeighborhoods(List<String> selectedNeighborhoods) {
+        this.selectedNeighborhoods = selectedNeighborhoods;
+    }
+
+    public List<String> getNeighborhoods() {
+        return neighborhoods;
+    }
+
+    public List<String> getSelectedNeighborhoods() {
+        return selectedNeighborhoods;
+    }
+
     //============== INSTANCE METHODS =====================//
     public void onMarkerSelect(OverlaySelectEvent event) {
         selected = (CrimeCase) event.getOverlay();
     }
-    public void submit() {
-        crimeModel = null;
-        if (selectedCategories == null || selectedCategories.isEmpty()) {
-            // set this to all categories since the user has not chosen any category
-            // otherwise the result will be an empty list of crimes. A workaround
-            // would be to make category selection mandatory
-            selectedCategories = this.getCrimeCategories();
-        }
-        if (selectedCrimeCodes == null || selectedCrimeCodes.isEmpty()) {
-            selectedCrimeCodes = crimeCodes;
-        }
-        try {
-            //Perform the filtering
-            crimeModel = getFacade().filterCrimes(date1, date1, selectedCategories, selectedCrimeCodes);
-        } catch (UnsupportedOperationException ex) {
-            // only catch this type of exception as it is the one returned when the date
-            // range is longer than a year. the message contained in the exception can
-            // be displayed to the UI to inform the user
-            //TODO: handle this exception
-        }
 
+    public void submit() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
+        crimeModel = null;
+        crimeModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories, selectedWeapons, selectedNeighborhoods);
+
+        if (accountManager.isLoggedIn()) {
+            SearchQuery sq = new SearchQuery(LocalDateTime.now(), date1, date2,
+                    (ArrayList<String>) selectedCrimeCodes, (ArrayList<String>) selectedCategories);
+            accountManager.getSelected().addHistorySearch(sq);
+            getUserFacade().edit(accountManager.getSelected());
+            //User u = getUserFacade().findById(accountManager.getSelected().getId());
+            //System.out.println(u.toDocument());
+        }
     }
+
+    public void submitWithoutAddHistory() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
+        crimeModel = null;
+        crimeModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories, selectedWeapons, selectedNeighborhoods);
+    }
+
 }

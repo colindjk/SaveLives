@@ -7,13 +7,16 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="/template/siteTemplate.xhtml">
-        
+            
         <ui:define name="editableContent">
 
+            <p:growl id="growl" life="4000"/>
+            
             <p:gmap id="gmap" center="39.288752, -76.613069" zoom="13" disableDefaultUI="true" 
                     widgetVar="map" model="#{crimeCaseController.crimeModel}" 
                     type="HYBRID" style="width:97%;height:500px" >
                 <p:ajax event="overlaySelect" listener="#{crimeCaseController.onMarkerSelect}" />
+                
                 <p:gmapInfoWindow id="infoWindow">
                     <p:outputPanel style="text-align: center; display: block; margin: auto">
                         <h:panelGrid columns="1" cellpadding="1">
@@ -70,13 +73,24 @@
                     </p:selectCheckboxMenu>
                     <!-- CRIME CODE -->
                     <p:selectCheckboxMenu id="crimecodes" value="#{crimeCaseController.selectedCrimeCodes}" label="Crime Code"
-                                          filter="true" filterMatchMode="startsWith">
+                                          filter="true" filterMatchMode="contains" >
                         <f:selectItems value="#{crimeCaseController.crimeCodes}" />
                     </p:selectCheckboxMenu>
+                    
+                    <!-- CRIME WEAPON -->
+                    <p:selectCheckboxMenu id="crimeweapons" value="#{crimeCaseController.selectedWeapons}" label="Weapons"
+                                          filter="true" filterMatchMode="contains" >
+                        <f:selectItems value="#{crimeCaseController.weapons}" />
+                    </p:selectCheckboxMenu>
+                    
+                    <!-- CRIME NEIGHBORHOOD -->
+                    <p:selectCheckboxMenu id="crimeneighborhood" value="#{crimeCaseController.selectedNeighborhoods}" label="Neighborhoods"
+                                          filter="true" filterMatchMode="contains" >
+                        <f:selectItems value="#{crimeCaseController.neighborhoods}" />
+                    </p:selectCheckboxMenu>
                     <!-- SUBMIT BUTTON -->
-                    <p:commandButton value="Submit" update="gmap" actionListener="#{crimeCaseController.submit()}" 
+                    <p:commandButton value="Submit" update="gmap restricted1 restricted2" ajax="true" actionListener="#{crimeCaseController.submit}" 
                                      oncomplete="clusterMarkers();">
-
                     </p:commandButton>
                 </h:form>
             </div>

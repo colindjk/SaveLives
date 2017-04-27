@@ -7,12 +7,14 @@ package com.savelives.managers;
 /*
  * @author ping
  */
+import com.mycompany.jsfclasses.util.JsfUtil;
 import com.savelives.entityclasses.User;
 import com.savelives.sessionbeans.UserFacade;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -223,7 +225,6 @@ public class AccountManager implements Serializable {
     public UserFacade getUserFacade() {
         return userFacade;
     }
-
     /*
     private Map<String, Object> security_questions;
         String      int
@@ -311,6 +312,7 @@ public class AccountManager implements Serializable {
             // A user already exists with the username entered
             username = "";
             statusMessage = "Username already exists! Please select a different one!";
+            JsfUtil.addErrorMessage(statusMessage);
             return "";
         }
 
@@ -349,12 +351,13 @@ public class AccountManager implements Serializable {
                 newUser.setPasswordKey(passwordKey);
                 newUser.setSalt(salt);
                 newUser.setIterations(iterations);
-
+                newUser.setHistorySearch(new ArrayList<>());
                 getUserFacade().create(newUser);
 
             } catch (EJBException e) {
                 username = "";
                 statusMessage = "Something went wrong while creating user's account! See: " + e.getMessage();
+                JsfUtil.addErrorMessage(statusMessage);
                 return "";
             }
             // Initialize the session map for the newly created User object
@@ -649,6 +652,7 @@ public class AccountManager implements Serializable {
 
         if (verifyPassword.isEmpty()) {
             statusMessage = "Please enter a password!";
+            JsfUtil.addErrorMessage(statusMessage);            
             return false;
 
         } else if (verifyPassword.equals(password)) {
@@ -657,6 +661,7 @@ public class AccountManager implements Serializable {
 
         } else {
             statusMessage = "Invalid password entered!";
+            JsfUtil.addErrorMessage(statusMessage);
             return false;
         }
     }
