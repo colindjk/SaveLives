@@ -59,6 +59,15 @@ public class CrimeCaseFacade {
 
         MapModel crimes = new DefaultMapModel();
         MongoCollection<Document> collection = CLIENT.getCollection();
+        
+        if(collection.count() == 0){
+            try {
+                this.populateCollection(collection);
+            } catch (IOException ex) {
+                Logger.getLogger(CrimeCaseFacade.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         collection.find().limit(NumbOfCrimes).forEach(new Consumer<Document>() {
             @Override
             public void accept(Document doc) {

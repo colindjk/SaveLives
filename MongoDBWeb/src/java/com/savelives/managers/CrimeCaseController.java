@@ -104,12 +104,12 @@ public class CrimeCaseController implements Serializable {
         if (date1 == null && date2 == null) {
             
             Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.YEAR, 2013);
+            cal.set(Calendar.YEAR, 2015);
             cal.set(Calendar.MONTH, 0);
             cal.set(Calendar.DAY_OF_MONTH, 1);
             date1 = cal.getTime();
             
-            cal.set(Calendar.YEAR, 2017);
+            cal.set(Calendar.YEAR, 2016);
             cal.set(Calendar.MONTH, 0);
             cal.set(Calendar.DAY_OF_MONTH, 1);
             date2 = cal.getTime();
@@ -139,100 +139,112 @@ public class CrimeCaseController implements Serializable {
         cal.setTime(date1);
         cal.set(Calendar.DAY_OF_MONTH, 1);
         
+        /*
         Calendar cal2 = Calendar.getInstance();
         cal2.setTime(date1);
         switch(cal2.get(Calendar.MONTH)) {
-            case 1:
+            case 0:
                 cal2.set(Calendar.DAY_OF_MONTH, 31);
                 break;
-            case 2:
+            case 1:
                 cal2.set(Calendar.DAY_OF_MONTH, 28);
                 break;
-            case 3:
+            case 2:
                 cal2.set(Calendar.DAY_OF_MONTH, 31);
+                break;
+            case 3:
+                cal2.set(Calendar.DAY_OF_MONTH, 30);
                 break;
             case 4:
-                cal2.set(Calendar.DAY_OF_MONTH, 30);
-                break;
-            case 5:
                 cal2.set(Calendar.DAY_OF_MONTH, 31);
                 break;
-            case 6:
+            case 5:
                 cal2.set(Calendar.DAY_OF_MONTH, 30);
+                break;
+            case 6:
+                cal2.set(Calendar.DAY_OF_MONTH, 31);
                 break;
             case 7:
                 cal2.set(Calendar.DAY_OF_MONTH, 31);
                 break;
             case 8:
-                cal2.set(Calendar.DAY_OF_MONTH, 31);
+                cal2.set(Calendar.DAY_OF_MONTH, 30);
                 break;
             case 9:
-                cal2.set(Calendar.DAY_OF_MONTH, 30);
-                break;
-            case 10:
                 cal2.set(Calendar.DAY_OF_MONTH, 31);
                 break; 
-            case 11:
+            case 10:
                 cal2.set(Calendar.DAY_OF_MONTH, 30);
                 break;
-            case 12:
+            case 11:
                 cal2.set(Calendar.DAY_OF_MONTH, 31);
                 break;    
             default:
                 break;
         }
         
-        crimes.set(f.format(cal.getTime()),    
-                getFacade().getCrimesByDateRange(date1, cal2.getTime()).getMarkers().size());
+        Calendar cal5 = Calendar.getInstance(); //first day of month
+        cal5.setTime(date1);
+        cal5.set(Calendar.DAY_OF_MONTH, 1);
         
+        crimes.set(f.format(cal.getTime()),    
+                getFacade().getCrimesByDateRange(cal5.getTime(), cal2.getTime()).getMarkers().size()); //return number of crimes within first month
+        */
         for (int i = 1; i < 12; i++) {
             cal.add(Calendar.MONTH, multiple);
             
-            Calendar cal3 = Calendar.getInstance();
+            Calendar cal3 = Calendar.getInstance(); //last day of month
             cal3.setTime(cal.getTime());
+            
+            Calendar cal4 = Calendar.getInstance(); //first day of month
+            cal4.setTime(cal.getTime());
+            cal4.set(Calendar.DAY_OF_MONTH, 1);
+            
             switch(cal3.get(Calendar.MONTH)) {
-                case 1:
+                case 0:
                     cal3.set(Calendar.DAY_OF_MONTH, 31);
                     break;
-                case 2:
+                case 1:
                     cal3.set(Calendar.DAY_OF_MONTH, 28);
                     break;
-                case 3:
+                case 2:
                     cal3.set(Calendar.DAY_OF_MONTH, 31);
+                    break;
+                case 3:
+                    cal3.set(Calendar.DAY_OF_MONTH, 30);
                     break;
                 case 4:
-                    cal3.set(Calendar.DAY_OF_MONTH, 30);
-                    break;
-                case 5:
                     cal3.set(Calendar.DAY_OF_MONTH, 31);
                     break;
-                case 6:
+                case 5:
                     cal3.set(Calendar.DAY_OF_MONTH, 30);
+                    break;
+                case 6:
+                    cal3.set(Calendar.DAY_OF_MONTH, 31);
                     break;
                 case 7:
                     cal3.set(Calendar.DAY_OF_MONTH, 31);
                     break;
                 case 8:
-                    cal3.set(Calendar.DAY_OF_MONTH, 31);
+                    cal3.set(Calendar.DAY_OF_MONTH, 30);
                     break;
                 case 9:
-                    cal3.set(Calendar.DAY_OF_MONTH, 30);
-                    break;
-                case 10:
                     cal3.set(Calendar.DAY_OF_MONTH, 31);
                     break; 
-                case 11:
+                case 10:
                     cal3.set(Calendar.DAY_OF_MONTH, 30);
                     break;
-                case 12:
+                case 11:
                     cal3.set(Calendar.DAY_OF_MONTH, 31);
                     break;    
                 default:
                     break;
             }
             
+            //return number of crimes within this month
+            //String temp = f.format(cal.getTime());
             crimes.set(f.format(cal.getTime()), 
-                    getFacade().getCrimesByDateRange(date1, cal3.getTime()).getMarkers().size()); //instead of 5, return the number of crimes that happened on that date
+                    getFacade().getCrimesByDateRange(cal4.getTime(), cal3.getTime()).getMarkers().size()); 
         }
  
         model.addSeries(crimes);
@@ -242,14 +254,7 @@ public class CrimeCaseController implements Serializable {
         barModel.getAxis(AxisType.Y).setLabel("Crime Count");
         barModel.getAxis(AxisType.Y).setTickFormat("%d");
         barModel.getAxis(AxisType.Y).setMin(0);
-        barModel.getAxis(AxisType.Y).setMax(100);
-        
-        /*
-        barModel.getAxis(AxisType.X).setLabel("Date");
-        barModel.getAxis(AxisType.X).setTickFormat("%b, %y");
-        barModel.getAxis(AxisType.Y).setMin(date1);
-        barModel.getAxis(AxisType.Y).setMax(date2);
-        */
+        barModel.getAxis(AxisType.Y).setMax(6000);
         
         DateAxis axis = new DateAxis("Date");
         axis.setTickAngle(-50);
@@ -257,6 +262,8 @@ public class CrimeCaseController implements Serializable {
         axis.setMax(f.format(date2));
         axis.setTickFormat("%b, %Y");
         barModel.getAxes().put(AxisType.X, axis);
+        
+        barModel.setBarWidth(45);
         
         barModel.setTitle("Crimes in Baltimore");
         barModel.setLegendPosition("ne");
