@@ -100,6 +100,15 @@
                     <p:commandButton value="Submit" update=":growl gmap crimeBarGraph restricted1 restricted2" ajax="true" actionListener="#{crimeCaseController.submit}" 
                                      oncomplete="clusterMarkers();">
                     </p:commandButton>
+                    <br/>
+                    <!-- HEATMAP BUTTONS -->
+                    <p:commandButton value="HeatMap ON" update=":growl gmap crimeBarGraph restricted1 restricted2" ajax="true" 
+                                     oncomplete="makeHeatMap();">
+                    </p:commandButton>
+                    <p:commandButton value="HeatMap OFF" update=":growl gmap crimeBarGraph restricted1 restricted2" ajax="true" 
+                                     oncomplete="clusterMarkers();">
+                    </p:commandButton>
+                    
                 </h:form>
             </div>
         </ui:define>
