@@ -49,6 +49,7 @@ public class CrimeCaseController implements Serializable {
     private final List<String> crimeCodes;
     private List<String> selectedCategories;
     private List<String> selectedCrimeCodes;
+    private List<CrimeCase> items;
     private final int NUMB_OF_CRIMES = 500;
 
     private BarChartModel barModel;
@@ -72,6 +73,14 @@ public class CrimeCaseController implements Serializable {
         neighborhoods = ejbFacade.getDistinct("neighborhood");
 
         createBarModel(date1, date2);
+        
+        List<Marker> markers = crimeModel.getMarkers();
+        items = new ArrayList<CrimeCase>();
+        
+        for(Marker marker: markers) {
+            items.add((CrimeCase)marker.getData());
+        }
+        thing = Integer.toString(items.size());
     }
 
     public void populateMap() {
@@ -172,6 +181,12 @@ public class CrimeCaseController implements Serializable {
     public void setBarModel(BarChartModel model) {
         this.barModel = model;
     }
+    
+    public List<CrimeCase> getItems() {
+        return items;
+    }
+    
+    private String thing;public String getThing(){return thing;}
 
     //============== INSTANCE METHODS =====================//
     public void onMarkerSelect(OverlaySelectEvent event) {
@@ -185,6 +200,14 @@ public class CrimeCaseController implements Serializable {
         crimeModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories, selectedWeapons, selectedNeighborhoods);
 
         createBarModel(date1, date2);
+        
+        List<Marker> markers = crimeModel.getMarkers();
+        items = new ArrayList<CrimeCase>();
+        
+        for(Marker marker: markers) {
+            items.add((CrimeCase)marker.getData());
+        }
+        thing = Integer.toString(items.size());
         
         if (accountManager.isLoggedIn()) {
             SearchQuery sq = new SearchQuery(LocalDateTime.now(), date1, date2,
