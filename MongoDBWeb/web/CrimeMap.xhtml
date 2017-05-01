@@ -46,6 +46,80 @@
 
             <br />
 
+            <div align="center" style="width:97%;">
+                <h:form id="CrimeListForm">
+                    <p:panel header="Crimes">
+                        <p:dataTable id="crimeList" value="#{crimeCaseController.items}" var="item"
+                                     selectionMode="single" selection="#{crimeCaseController.selected}"
+                                     paginator="true" rowKey="#{item.code}" rows="5" class="dataTable"
+                                     rowsPerPageLabel="5,10,15,20,30,40,50">
+                            <p:column sortBy="#{item.code}" style="width:50px;">
+                                <f:facet name="header">
+                                    <h:outputText value="Code" />
+                                </f:facet>
+                                <div align="center">
+                                    <h:outputText value="#{item.code}" />
+                                </div>
+                            </p:column>
+                            <p:column sortBy="#{item.date}" style="width:180px">
+                                <f:facet name="header">
+                                    <h:outputText value="Date" />
+                                </f:facet>
+                                <div align="center">
+                                    <h:outputText value="#{item.date}" />
+                                </div>
+                            </p:column>
+                            <p:column sortBy="#{item.time}" style="width:60px">
+                                <f:facet name="header">
+                                    <h:outputText value="Time" />
+                                </f:facet>
+                                <div align="center">
+                                    <h:outputText value="#{item.time}" />
+                                </div>
+                            </p:column>
+                            <p:column sortBy="#{item.location}">
+                                <f:facet name="header">
+                                    <h:outputText value="Location" />
+                                </f:facet>
+                                <h:outputText value="#{item.location}" />
+                            </p:column>
+                            <p:column sortBy="#{item.neighborhood}">
+                                <f:facet name="header">
+                                    <h:outputText value="Neighborhood" />
+                                </f:facet>
+                                <h:outputText value="#{item.neighborhood}" />
+                            </p:column>
+                            <p:column sortBy="#{item.district}">
+                                <f:facet name="header">
+                                    <h:outputText value="District" />
+                                </f:facet>
+                                <h:outputText value="#{item.district}" />
+                            </p:column>
+                            <p:column sortBy="#{item.post}" style="width:50px">
+                                <f:facet name="header">
+                                    <h:outputText value="Post" />
+                                </f:facet>
+                                <div align="center">
+                                    <h:outputText value="#{item.post}" />
+                                </div>
+                            </p:column>
+                            <p:column sortBy="#{item.description}">
+                                <f:facet name="header">
+                                    <h:outputText value="Category" />
+                                </f:facet>
+                                <h:outputText value="#{item.description}" />
+                            </p:column>
+                            <p:column sortBy="#{item.weapon}">
+                                <f:facet name="header">
+                                    <h:outputText value="Weapon" />
+                                </f:facet>
+                                <h:outputText value="#{item.weapon}" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </div>
+
             <div align="center">
 
                 <!-- FILTERS -->
@@ -97,18 +171,18 @@
                     </p:selectCheckboxMenu>
 
                     <!-- SUBMIT BUTTON -->
-                    <p:commandButton value="Submit" update=":growl gmap crimeBarGraph restricted1 restricted2" ajax="true" actionListener="#{crimeCaseController.submit}" 
+                    <p:commandButton value="Submit" update=":growl,:gmap,:CrimeListForm:crimeList,:crimeBarGraph,restricted1,restricted2" ajax="true" actionListener="#{crimeCaseController.submit}" 
                                      oncomplete="clusterMarkers();">
                     </p:commandButton>
                     <br/>
                     <!-- HEATMAP BUTTONS -->
-                    <p:commandButton value="HeatMap ON" update=":growl gmap crimeBarGraph restricted1 restricted2" ajax="true" 
+                    <p:commandButton value="HeatMap ON" update=":growl,:gmap,:CrimeListForm:crimeList,:crimeBarGraph,restricted1,restricted2" ajax="true" 
                                      oncomplete="makeHeatMap();">
                     </p:commandButton>
-                    <p:commandButton value="HeatMap OFF" update=":growl gmap crimeBarGraph restricted1 restricted2" ajax="true" 
+                    <p:commandButton value="HeatMap OFF" update=":growl,:gmap,:CrimeListForm:crimeList,:crimeBarGraph,restricted1,restricted2" ajax="true" 
                                      oncomplete="clusterMarkers();">
                     </p:commandButton>
-                    
+
                 </h:form>
             </div>
         </ui:define>
