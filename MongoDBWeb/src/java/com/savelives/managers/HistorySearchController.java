@@ -32,7 +32,7 @@ public class HistorySearchController implements Serializable {
 
     @EJB
     private UserFacade userFacade;
-    
+
     @Inject
     private CrimeCaseController crimeCaseController;
 
@@ -40,14 +40,13 @@ public class HistorySearchController implements Serializable {
     }
 
     public List<SearchQuery> getItems() {
-        if (this.items == null) {
-            Map<String, Object> map = FacesContext.getCurrentInstance()
-                    .getExternalContext().getSessionMap();
-            String userPrimaryKey = (String) map.get("user_id");
-            User u = getUserFacade().findById(userPrimaryKey);
-            System.out.println(u.toDocument());
-            this.items = u.getHistorySearch();
-        }
+        Map<String, Object> map = FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap();
+        String userPrimaryKey = (String) map.get("user_id");
+        User u = getUserFacade().findById(userPrimaryKey);
+        System.out.println(u.toDocument());
+        this.items = u.getHistorySearch();
+
         return items;
     }
 
@@ -72,18 +71,13 @@ public class HistorySearchController implements Serializable {
         this.userFacade = userFacade;
     }
 
-    /* TODO:
-        1. fix the data bug for from and to
-        2. fix the crime code and categories
-        3. set the date format on the html
-     */
     public void searchAgain() {
-        
+
         crimeCaseController.setDate1(selected.getFrom());
         crimeCaseController.setDate2(selected.getTo());
         crimeCaseController.setSelectedCrimeCodes(selected.getCrimeCodes());
         crimeCaseController.setSelectedCategories(selected.getCategories());
-        crimeCaseController.submitWithoutAddHistory();        
+        crimeCaseController.submitWithoutAddHistory();
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("CrimeMap.xhtml");
         } catch (IOException ex) {

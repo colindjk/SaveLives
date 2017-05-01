@@ -23,7 +23,7 @@ import org.primefaces.json.JSONObject;
  */
 public class SearchQuery {
 
-    private LocalDateTime createTime;
+    private Date createTime;
     private Date from;
     private Date to;
     private ArrayList<String> categories;
@@ -41,7 +41,7 @@ public class SearchQuery {
      * @param categories Search categories
      * @param crimeCodes Search crime codes
      */
-    public SearchQuery(LocalDateTime createTime, Date from, Date to,
+    public SearchQuery(Date createTime, Date from, Date to,
             ArrayList<String> categories, ArrayList<String> crimeCodes) {
         this.createTime = createTime;
         this.from = from;
@@ -56,11 +56,12 @@ public class SearchQuery {
         JSONObject obj = new JSONObject(doc);
 
         // Set Formatter
-        DateTimeFormatter dnt = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        DateFormat d = new SimpleDateFormat("yyyy/mm/dd");
+        DateFormat dnt = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        DateFormat d = new SimpleDateFormat("yyyy/MM/dd");
 
-        this.createTime = LocalDateTime.parse(obj.getString("createTime"), dnt);
+        
         try {
+            this.createTime = dnt.parse(obj.getString("createTime"));
             this.from = d.parse(obj.getString("from"));
             this.to = d.parse(obj.getString("to"));
         } catch (ParseException ex) {
@@ -80,11 +81,11 @@ public class SearchQuery {
         }
     }
 
-    public LocalDateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
@@ -122,8 +123,8 @@ public class SearchQuery {
 
     public Document toDocument() {
 
-        DateTimeFormatter dnt = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        DateFormat d = new SimpleDateFormat("yyyy/mm/dd");
+        DateFormat dnt = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        DateFormat d = new SimpleDateFormat("yyyy/MM/dd");
 
         String ct = dnt.format(this.createTime);
         String f = d.format(this.from);

@@ -6,6 +6,7 @@ package com.savelives.managers;
 
 import com.savelives.entityclasses.CrimeCase;
 import com.savelives.entityclasses.SearchQuery;
+import com.savelives.entityclasses.User;
 import com.savelives.sessionbeans.CrimeCaseFacade;
 import com.savelives.sessionbeans.UserFacade;
 import java.time.LocalDateTime;
@@ -73,12 +74,12 @@ public class CrimeCaseController implements Serializable {
         neighborhoods = ejbFacade.getDistinct("neighborhood");
 
         createBarModel(date1, date2);
-        
+
         List<Marker> markers = crimeModel.getMarkers();
         items = new ArrayList<CrimeCase>();
-        
-        for(Marker marker: markers) {
-            items.add((CrimeCase)marker.getData());
+
+        for (Marker marker : markers) {
+            items.add((CrimeCase) marker.getData());
         }
         thing = Integer.toString(items.size());
     }
@@ -181,12 +182,16 @@ public class CrimeCaseController implements Serializable {
     public void setBarModel(BarChartModel model) {
         this.barModel = model;
     }
-    
+
     public List<CrimeCase> getItems() {
         return items;
     }
-    
-    private String thing;public String getThing(){return thing;}
+
+    private String thing;
+
+    public String getThing() {
+        return thing;
+    }
 
     //============== INSTANCE METHODS =====================//
     public void onMarkerSelect(OverlaySelectEvent event) {
@@ -200,22 +205,23 @@ public class CrimeCaseController implements Serializable {
         crimeModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories, selectedWeapons, selectedNeighborhoods);
 
         createBarModel(date1, date2);
-        
+
         List<Marker> markers = crimeModel.getMarkers();
         items = new ArrayList<CrimeCase>();
-        
-        for(Marker marker: markers) {
-            items.add((CrimeCase)marker.getData());
+
+        for (Marker marker : markers) {
+            items.add((CrimeCase) marker.getData());
         }
         thing = Integer.toString(items.size());
-        
+
+        // Record this search
         if (accountManager.isLoggedIn()) {
-            SearchQuery sq = new SearchQuery(LocalDateTime.now(), date1, date2,
-                    (ArrayList<String>) selectedCrimeCodes, (ArrayList<String>) selectedCategories);
+            SearchQuery sq = new SearchQuery(new Date(), date1, date2,
+                    (ArrayList<String>) selectedCategories, (ArrayList<String>) selectedCrimeCodes);
             accountManager.getSelected().addHistorySearch(sq);
             getUserFacade().edit(accountManager.getSelected());
             //User u = getUserFacade().findById(accountManager.getSelected().getId());
-            //System.out.println(u.toDocument());
+            //System.out.println(u.getHistorySearch().get(1).toDocument());
         }
     }
 
@@ -224,6 +230,16 @@ public class CrimeCaseController implements Serializable {
         context.getExternalContext().getFlash().setKeepMessages(true);
         crimeModel = null;
         crimeModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories, selectedWeapons, selectedNeighborhoods);
+
+        createBarModel(date1, date2);
+
+        List<Marker> markers = crimeModel.getMarkers();
+        items = new ArrayList<CrimeCase>();
+
+        for (Marker marker : markers) {
+            items.add((CrimeCase) marker.getData());
+        }
+        thing = Integer.toString(items.size());
     }
 
     /*========== Creating Charts ==============*/
@@ -248,22 +264,21 @@ public class CrimeCaseController implements Serializable {
             cal.set(Calendar.DAY_OF_MONTH, 1);
             date2 = cal.getTime();
         }
-        
+
         Calendar calDate1 = Calendar.getInstance();
         Calendar calDate2 = Calendar.getInstance();
-        
+
         calDate1.setTime(date1);
         calDate2.setTime(date2);
-        
+
         if (calDate1.get(Calendar.YEAR) == calDate2.get(Calendar.YEAR)) {
             int diffMonths = 12 - (calDate2.get(Calendar.MONTH) - calDate1.get(Calendar.MONTH));
             if (diffMonths > 0) {
                 calDate2.add(Calendar.MONTH, diffMonths);
-                
+
                 date2 = calDate2.getTime();
             }
         }
-        
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date1);
@@ -288,20 +303,18 @@ public class CrimeCaseController implements Serializable {
         //beginning of x-axis
         cal.setTime(date1);
         cal.set(Calendar.DAY_OF_MONTH, 1);
-        
+
         //Calendar cal30 = Calendar.getInstance();
         //cal30.setTime(date1);
-
         for (int i = 1; i < 12; i++) {
-            
+
             //cal30.add(Calendar.DATE, (multiple * 30));
-            
             cal.add(Calendar.MONTH, multiple);
 
             Calendar cal4 = Calendar.getInstance(); //first day of month
             cal4.setTime(cal.getTime());
             cal4.set(Calendar.DAY_OF_MONTH, 1);
-            
+
             Calendar cal3 = Calendar.getInstance(); //last day of month
             cal3.setTime(cal.getTime());
 

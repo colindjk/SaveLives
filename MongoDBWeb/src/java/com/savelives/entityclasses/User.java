@@ -263,11 +263,13 @@ public class User {
    
     
     public void addHistorySearch(SearchQuery sq){
-        this.historySearch.add(sq);
-        if(this.historySearch.size() > MAX_HISTORY){
-            this.historySearch = (ArrayList<SearchQuery>)this.historySearch
-                    .subList(this.historySearch.size()-MAX_HISTORY,this.historySearch.size()-1);
+        ArrayList<SearchQuery> temp = new ArrayList<>();
+        temp.add(sq); 
+        for (int i = 0; i < (MAX_HISTORY - 1) && i < historySearch.size(); i ++){
+            temp.add(historySearch.get(i));
         }
+        this.historySearch = temp;
+      
     }
 
     

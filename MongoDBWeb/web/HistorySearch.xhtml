@@ -30,7 +30,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                         <p:dataTable id="datalist" value="#{historySearchController.items}" var="item"
                                      selectionMode="single" selection="#{historySearchController.selected}"
                                      paginator="true"
-                                     rowKey="#{item.createTime.toString()}"
+                                     rowKey="#{item.createTime}"
                                      rows="5"
                                      rowsPerPageTemplate="5,10,15,20,30,40,50"
                                      class="dataTable"
@@ -39,25 +39,32 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                             <p:ajax event="rowSelect"   update="searchButton"/>
                             <p:ajax event="rowUnselect" update="searchButton"/>
 
-                            <p:column sortBy="#{item.createTime.toString()}">
+                            <p:column sortBy="#{item.createTime}">
                                 <f:facet name="header">
                                     <h:outputText value="Create Time" class="facetHeader"/>
                                 </f:facet>
-                                <h:outputText class="dataFields" value="#{item.createTime.toString()}"/>
+                                <h:outputText class="dataFields" value="#{item.createTime}">
+                                    <f:convertDateTime pattern="MM-dd-yyyy HH:mm:ss" />
+                                </h:outputText>
                             </p:column>
 
                             <p:column sortBy="#{item.from.toString()}">
                                 <f:facet name="header">
                                     <h:outputText value="From Date" class="facetHeader"/>
                                 </f:facet>
-                                <h:outputText class="dataFields" value="#{item.from.toString()}"/>
+                                <h:outputText class="dataFields" value="#{item.from}">
+                                    <f:convertDateTime pattern="MM-dd-yyyy" />
+                                </h:outputText>
+                                 
                             </p:column>
 
                             <p:column sortBy="#{item.to.toString()}">
                                 <f:facet name="header">
                                     <h:outputText value="To Date" class="facetHeader"/>
                                 </f:facet>
-                                <h:outputText class="dataFields" value="#{item.to.toString()}"/>
+                                <h:outputText class="dataFields" value="#{item.to}">
+                                    <f:convertDateTime pattern="MM-dd-yyyy" />
+                                </h:outputText>
                             </p:column>
 
                             <p:column sortBy="#{item.categories.toString()}">
