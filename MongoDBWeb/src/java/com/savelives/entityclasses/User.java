@@ -32,8 +32,7 @@ public class User {
     private String securityAnswer;
     private String email;
     private ArrayList<SearchQuery> historySearch;
-    private final int MAX_HISTORY = 10;
-
+    
     public User() {
     }
 
@@ -264,8 +263,10 @@ public class User {
     
     public void addHistorySearch(SearchQuery sq){
         ArrayList<SearchQuery> temp = new ArrayList<>();
+        sq.setIndex(0);
         temp.add(sq); 
-        for (int i = 0; i < (MAX_HISTORY - 1) && i < historySearch.size(); i ++){
+        for (int i = 0; i < historySearch.size(); i ++){
+            historySearch.get(i).setIndex(i+1);
             temp.add(historySearch.get(i));
         }
         this.historySearch = temp;

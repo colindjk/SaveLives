@@ -257,7 +257,6 @@ Other Style Definitions
 .accountColumn2, .signInColumn2, .profileColumn2 {
     text-align: left;
     background-color: #FFEBCD;   /* Blanched Almond  */
-    white-space: nowrap;  /* Disallow line break */
 }
 
 /* Style error messages text */

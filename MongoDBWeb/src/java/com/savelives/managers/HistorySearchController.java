@@ -44,7 +44,6 @@ public class HistorySearchController implements Serializable {
                 .getExternalContext().getSessionMap();
         String userPrimaryKey = (String) map.get("user_id");
         User u = getUserFacade().findById(userPrimaryKey);
-        System.out.println(u.toDocument());
         this.items = u.getHistorySearch();
 
         return items;

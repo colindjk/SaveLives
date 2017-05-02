@@ -30,7 +30,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                         <p:dataTable id="datalist" value="#{historySearchController.items}" var="item"
                                      selectionMode="single" selection="#{historySearchController.selected}"
                                      paginator="true"
-                                     rowKey="#{item.createTime}"
+                                     rowKey="#{item.index}"
                                      rows="5"
                                      rowsPerPageTemplate="5,10,15,20,30,40,50"
                                      class="dataTable"
@@ -38,7 +38,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                             
                             <p:ajax event="rowSelect"   update="searchButton"/>
                             <p:ajax event="rowUnselect" update="searchButton"/>
-
+                            
                             <p:column sortBy="#{item.createTime}">
                                 <f:facet name="header">
                                     <h:outputText value="Create Time" class="facetHeader"/>

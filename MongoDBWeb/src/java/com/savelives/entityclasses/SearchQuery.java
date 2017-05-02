@@ -7,8 +7,6 @@ package com.savelives.entityclasses;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
@@ -23,6 +21,7 @@ import org.primefaces.json.JSONObject;
  */
 public class SearchQuery {
 
+    private int index;
     private Date createTime;
     private Date from;
     private Date to;
@@ -35,14 +34,16 @@ public class SearchQuery {
     /**
      * Custom Constructor. Builds searchQuery object based on given parameter
      *
+     * @param index search index
      * @param createTime Date and time the Query is created
      * @param from Search from date
      * @param to Search to date
      * @param categories Search categories
      * @param crimeCodes Search crime codes
      */
-    public SearchQuery(Date createTime, Date from, Date to,
+    public SearchQuery(int index, Date createTime, Date from, Date to,
             ArrayList<String> categories, ArrayList<String> crimeCodes) {
+        this.index = index;
         this.createTime = createTime;
         this.from = from;
         this.to = to;
@@ -54,6 +55,8 @@ public class SearchQuery {
 
         // Convert Document to onj to handle array
         JSONObject obj = new JSONObject(doc);
+        
+        this.index = obj.getInt("index");
 
         // Set Formatter
         DateFormat dnt = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -121,6 +124,14 @@ public class SearchQuery {
         this.crimeCodes = crimeCodes;
     }
 
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+    
     public Document toDocument() {
 
         DateFormat dnt = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -133,6 +144,7 @@ public class SearchQuery {
         JSONArray cc = new JSONArray(this.crimeCodes);
 
         return new Document()
+                .append("index", this.index)
                 .append("createTime", ct)
                 .append("from", f)
                 .append("to", t)
