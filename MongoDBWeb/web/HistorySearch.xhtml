@@ -30,14 +30,21 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                         <p:dataTable id="datalist" value="#{historySearchController.items}" var="item"
                                      selectionMode="single" selection="#{historySearchController.selected}"
                                      paginator="true"
-                                     rowKey="#{item.createTime}"
+                                     rowKey="#{item.index}"
                                      rows="5"
                                      rowsPerPageTemplate="5,10,15,20,30,40,50"
                                      class="dataTable"
                                      >
-                            
+
                             <p:ajax event="rowSelect"   update="searchButton"/>
                             <p:ajax event="rowUnselect" update="searchButton"/>
+
+                            <p:column sortBy="#{item.index}">
+                                <f:facet name="header">
+                                    <h:outputText value="Create Time" class="facetHeader"/>
+                                </f:facet>
+                                <h:outputText class="dataFields" value="#{item.index}"/>
+                            </p:column>
 
                             <p:column sortBy="#{item.createTime}">
                                 <f:facet name="header">
@@ -55,7 +62,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                                 <h:outputText class="dataFields" value="#{item.from}">
                                     <f:convertDateTime pattern="MM-dd-yyyy" />
                                 </h:outputText>
-                                 
+
                             </p:column>
 
                             <p:column sortBy="#{item.to.toString()}">
@@ -80,7 +87,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                                 </f:facet>
                                 <h:outputText class="dataFields" value="#{item.crimeCodes.toString()}"/>
                             </p:column>
-                            
+
                             <f:facet name="footer">
                                 <p:commandButton id="searchButton" icon="ui-icon-arrowrefresh-1-e" value="Search Again" 
                                                  styleClass="commandButton" actionListener="#{historySearchController.searchAgain}" 
