@@ -52,37 +52,77 @@ Copyright © 2017 Taiwen Jin. All rights reserved.
         <script src="#{application.contextPath}/resources/js/markerclusterer.js" type="text/javascript"/>
 
         <script>
+            var heatMap, theMap, isHeatMap, mapCluster;
+            /**
+             * Get List of all points on the map
+             */
+            function getPoints() {
+                var myMarkers = theMap.markers;
+                var allPoints = [];
+                for (var pt = 0; pt &lt; myMarkers.length; pt++) {
+                    var temp = myMarkers[pt].getPosition();
+                    allPoints.push(new google.maps.LatLng(temp.lat(), temp.lng()));
+                }
+                return allPoints;
+            }
+            /**
+             * Set visiblity of markers
+             * @@argument {boolean} visible true to make markers visible
+             */
+            function setMarkersVisible(visible){
+                var myMarkers = theMap.markers;
+                for (var pt = 0; pt &lt; myMarkers.length; pt++) {
+                    myMarkers[pt].setMap(visible ? theMap : null);
+                    myMarkers[pt].setVisible(visible);
+                }
+            }
+            function initMap() {
+                theMap = PF('map').map;
+                var mcOptions = {gridSize: 50, maxZoom: 15, imagePath: 'http://localhost:8080/MongoDBWeb/resources/images/m'};
+                mapCluster = new MarkerClusterer(theMap, theMap.markers, mcOptions);
+                heatMap = new google.maps.visualization.HeatmapLayer({
+                    data: getPoints(),
+                    map: null
+                });
+                isHeatMap = false;
+                
+            }
             /**
              * Build heat map
              */
             function makeHeatMap() {
-                var myMap = PF('map').map;
-                var myMarkers = PF('map').map.markers;
-                var allPoints = [];
-                for (var pt = 0;  pt &lt; myMarkers.length ; pt++) {
-                    myMarkers[pt].setMap(null);
-                    var temp = myMarkers[pt].getPosition();
-                    allPoints.push(new google.maps.LatLng(temp.lat(), temp.lng()));
-                }
                 
-                var heatmap = new google.maps.visualization.HeatmapLayer({
-                    data: allPoints,
-                    map: myMap
-                });
+                heatMap.setMap(theMap);
+                setMarkersVisible(false);
+                mapCluster.clearMarkers();
+                isHeatMap = true;
             }
             /**
              * Build Clusters
              */
             function clusterMarkers() {
-                var myMap = PF('map').map;
-                var myMarkers = PF('map').map.markers;
                 
-                var mcOptions = {gridSize: 50, maxZoom: 15, imagePath: 'http://localhost:8080/MongoDBWeb/resources/images/m'};
-                var mc = new MarkerClusterer(myMap, myMap.markers, mcOptions);
-                myMap.fitBounds = google.maps.Map.prototype.fitBounds;
+                heatMap.setMap(null);
+                setMarkersVisible(true);
+                theMap.fitBounds = google.maps.Map.prototype.fitBounds;
+                mapCluster.addMarkers(mapCluster.getMap().markers);
+                isHeatMap = false;
+                
             }
+            
+            function changeMap() {
+
+                if (isHeatMap) {
+                    console.log("cluster map");
+                    clusterMarkers();
+                } else {
+                    console.log("heat map");
+                    makeHeatMap();
+                }
+            }
+
             $(window).load(function () {
-                makeHeatMap();
+                initMap();
             });
         </script>
         <!--
