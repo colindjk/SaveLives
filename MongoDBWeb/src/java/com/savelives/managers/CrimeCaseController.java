@@ -371,7 +371,7 @@ public class CrimeCaseController implements Serializable {
         barModel.getAxis(AxisType.Y).setLabel("Crime Count");
         barModel.getAxis(AxisType.Y).setTickFormat("%d");
         barModel.getAxis(AxisType.Y).setMin(0);
-        barModel.getAxis(AxisType.Y).setMax(6000);
+        barModel.getAxis(AxisType.Y).setMax(5000);
 
         DateAxis axis = new DateAxis("Date");
         axis.setTickAngle(-50);
