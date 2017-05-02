@@ -491,3 +491,36 @@ if content overflows an element's box.
 .ui-button {
     margin-top: 10px !important;
 }
+
+.left-to-right {
+    text-align: left;
+    margin-right:10px;
+    float:left;
+}
+
+.right-to-left {
+    text-align: right;
+    margin-right:10px;
+    float:right;
+}
+
+#gmap-menu-container {
+    width: 20%;
+    height:100px;
+    margin-right:10px;
+    float: left;
+}
+
+#gmap-container {
+    width:100px;
+    height:100px;
+    margin-right:10px;
+    float:left;
+    width: 65%;
+    height: 500px
+}
+
+.child_div_1 {
+    float:left;
+    margin-right:5px;
+}

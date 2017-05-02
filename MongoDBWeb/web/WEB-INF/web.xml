@@ -63,7 +63,13 @@
             30
         </session-timeout>
     </session-config>
-  
+    
+    <!-- Load custom tag into JSF web application -->
+    <context-param>
+        <param-name>facelets.LIBRARIES</param-name>
+        <param-value>/WEB-INF/savelives.taglib.xml</param-value>
+    </context-param>
+
     <!-- Define which file to show when the application is launched. -->
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>

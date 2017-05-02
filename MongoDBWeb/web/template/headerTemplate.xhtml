@@ -8,7 +8,9 @@ Copyright © 2017 Taiwen Jin. All rights reserved.
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition>
         <h:form>
@@ -16,13 +18,41 @@ Copyright © 2017 Taiwen Jin. All rights reserved.
             <table border="0" cellspacing="0" cellpadding="10" width="100%">
                 <tr>
                     <td align="left" valign="middle">
-                        <h:link outcome="index"><img src="resources/images/OpenBaltimore.png"
-                                                     style="width:100%; height:100%; max-height:94px; max-width:308px; border: none"
-                                                     alt="Open Baltimore" />
-                        </h:link>
-                    </td>
-                    <td align="right" valign="middle">
+                        <p:growl id="messages"/>
 
+                        <p:menubar>
+                            <p:menuitem value="Home" url="/" icon="ui-icon-home" />
+                            <p:menuitem value="Map" url="/" icon="ui-icon-circle-plus" />
+
+                            <p:submenu label="Options" icon="ui-icon-help">
+                                <p:menuitem value="Records" url="#" />
+                                <p:submenu label="More" icon="ui-icon-arrowthick-1-e">
+                                    <p:submenu label="Text">
+                                        <p:menuitem value="Workspace" url="#" />
+                                    </p:submenu>
+                                    <p:menuitem value="File" url="#" />
+                                </p:submenu>
+                            </p:submenu>
+
+                            <p:submenu label="Settings" icon="ui-icon-gear">
+                                <p:submenu label="Ajax" icon="ui-icon-refresh">
+                                    <p:menuitem value="Save" actionListener="#{menuView.save}" icon="ui-icon-disk" update="messages"/>
+                                    <p:menuitem value="Update" actionListener="#{menuView.update}" icon="ui-icon-arrowrefresh-1-w" update="messages"/>
+                                </p:submenu>
+                                <p:submenu label="Non-Ajax" icon="ui-icon-newwin">
+                                    <p:menuitem value="Delete" actionListener="#{menuView.delete}" icon="ui-icon-close" update="messages" ajax="false"/>
+                                </p:submenu>
+                            </p:submenu>
+
+                            <p:menuitem value="Logout" url="http://www.primefaces.org" icon="ui-icon-arrowreturnthick-1-e" />
+
+                            <f:facet name="options">
+                                <p:inputText style="margin-right:10px" placeholder="Search"/>
+                                <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
+                            </f:facet>
+                        </p:menubar>
+
+<!--
                         <h:link outcome="index" styleClass="arialTen">
                             <i class="fa fa-home">&nbsp;</i>Home
                         </h:link>&nbsp;&nbsp;
@@ -36,6 +66,13 @@ Copyright © 2017 Taiwen Jin. All rights reserved.
                         <h:link outcome="SignIn" styleClass="arialTen">
                             <i class="fa fa-sign-in">&nbsp;</i>Sign In
                         </h:link>&nbsp;&nbsp;
+-->
+                    </td>
+                    <td align="right" valign="middle">
+                        <h:link outcome="index"><img src="resources/images/OpenBaltimore.png"
+                                                     style="width:100%; height:100%; max-height:94px; max-width:308px; border: none"
+                                                     alt="Open Baltimore" />
+                        </h:link>
                     </td>
                 </tr>
             </table>
