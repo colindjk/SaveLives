@@ -28,13 +28,11 @@
                         <h:outputLabel value="Password:" for="password" />
                         <p:password id="password" value="#{loginManager.password}" feedback="false" styleClass="signInInputTextField" >
                         </p:password>
-                        &nbsp;
-                        <h:link outcome="CreateAccount" >Create Account Now</h:link>
-                        
-
                     </p:panelGrid>
                     <br/>
-                  
+                    <p:button outcome="CreateAccount" value="Create Account" styleClass="customButton" />
+                    &nbsp;&nbsp;
+
                     <p:commandButton id="login" value="Sign In" action="#{loginManager.loginUser()}" styleClass="customButton"
                                      ajax="false" >
 

@@ -10,7 +10,8 @@
         <ui:define name="editableContent">
             <h:form id="ConfirmSearchForm">
                 <div align="center" style="width:30%; margin:0 auto;">
-
+                    <br/>
+                    <br/>
                     <h2>Please Confirm the Search Query Information</h2>
 
                     <p:panelGrid columns="2" columnClasses="column1, column2" class="panelGrid" style="table-layout:fixed;">
@@ -40,7 +41,7 @@
 
                     </p:panelGrid>
                     <p:commandButton id="Submit" value="Search This" action="#{submitSearchController.search()}" 
-                                     styleClass="commandButton" ajax="false" icon="ui-icon-search" />
+                                     styleClass="customButton" ajax="false"/>
 
                 </div>
                 <br /><br />
