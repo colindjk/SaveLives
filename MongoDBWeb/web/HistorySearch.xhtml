@@ -23,7 +23,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
 
         <!-- Create the content for this page below -->
         <ui:define name="editableContent">
-            <div align="center" style="width:50%; margin:0 auto;">
+            <div align="center" style="width:80%; margin:0 auto;">
                 <p:growl id="growl" life="4000" />
                 <h:form id="HistorySearchForm">
 
@@ -42,7 +42,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                             <p:ajax event="rowSelect"   update="searchButton shareButton preferredButton"/>
                             <p:ajax event="rowUnselect" update="searchButton shareButton preferredButton"/>
 
-                            <p:column>
+                            <p:column style='width:70px'>
                                 <f:facet name="header">
                                     <h:outputText value="Create Time" class="facetHeader"/>
                                 </f:facet>
@@ -51,7 +51,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                                 </h:outputText>
                             </p:column>
 
-                            <p:column >
+                            <p:column style='width:70px'>
                                 <f:facet name="header">
                                     <h:outputText value="From Date" class="facetHeader"/>
                                 </f:facet>
@@ -61,7 +61,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
 
                             </p:column>
 
-                            <p:column>
+                            <p:column style='width:70px'>
                                 <f:facet name="header">
                                     <h:outputText value="To Date" class="facetHeader"/>
                                 </f:facet>
@@ -84,14 +84,14 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                                 <h:outputText class="dataFields" value="#{item.crimeCodes.toString()}"/>
                             </p:column>
 
-                            <p:column>
+                            <p:column style='width:120px'>
                                 <f:facet name="header">
                                     <h:outputText value="Weapon" class="facetHeader"/>
                                 </f:facet>
                                 <h:outputText class="dataFields" value="#{item.weapons.toString()}"/>
                             </p:column>
 
-                            <p:column >
+                            <p:column style='width:120px'>
                                 <f:facet name="header">
                                     <h:outputText value="Neighborhood" class="facetHeader"/>
                                 </f:facet>
