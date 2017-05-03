@@ -82,11 +82,12 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                             </p:column>
                             
                             <f:facet name="footer">
-                                <p:commandButton id="searchButton" icon="ui-icon-arrowrefresh-1-e" value="Search Again" 
-                                                 styleClass="commandButton" actionListener="#{historySearchController.searchAgain}" 
+                                <p:commandButton id="searchButton" value="Search Again" 
+                                                 styleClass="customButton" actionListener="#{historySearchController.searchAgain}" 
                                                  disabled="#{empty historySearchController.selected}" /> 
-                                <p:commandButton id="shareButton" icon="ui-icon-extlink" value="Share this Search" 
-                                                 styleClass="commandButton" actionListener="#{historySearchController.prepareEmailBody()}" 
+                                &nbsp;&nbsp;
+                                <p:commandButton id="shareButton" value="Share this Search" 
+                                                 styleClass="customButton" actionListener="#{historySearchController.prepareEmailBody()}" 
                                                  disabled="#{empty historySearchController.selected}" />
                             </f:facet>
 

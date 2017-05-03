@@ -38,6 +38,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                     <br />
                     <br />
                     <fieldset>
+                        <br/>
                         <div style="margin-bottom:20px">
                             <h:outputLabel for="question" value="#{passwordResetManager.getSecurityQuestion()}" />
                         </div>
@@ -48,12 +49,12 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                                          styleClass="securityAnswerTextField" />
                         </div>
 
-                        <br/>
-                        <p:commandButton id="submit" value="Submit" icon="ui-icon-extlink"
+                        
+                        <p:commandButton id="submit" value="Submit" 
                                          action="#{passwordResetManager.securityAnswerSubmit()}" 
-                                         styleClass="commandButton" />
-                        &nbsp;
-                        <p:button outcome="index" value="Cancel" icon="ui-icon-cancel" styleClass="commandButton" />
+                                         styleClass="customButton" />
+                        &nbsp;&nbsp;
+                        <p:button outcome="index" value="Cancel" styleClass="customButton" />
                     </fieldset>
 
                     <br/>                

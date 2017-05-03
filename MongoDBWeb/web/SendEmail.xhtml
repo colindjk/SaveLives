@@ -24,18 +24,18 @@ Copyright © 2017 Pingxin Shang. All rights reserved.
         <!-- Create the content for this page below -->
         <ui:define name="editableContent">
             <div align="center">
-
-                <!-- Error messages will be shown here if any  -->
+                
                 <p:messages id="msgs" />
                 <h:outputText id="formMessage" class="errorMessages" value="#{emailSender.statusMessage}" />
 
                 <h:form id="EmailCompositionForm"> 
 
                     <h1>Compose and Send Your Email Message</h1>
+                    
+                    <br/>
+                    <p:panelGrid columns="2" columnClasses="column1, column2-EditAccount" class="panelGrid">
 
-                    <h:panelGrid columns="2" columnClasses="columnOne, columnTwo">
-
-                        <p:outputLabel value="To:" for="toField" />
+                        <h:outputLabel value="To:" for="toField" />
                         <p:inputText id="toField" class="emailFields" value="#{emailSender.emailTo}" 
                                      title="Email To" required="true" requiredMessage="Please Enter Email Address"
                                      onfocus="$(this).attr('placeholder', 'e.g., John.Smith@gmail.com');"
@@ -45,7 +45,7 @@ Copyright © 2017 Pingxin Shang. All rights reserved.
                             <f:validator validatorId="emailAddressValidator" />
                         </p:inputText>
 
-                        <p:outputLabel value="Cc: " for="ccField" />
+                        <h:outputLabel value="Cc: " for="ccField" />
                         <p:inputText id="ccField" class="emailFields" value="#{emailSender.emailCc}" 
                                      title="Email Copy" required="false"
                                      onfocus="$(this).attr('placeholder', 'Enter email addresses comma separated with no spaces');"
@@ -55,29 +55,21 @@ Copyright © 2017 Pingxin Shang. All rights reserved.
                             <f:validator validatorId="emailAddressesValidator" />
                         </p:inputText>   
 
-                        <p:outputLabel value="Subject:" for="subjectField" />
+                        <h:outputLabel value="Subject:" for="subjectField" />
                         <p:inputText id="subjectField" class="emailFields" value="#{emailSender.emailSubject}" 
                                      title="Email Subject" required="true" requiredMessage="Please Enter Email Subject!"
                                      onfocus="$(this).attr('placeholder', 'Enter Subject Title');"
                                      onblur="$(this).attr('placeholder', 'Enter Subject Title');" />
 
-                    </h:panelGrid>
+                    </p:panelGrid>
                     <br />
-                    <!-- 
-                    ============================================
-                    * PrimeFaces HTML Text Editor UI Component *
-                    ============================================
-                    Editor is an input component with HTML text editing features. 
 
-                    Copied from http://www.primefaces.org/showcase/ui/input/editor.xhtml 
-                    together with EditorView.java file.
-                    -->
 
                     <p:editor id="editor" widgetVar="editorWidget" value="#{editorView.text}" 
                               width="600" height="350" />
                     <br />
 
-                    <p:commandButton value="Send Email" icon="ui-icon-mail-closed" ajax="false"
+                    <p:commandButton value="Send Email" ajax="false" class="customButton"
                                      type="submit" action="#{emailSender.sendEmail()}" />
                     
                     <br /><br />

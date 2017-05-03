@@ -43,13 +43,13 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                                          requiredMessage="Please enter your username!" 
                                          styleClass="usernameInputTextField" />
                         </div>
-
-                        <p:commandButton id="submit" value="Submit" icon="ui-icon-extlink"
+                        <br/>
+                        <p:commandButton id="submit" value="Submit"
                                          action="#{passwordResetManager.usernameSubmit()}" 
-                                         styleClass="commandButton" />
-                        &nbsp;
-                        <p:button outcome="index" value="Cancel" icon="ui-icon-cancel" 
-                                  styleClass="commandButton" />
+                                         styleClass="customButton" />
+                        &nbsp;&nbsp;
+                        <p:button outcome="Profile" value="Cancel" 
+                                  styleClass="customButton" />
                     </fieldset>  
                     <br/>               
                 </h:form>
