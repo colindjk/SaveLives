@@ -169,8 +169,8 @@
 
                                     <p:dataTable id="crimeList" value="#{crimeCaseController.mapModel.markers}" var="item"
                                                  selectionMode="single" selection="#{crimeCaseController.selected}"
-                                                 paginator="true" rowKey="#{item.code}" rows="5" class="dataTable"
-                                                 rowsPerPageLabel="5,10,15,20,30,40,50" >
+                                                 paginator="true" rowKey="#{item.code}" rows="10" 
+                                                 rowsPerPageTemplate="5,10,15,20,30,40,50" >
                                         <!-- CODE -->
                                         <p:column sortBy="#{item.data.code}" style="width:50px;">
                                             <f:facet name="header">
