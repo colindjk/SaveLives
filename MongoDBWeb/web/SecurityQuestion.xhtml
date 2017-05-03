@@ -23,11 +23,23 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
         <ui:define name="editableContent">
             <p:growl id="growl" life="4000"/>
             <div align="center" style="width:40%; margin:0 auto;">
+                <br/><br/>
                 <h:form>
+                    <p:steps activeIndex="1" styleClass="custom" readonly="false">
+                        <p:menuitem value="Username Check" url="#"/>
+                        <p:menuitem value="Security Question" url="#"/>
+                        <p:menuitem value="Reset Password" url="#"/>
+                        <p:menuitem value="Completion" url="#"/>
+                    </p:steps>
+                    
+                    <br />
+                    <br />
+                    
                     <i class="gridTitle">Please Answer Your Security Question</i>
                     <br />
                     <br />
                     <fieldset>
+                        <br/>
                         <div style="margin-bottom:20px">
                             <h:outputLabel for="question" value="#{passwordResetManager.getSecurityQuestion()}" />
                         </div>
@@ -38,17 +50,18 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                                          styleClass="securityAnswerTextField" />
                         </div>
 
-                        <br/>
-                        <p:commandButton id="submit" value="Submit" icon="ui-icon-extlink"
+                        
+                        <p:commandButton id="submit" value="Submit" 
                                          action="#{passwordResetManager.securityAnswerSubmit()}" 
-                                         styleClass="commandButton" />
-                        &nbsp;
-                        <p:button outcome="index" value="Cancel" icon="ui-icon-cancel" styleClass="commandButton" />
+                                         styleClass="customButton" />
+                        &nbsp;&nbsp;
+                        <p:button outcome="Profile" value="Cancel" styleClass="customButton" />
                     </fieldset>
 
                     <br/>                
                 </h:form>
             </div>
+            <br/><br/>
         </ui:define>
 
     </ui:composition>

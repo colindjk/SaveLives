@@ -1,6 +1,6 @@
 
 
-html, body {
+html{
     /*-------------------------------------------------------------
     Preferably, use a background color. Uncomment the one you like 
     from examples below or select your own. See more HTML colors at 
@@ -15,7 +15,6 @@ html, body {
 /*    background-color: #FDF5E6;    OldLace */
     /* background-color: #FFEFD5;   /* PapayaWhip */
     /* background-color: #F5DEB3;   /* Wheat */
-    background-color: #edeff0;
     /* Stretch the background image to cover the entire screen. 
     This is used only if you choose to display a background image. */
     -webkit-background-size: cover; /* For WebKit */
@@ -49,26 +48,6 @@ p {
     color: black;
 }
 
-/* Style the text used under the standard HTML tag "h1" for header 1 */
-h1 {
-    font-family: Futura, Arial, Helvetica, sans-serif;
-    font-size: 12pt;
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: none;
-    color: #006400; /* Dark Green */
-}
-
-/* Style the text used under the standard HTML tag "h2" for header 2 */
-h2 {
-    font-family: Futura, Arial, Helvetica, sans-serif;
-    font-size: 12pt;
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: none;
-    color: #800000; /* Maroon */
-}
-
 /* 
 Style the div component whose unique id is "page" per reference
 <div id="page"> in siteTemplate.xhtml
@@ -93,7 +72,7 @@ Style the div component whose unique id is "header" per reference
     left: 0px;
     top: -10px;
     right: 0px;
-    margin-bottom: 16px;
+/*    margin-bottom: 16px;*/
 }
 /* 
 Style the div component whose unique id is "editableContent" per reference 
@@ -101,11 +80,11 @@ Style the div component whose unique id is "editableContent" per reference
 */
 #editableContent {
     /* height = 100% window height - (header height 84px + footer height 100px) */
-    height: calc(100% - 184px); 
+    height: calc(100% - 180px); 
     width: 100%;
     margin-left: 10px;
     margin-right: 10px;
-    margin-top: 150px;
+    margin-top: 80px;
     margin-bottom: 16px;
 }
 /* 
@@ -118,55 +97,6 @@ Style the div component whose unique id is "footer" per reference
     left: 0px;
     right: 0px;
     bottom: 0px;
-}
-
-/*
-========================
-Vertical Navigation Menu
-========================
-*/
-/* Style class for <ul> */
-.verticalMenu {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    width: 180px;
-    background-color: #F0FFFF; /* Azure */
-    border: 1px solid #555;
-
-}
-
-/* Style class for <li> */
-.verticalMenuItem {
-    text-align: left;
-    border-bottom: 1px solid #555;
-}
-
-/* Style class for <li> and the <a> tag that defines a hyperlink */
-.verticalMenuItem a {
-    display: block;
-    color: black;
-    padding: 8px 16px;
-    text-decoration: none;  /* Do not underline the hyperlink */
-}
-
-/* Style class for <ul>, <li> and <a> hyperlink tag */
-.verticalMenu, .verticalMenuItem a {
-    font-family: Futura, Arial, Helvetica, sans-serif;
-    font-size: 10pt;
-    font-style: normal;
-    font-weight: normal;
-}
-
-/* Style class for <li> last-child */
-.verticalMenuItem:last-child {
-    border-bottom: none;
-}
-
-/* Style class for <li> for mouse over state */
-.verticalMenuItem a:hover {
-    background-color: #87CEFA; /* Light Sky Blue */
-    color: darkblue; 
 }
 
 /*
@@ -209,40 +139,6 @@ Other Style Definitions
     font-style: normal;
     font-weight: normal;
     text-decoration: none;
-}
-
-/* Used in Profile */
-.profilePhoto {
-    display: inline-block;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-}
-
-/* Used in UserFiles */
-.previewImage {
-    width: auto;
-    height: 36px;
-}
-
-/* Used in DisplayFile */
-.displayImage {
-    width: auto;
-    max-height: 400px;
-}
-
-/* Used in UserFiles */
-.previewProfilePhoto {
-    display: inline-block;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
 }
 
 /* Used in CreateAccount, EditAccount, SignIn, EnterUsername, and SecurityQuestion */
@@ -300,14 +196,17 @@ cascading hierarchy, use the !important attribute.
 */
 
 /* Style PrimeFaces Command Button --> p:commandButton  */
-.commandButton, .ui-confirmdialog-yes, .ui-confirmdialog-no, .ui-fileupload-choose, .ui-fileupload-upload, .ui-fileupload-cancel {
-    border-radius: 2em !important;
+.commandButton {
+    width: 100px;
+    height: 40pt;
+    font: Futura;
+    font-weight:400;
+}
+
+
+.ui-confirmdialog-yes, .ui-confirmdialog-no, .ui-fileupload-choose, .ui-fileupload-upload, .ui-fileupload-cancel {
     font-family: Futura, Arial, Helvetica, sans-serif;
-    font-size: 15pt !important;
-    font-style: normal !important;
-    font-weight: normal !important;
     text-decoration: none;
-    color: #3f8abf;
 }
 
 /*
@@ -419,8 +318,13 @@ if content overflows an element's box.
 
 .weblogo {
     color: #5fcf80;
-    font-size: 80px;
+    font-size: 55px;
     font-family: Futura, Arial, Helvetica, sans-serif;
+    text-decoration: none;
+}
+
+.weblogo:hover {
+    color: #5fcf80;
     text-decoration: none;
 }
 
@@ -435,6 +339,7 @@ if content overflows an element's box.
 
 .arialTen:hover {
     color:#7b8b8e;
+    text-decoration: none;
 }
 
 .footerLink {
@@ -483,9 +388,58 @@ if content overflows an element's box.
     background-color: #edeff0;
 }
 
+.column2-SignIn{
+    text-align: left;
+    font-size: 13pt;
+    background-color: #edeff0;
+}
+
 .column2-EditAccount{
     text-align: left;
     font-size: 13pt;
     background-color: #edeff0;
+}
+
+.customButton {
+    border-radius: 2em;
+    width: 100pt;
+    height: 30pt;
+    font: Futura;
+}
+
+.ui-steps .ui-steps-item {
+    width: 24%;
+}
+ 
+.ui-state-highlight {
+    text-shadow: none !important;
+}
+ 
+.ui-steps.custom {
+    margin-bottom: 30px;
+}
+ 
+.ui-steps.custom .ui-steps-item .ui-menuitem-link {
+    height: 10px;
+    padding: 0 1em;
+}
+ 
+.ui-steps.custom .ui-steps-item .ui-steps-number {
+    background-color: #0081c2;
+    color: #FFFFFF;
+    display: inline-block;
+    width: 30px;
+    border-radius: 10px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+ 
+.ui-steps.custom .ui-steps-item.ui-state-highlight .ui-steps-title {
+    color: #555;
+}
+
+.ui-widget-content {
+    background: #edeff0;
+    color: #4f4f4f;
 }
 

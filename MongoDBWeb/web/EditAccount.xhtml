@@ -13,7 +13,9 @@
         <ui:define name="editableContent">
             <p:growl id="growl" life="4000"/>            
             <div align="center" style="width:50%; margin:0 auto;">
-                <h:outputLabel id="form-error-message" class="errorMessages" value="#{accountManager.statusMessage}"/>
+                
+                <br/>
+                <br/>
 
                 <h:form id="AccountEditForm">
 
@@ -82,12 +84,15 @@
                     <br />
 
                     <p:commandButton id="Submit" value="Submit" action="#{accountManager.updateAccount()}" 
-                                     styleClass="commandButton" ajax="false" icon="ui-icon-extlink" />
+                                     styleClass="customButton" ajax="false" />
+                    &nbsp;&nbsp;
 
-                    <p:button outcome="Profile" value="Cancel" icon="ui-icon-cancel" styleClass="commandButton" />
+                    <p:button outcome="Profile" value="Cancel" styleClass="customButton" />
 
                 </h:form>
             </div>
+            <br/>
+            <br/>
         </ui:define>
     </ui:composition>
 

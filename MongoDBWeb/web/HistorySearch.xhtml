@@ -26,6 +26,8 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
             <div align="center" style="width:50%; margin:0 auto;">
                 <p:growl id="growl" life="4000" />
                 <h:form id="HistorySearchForm">
+                    <br/>
+                    <br/>
                     <p:panel header="History Searches">
                         <p:dataTable id="datalist" value="#{historySearchController.items}" var="item"
                                      selectionMode="single" selection="#{historySearchController.selected}"
@@ -82,11 +84,12 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                             </p:column>
 
                             <f:facet name="footer">
-                                <p:commandButton id="searchButton" icon="ui-icon-arrowrefresh-1-e" value="Search Again" 
-                                                 styleClass="commandButton" actionListener="#{historySearchController.searchAgain}" 
+                                <p:commandButton id="searchButton" value="Search Again" 
+                                                 styleClass="customButton" actionListener="#{historySearchController.searchAgain}" 
                                                  disabled="#{empty historySearchController.selected}" /> 
-                                <p:commandButton id="shareButton" icon="ui-icon-extlink" value="Share this Search" 
-                                                 styleClass="commandButton" actionListener="#{historySearchController.prepareEmailBody()}" 
+                                &nbsp;&nbsp;
+                                <p:commandButton id="shareButton" value="Share this Search" 
+                                                 styleClass="customButton" actionListener="#{historySearchController.prepareEmailBody()}" 
                                                  disabled="#{empty historySearchController.selected}" />
                             </f:facet>
 
@@ -94,6 +97,8 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                     </p:panel>
                 </h:form>
             </div>
+            <br/>
+            <br/>
         </ui:define>
 
     </ui:composition>

@@ -18,9 +18,21 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
 
         <!-- Create the content for this page below -->
         <ui:define name="editableContent">
+
             <p:growl id="growl" life="4000"/>
             <div align="center" style="width:40%; margin:0 auto;">
+                <br/>
+                <br/>
                 <h:form id="EnterUsernameForm">
+                    <p:steps activeIndex="0" styleClass="custom" readonly="false">
+                        <p:menuitem value="Username Check" url="#"/>
+                        <p:menuitem value="Security Question" url="#"/>
+                        <p:menuitem value="Reset Password" url="#"/>
+                        <p:menuitem value="Completion" url="#"/>
+                    </p:steps>
+                    
+                    <br />
+                    
                     <i class="gridTitle">Please Enter Your Username</i>
 
                     <br />
@@ -32,17 +44,18 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                                          requiredMessage="Please enter your username!" 
                                          styleClass="usernameInputTextField" />
                         </div>
-
-                        <p:commandButton id="submit" value="Submit" icon="ui-icon-extlink"
+                        <br/>
+                        <p:commandButton id="submit" value="Submit"
                                          action="#{passwordResetManager.usernameSubmit()}" 
-                                         styleClass="commandButton" />
-                        &nbsp;
-                        <p:button outcome="index" value="Cancel" icon="ui-icon-cancel" 
-                                  styleClass="commandButton" />
+                                         styleClass="customButton" />
+                        &nbsp;&nbsp;
+                        <p:button outcome="Profile" value="Cancel" 
+                                  styleClass="customButton" />
                     </fieldset>  
                     <br/>               
                 </h:form>
             </div>
+            <br/>
         </ui:define>
 
     </ui:composition>

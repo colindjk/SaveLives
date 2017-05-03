@@ -11,12 +11,14 @@
         <ui:define name="editableContent">
             <p:growl id="growl" life="4000"/>
             <div align="center" style="width:70%; margin:0 auto;">
-
+                <br/>
+                <br/>
+                <br/>
                 <i class="gridTitle">Sign In</i>
                 <br/>
                 <br/>
                 <h:form>
-                    <p:panelGrid columns="2" columnClasses="column1, column2" class="panelGrid">
+                    <p:panelGrid columns="2" columnClasses="column1, column2-SignIn" class="panelGrid">
 
                         <h:outputLabel value="Username:" for="username" />
                         <p:inputText id="username" value="#{loginManager.username}" required="true" styleClass="signInInputTextField"
@@ -29,15 +31,16 @@
 
                     </p:panelGrid>
                     <br/>
-                    <p:commandButton id="login" value="Sign In" action="#{loginManager.loginUser()}" 
-                                     styleClass="commandButton" icon="ui-icon-arrowthick-1-e" ajax="false" >
+                    <p:commandButton id="login" value="Sign In" action="#{loginManager.loginUser()}" styleClass="customButton"
+                                     ajax="false" >
 
                     </p:commandButton>
-                    <p:button outcome="index" value="Cancel" icon="ui-icon-cancel" styleClass="commandButton" />
+                    &nbsp;&nbsp;
+                    <p:button outcome="index" value="Cancel" styleClass="customButton" />
                 </h:form>
 
             </div>
-            <br/><br/><br/>
+            <br/><br/>
         </ui:define>
     </ui:composition>
 

@@ -4,6 +4,7 @@
  */
 package com.savelives.managers;
 
+import com.mycompany.jsfclasses.util.JsfUtil;
 import javax.inject.Named;
 
 import java.util.Properties;
@@ -168,12 +169,15 @@ public class EmailSender {
             transport.close();
 
             statusMessage = "Email message is sent!";
+            JsfUtil.addSuccessMessage(statusMessage);
 
         } catch (AddressException ae) {
             statusMessage = "Email Address Exception Occurred!";
+            JsfUtil.addErrorMessage(statusMessage);
 
         } catch (MessagingException me) {
             statusMessage = "Email Messaging Exception Occurred! Internet Connection Required!";
+            JsfUtil.addErrorMessage(statusMessage);
         }
     }
 
