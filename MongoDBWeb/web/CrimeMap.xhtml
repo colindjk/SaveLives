@@ -154,11 +154,16 @@
                         <p:tab title="Charts">
                             <!-- CHARTS -->
 
-                            <p:tabView dynamic="true" cache="true" id="chartViews">
+                            <p:tabView dynamic="true" cache="true" id="chartViews"  >
                                 <p:tab title="Bar Graph">
                                     <!-- BAR GRAPH -->
+                                             
                                     <p:chart id="crimeBarGraph" type="bar" style="height:400px" model="#{crimeCaseController.barModel}" />
+                                    
 
+                                    <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                                        <p:graphicImage name="/resources/images/ajax-loader.gif" />
+                                    </p:dialog>
                                 </p:tab>
                                 <p:tab title="Pie Chart">
                                     <!-- PIE CHART -->
