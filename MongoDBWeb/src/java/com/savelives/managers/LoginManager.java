@@ -10,9 +10,9 @@ import static com.savelives.managers.AccountManager.hashPassword;
 import com.savelives.sessionbeans.UserFacade;
 import java.io.Serializable;
 import java.util.Arrays;
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named(value = "loginManager")
@@ -32,12 +32,7 @@ public class LoginManager implements Serializable {
     private String password;
     private String errorMessage;
 
-    /*
-    The instance variable 'userFacade' is annotated with the @EJB annotation.
-    The @EJB annotation directs the EJB Container (of the GlassFish AS) to inject (store) the object reference
-    of the UserFacade object, after it is instantiated at runtime, into the instance variable 'userFacade'.
-     */
-    @EJB
+    @Inject
     private UserFacade userFacade;
 
     // Constructor method instantiating an instance of LoginManager

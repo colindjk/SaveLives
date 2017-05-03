@@ -8,26 +8,24 @@ import com.savelives.entityclasses.User;
 import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
-import com.mongodb.MongoException;
-import com.mongodb.MongoWriteConcernException;
-import com.mongodb.MongoWriteException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import static com.mongodb.client.model.Filters.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
+import javax.enterprise.context.SessionScoped;
 import org.bson.BsonDocument;
 import org.bson.BsonRegularExpression;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
-@Stateless
+@SessionScoped
 /*
  * @author ping
  */
-public class UserFacade {
+public class UserFacade implements Serializable{
 
     private static final Logger LOGGER = Logger.getLogger(UserFacade.class.getName());
     private final Client userClient;
