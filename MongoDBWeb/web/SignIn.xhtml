@@ -12,8 +12,9 @@
             <p:growl id="growl" life="4000"/>
             <div align="center" style="width:70%; margin:0 auto;">
 
-                <h2>Sign In</h2>
-
+                <i class="gridTitle">Sign In</i>
+                <br/>
+                <br/>
                 <h:form>
                     <p:panelGrid columns="2" columnClasses="signInColumn1, signInColumn2">
 
@@ -27,7 +28,6 @@
                         </p:password>
 
                     </p:panelGrid>
-                    <br/>
                     <br/>
                     <p:commandButton id="login" value="Sign In" action="#{loginManager.loginUser()}" 
                                      styleClass="commandButton" icon="ui-icon-arrowthick-1-e" ajax="false" >

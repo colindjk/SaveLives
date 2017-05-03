@@ -184,19 +184,6 @@ Other Style Definitions
     color: darkred;
 }
 
-/* Used in CreateAccount, EditAccount, SignIn, and Profile */
-.accountColumn1, .signInColumn1, .profileColumn1 {
-    text-align: right;
-    background-color: #FFE4C4;   /* Bisque */
-    white-space: nowrap;  /* Disallow line break */
-}
-
-/* Used in CreateAccount and EditAccount */
-.accountColumn2, .signInColumn2, .profileColumn2 {
-    text-align: left;
-    background-color: #FFEBCD;   /* Blanched Almond  */
-}
-
 /* Style error messages text */
 .errorMessages {
     font-family: Futura, Arial, Helvetica, sans-serif;
@@ -260,7 +247,7 @@ Other Style Definitions
 
 /* Used in CreateAccount, EditAccount, SignIn, EnterUsername, and SecurityQuestion */
 .accountInputTextField, .signInInputTextField, .usernameInputTextField, .securityAnswerTextField {
-    width: 200px;
+    width:300px;
 }
 
 /*
@@ -316,11 +303,11 @@ cascading hierarchy, use the !important attribute.
 .commandButton, .ui-confirmdialog-yes, .ui-confirmdialog-no, .ui-fileupload-choose, .ui-fileupload-upload, .ui-fileupload-cancel {
     border-radius: 2em !important;
     font-family: Futura, Arial, Helvetica, sans-serif;
-    font-size: 10pt !important;
+    font-size: 15pt !important;
     font-style: normal !important;
     font-weight: normal !important;
     text-decoration: none;
-    color: black;
+    color: #3f8abf;
 }
 
 /*
@@ -354,7 +341,6 @@ reference <p:confirmDialog id="confirmDialogBox" ...> in Profile.xhtml
     font-style: normal;
     font-weight: normal;
     text-decoration: none;
-    background-color: #FDF5E6;   /* OldLace */
 }
 
 /* Override PrimeFaces style definitions for the Panel component */
@@ -364,13 +350,11 @@ reference <p:confirmDialog id="confirmDialogBox" ...> in Profile.xhtml
     font-style: normal;
     font-weight: normal;
     text-decoration: none;
-    background-color: #FDF5E6;   /* OldLace */
 }
 
 /* Override PrimeFaces style definitions for the Dialog component */
 .ui-dialog, .ui-dialog-content, .ui-dialog-buttonpane {
     color: #800000; /* Maroon */
-    background-color: #FDF5E6;   /* OldLace */
 }
 
 /* Override PrimeFaces style definition for the fileUpload component */
@@ -469,4 +453,31 @@ if content overflows an element's box.
 
 .footerText {
     color:#8d9aa5;
+}
+
+.gridTitle {
+    font-family: Futura, Arial, Helvetica, sans-serif;
+    font-size: 30pt;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    color: #384047;
+}
+
+.panelGrid.ui-panelgrid>*>tr, .panelGrid.ui-panelgrid .ui-panelgrid-cell {
+    border: none;
+}
+
+.column1{
+    color: #384047;
+    text-align: right;
+    font-size: 15pt;
+    background-color: #edeff0;
+    white-space: nowrap;
+}
+
+/* Used in CreateAccount and EditAccount */
+.column2{
+    text-align: left;
+    background-color: #edeff0;
 }
