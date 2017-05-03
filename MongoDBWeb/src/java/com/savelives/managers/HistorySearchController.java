@@ -1,6 +1,6 @@
 /*
  * Created by Pingxin Shang on 2017.04.26  * 
- * Copyright © 2017 Osman Balci. All rights reserved. * 
+ * Copyright © 2017 Pingxin Shang. All rights reserved. * 
  */
 package com.savelives.managers;
 
@@ -9,6 +9,8 @@ import com.savelives.entityclasses.User;
 import com.savelives.sessionbeans.UserFacade;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -18,6 +20,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -35,6 +38,9 @@ public class HistorySearchController implements Serializable {
 
     @Inject
     private CrimeCaseController crimeCaseController;
+
+    @Inject
+    private EditorView editorView;
 
     public HistorySearchController() {
     }
@@ -79,6 +85,36 @@ public class HistorySearchController implements Serializable {
         crimeCaseController.submitWithoutAddHistory();
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("CrimeMap.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(HistorySearchController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void prepareEmailBody() {
+
+        System.out.println("Shang1");
+        try {
+            String imageUrl = "<img src=\"https://data.baltimorecity.gov/api/assets/AF2C3AF6-C1EF-4A09-9B7D-70B8E3C695BE?ob_beta.png\" style=\"width:200px;\">";
+
+            Map<String, Object> map = FacesContext.getCurrentInstance()
+                    .getExternalContext().getSessionMap();
+            String userPrimaryKey = (String) map.get("user_id");
+            User u = getUserFacade().findById(userPrimaryKey);
+
+            String url = "http://localhost:8080/MongoDBWeb/webresources/search/" + u.getUsername() + "/" + selected.getIndex();
+
+            // Compose the email content in HTML format
+            String emailBodyText = "<div align=\"center\">" + imageUrl + "<br /><br /><h2>Open Baltimore</h2><br /><br />"
+                    + u.getFirstName() + " sends you a search query. If you want to see the search result, please click <a href=\""
+                    +url+"\">here</a> to view the search details and search the crime cases. <br /><br /> <p>&nbsp;</p></div>";
+
+            // Set the HTML content to be the body of the email message
+            editorView.setText(emailBodyText);
+
+            // Redirect to show the SendMail.xhtml page
+            FacesContext.getCurrentInstance().getExternalContext().redirect("SendEmail.xhtml");
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(HistorySearchController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(HistorySearchController.class.getName()).log(Level.SEVERE, null, ex);
         }

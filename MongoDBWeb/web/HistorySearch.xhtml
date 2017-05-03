@@ -36,8 +36,8 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                                      class="dataTable"
                                      >
                             
-                            <p:ajax event="rowSelect"   update="searchButton"/>
-                            <p:ajax event="rowUnselect" update="searchButton"/>
+                            <p:ajax event="rowSelect"   update="searchButton shareButton"/>
+                            <p:ajax event="rowUnselect" update="searchButton shareButton"/>
                             
                             <p:column sortBy="#{item.createTime}">
                                 <f:facet name="header">
@@ -84,7 +84,10 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                             <f:facet name="footer">
                                 <p:commandButton id="searchButton" icon="ui-icon-arrowrefresh-1-e" value="Search Again" 
                                                  styleClass="commandButton" actionListener="#{historySearchController.searchAgain}" 
-                                                 disabled="#{empty historySearchController.selected}" />   
+                                                 disabled="#{empty historySearchController.selected}" /> 
+                                <p:commandButton id="shareButton" icon="ui-icon-extlink" value="Share this Search" 
+                                                 styleClass="commandButton" actionListener="#{historySearchController.prepareEmailBody()}" 
+                                                 disabled="#{empty historySearchController.selected}" />
                             </f:facet>
 
                         </p:dataTable>

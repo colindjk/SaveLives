@@ -1,6 +1,6 @@
 /*
  * Created by Pingxin Shang on 2017.05.02  * 
- * Copyright © 2017 Osman Balci. All rights reserved. * 
+ * Copyright © 2017 Pingxin Shang. All rights reserved. * 
  */
 package com.savelives.webservices;
 
