@@ -9,7 +9,7 @@
 
     <ui:composition template="/template/siteTemplate.xhtml">
 
-        <ui:define name="editableContent">
+        <ui:define id="content" name="editableContent">
 
             <p:growl id="growl" life="4000" />
             <br/>
@@ -152,15 +152,23 @@
 
                         </p:tab>
                         <p:tab title="Charts">
+                            <!-- CHARTS -->
+
                             <p:tabView dynamic="true" cache="true" id="chartViews">
                                 <p:tab title="Bar Graph">
-                                    <!-- CHART -->
+                                    <!-- BAR GRAPH -->
                                     <p:chart id="crimeBarGraph" type="bar" style="height:400px" model="#{crimeCaseController.barModel}" />
+
                                 </p:tab>
                                 <p:tab title="Pie Chart">
+                                    <!-- PIE CHART -->
                                     <p:chart id="pieChart" type="pie" model="#{crimeCaseController.pieModel}" style="height:400px" />
                                 </p:tab>
+
                             </p:tabView>
+                            <p:blockUI block="chartViews" trigger="chartViews">
+                                <p:graphicImage value="#{resource['images:statusbar.gif']}" />
+                            </p:blockUI> 
                         </p:tab>
                         <p:tab title="Table">
 
@@ -252,7 +260,11 @@
                                         </p:column>
 
                                     </p:dataTable>
+                                    <p:blockUI block="crimeList" trigger="crimeList">
+                                        <p:graphicImage value="#{resource['images:statusbar.gif']}" />
+                                    </p:blockUI> 
                                 </p:panel>
+
                             </h:form>
 
                         </p:tab>
