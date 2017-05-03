@@ -25,11 +25,9 @@ Copyright © 2017 Pingxin Shang. All rights reserved.
         <ui:define name="editableContent">
             <div align="center">
                 
-                <p:messages id="msgs" />
-                <h:outputText id="formMessage" class="errorMessages" value="#{emailSender.statusMessage}" />
-
                 <h:form id="EmailCompositionForm"> 
-
+                    <br/>
+                    <br/>
                     <h1>Compose and Send Your Email Message</h1>
                     
                     <br/>
@@ -71,6 +69,10 @@ Copyright © 2017 Pingxin Shang. All rights reserved.
 
                     <p:commandButton value="Send Email" ajax="false" class="customButton"
                                      type="submit" action="#{emailSender.sendEmail()}" />
+                    &nbsp;&nbsp;
+                    <p:button value="Cancel"  class="customButton" outcome="HistorySearch"/>
+                    &nbsp;&nbsp;
+                    <p:button value="Back"  class="customButton" outcome="Profile"/>
                     
                     <br /><br />
                 </h:form>

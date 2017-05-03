@@ -304,7 +304,8 @@ public class AccountManager implements Serializable {
     upon successful account creation, redirect to show the SignIn page.
      */
     public String createAccount() {
-
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
         // First, check if the entered username is already being used
         // Obtain the object reference of a User object with username
         User aUser = getUserFacade().findByUsername(username);
@@ -363,7 +364,7 @@ public class AccountManager implements Serializable {
             }
             // Initialize the session map for the newly created User object
             initializeSessionMap();
-
+            JsfUtil.addSuccessMessage("Account created successfully");
             /*
             The Profile page cannot be shown since the new User has not signed in yet.
             Therefore, we show the Sign In page for the new User to sign in first.
@@ -378,7 +379,8 @@ public class AccountManager implements Serializable {
     otherwise, upon successful account update, redirect to show the Profile page.
      */
     public String updateAccount() {
-
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
         if (statusMessage == null || statusMessage.isEmpty()) {
 
             // Obtain the signed-in user's username
@@ -407,10 +409,11 @@ public class AccountManager implements Serializable {
                 // We do not allow user to change the password from edit Profile
                 // Store the changes in the User database
                 getUserFacade().edit(editUser);
-
+                JsfUtil.addSuccessMessage("Profile updated!");
             } catch (EJBException e) {
                 username = "";
                 statusMessage = "Something went wrong while editing user's profile! See: " + e.getMessage();
+                JsfUtil.addErrorMessage(statusMessage);
                 return "";
             }
             // Account update is completed, redirect to show the Profile page.
@@ -458,7 +461,8 @@ public class AccountManager implements Serializable {
         It is passed to, and potentially modified by, each phase of the request processing lifecycle.
          */
         FacesContext fc = FacesContext.getCurrentInstance();
-
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
         /*
         UIComponent is the base class for all user interface components in JavaServer Faces. 
         The set of UIComponent instances associated with a particular request and response are organized into
@@ -505,7 +509,8 @@ public class AccountManager implements Serializable {
         It is passed to, and potentially modified by, each phase of the request processing lifecycle.
          */
         FacesContext fc = FacesContext.getCurrentInstance();
-
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
         /*
         UIComponent is the base class for all user interface components in JavaServer Faces. 
         The set of UIComponent instances associated with a particular request and response are organized into
@@ -571,7 +576,8 @@ public class AccountManager implements Serializable {
         It is passed to, and potentially modified by, each phase of the request processing lifecycle.
          */
         FacesContext fc = FacesContext.getCurrentInstance();
-
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
         /*
         UIComponent is the base class for all user interface components in JavaServer Faces. 
         The set of UIComponent instances associated with a particular request and response are organized into
@@ -643,7 +649,8 @@ public class AccountManager implements Serializable {
     @return True if entered password is correct; otherwise, return False
      */
     private boolean correctPasswordEntered(UIComponent components) {
-
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
         // Obtain the object reference of the UIInput field with id="verifyPassword" on the UI
         UIInput uiInputVerifyPassword = (UIInput) components.findComponent("verifyPassword");
 
