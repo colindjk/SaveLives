@@ -24,8 +24,11 @@ import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.DateAxis;
+import org.primefaces.model.chart.PieChartModel;
 
 /**
  *
@@ -36,7 +39,7 @@ import org.primefaces.model.chart.DateAxis;
 public class CrimeCaseController implements Serializable {
 
     private final CrimeCaseFacade ejbFacade;
-    private MapModel crimeModel;
+    private MapModel mapModel;
     private CrimeCase selected;
     private final List<String> weapons;
     private List<String> selectedWeapons;
@@ -48,10 +51,10 @@ public class CrimeCaseController implements Serializable {
     private final List<String> crimeCodes;
     private List<String> selectedCategories;
     private List<String> selectedCrimeCodes;
-    private List<CrimeCase> items;
     private final int NUMB_OF_CRIMES = 500;
-
+    private String thing;
     private BarChartModel barModel;
+    private PieChartModel pieModel;
 
     @Inject
     private AccountManager accountManager;
@@ -62,29 +65,14 @@ public class CrimeCaseController implements Serializable {
     /**
      * Default Constructor
      */
-    public CrimeCaseController() {
+    public CrimeCaseController() throws Exception {
         ejbFacade = new CrimeCaseFacade();
-
-        crimeModel = ejbFacade.getCrimesModel(NUMB_OF_CRIMES);
+        initializeDates();
+        
         crimeCategories = ejbFacade.getDistinct("description");
         crimeCodes = ejbFacade.getDistinct("crimecode");
         weapons = ejbFacade.getDistinct("weapon");
         neighborhoods = ejbFacade.getDistinct("neighborhood");
-
-        createBarModel(date1, date2);
-
-        List<Marker> markers = crimeModel.getMarkers();
-        items = new ArrayList<CrimeCase>();
-
-        for (Marker marker : markers) {
-            items.add((CrimeCase) marker.getData());
-        }
-        thing = Integer.toString(items.size());
-    }
-
-    public void populateMap() {
-
-        crimeModel.getMarkers().clear();
     }
 
     /*========== Getters and Setters ==============*/
@@ -92,8 +80,11 @@ public class CrimeCaseController implements Serializable {
         return ejbFacade;
     }
 
-    public MapModel getCrimeModel() {
-        return crimeModel;
+    public MapModel getMapModel() {
+        if(mapModel == null){
+            mapModel = ejbFacade.getCrimesModel(NUMB_OF_CRIMES);
+        }
+        return mapModel;
     }
 
     public Marker getSelected() {
@@ -174,44 +165,71 @@ public class CrimeCaseController implements Serializable {
     }
 
     public BarChartModel getBarModel() {
+        if(barModel == null){
+            try {
+                createBarModel();
+            } catch (Exception ex) {
+                Logger.getLogger(CrimeCaseController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         return barModel;
+    }
+
+    public PieChartModel getPieModel() {
+        if(pieModel == null){
+            createPieModel();
+        }
+        return pieModel;
     }
 
     public void setBarModel(BarChartModel model) {
         this.barModel = model;
     }
 
-    public List<CrimeCase> getItems() {
-        return items;
-    }
-
-    private String thing;
-
     public String getThing() {
         return thing;
     }
 
     //============== INSTANCE METHODS =====================//
+    private void initializeDates() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2015);
+        cal.set(Calendar.MONTH, 0);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        date1 = cal.getTime();
+
+        cal.set(Calendar.YEAR, 2016);
+        cal.set(Calendar.MONTH, 0);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        date2 = cal.getTime();
+    }
+
+    private void createPieModel() {
+        pieModel = new PieChartModel();
+        crimeCategories.forEach((category) -> {
+            long frequency = ejbFacade.getCount(date1, date2, selectedCrimeCodes, 
+                    selectedCategories, selectedWeapons, selectedNeighborhoods,"description", category);
+            if (frequency > 0) {
+                pieModel.set(category, frequency);
+            }
+        });
+
+        pieModel.setTitle("Crime Types");
+        pieModel.setLegendPosition("w");
+    }
+
     public void onMarkerSelect(OverlaySelectEvent event) {
         selected = (CrimeCase) event.getOverlay();
     }
 
-    public void submit() {
+    public void submit() throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
-        crimeModel = null;
-        crimeModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories, selectedWeapons, selectedNeighborhoods);
+        mapModel = null;
+        mapModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories, selectedWeapons, selectedNeighborhoods);
 
-        createBarModel(date1, date2);
-
-        List<Marker> markers = crimeModel.getMarkers();
-        items = new ArrayList<CrimeCase>();
-
-        for (Marker marker : markers) {
-            items.add((CrimeCase) marker.getData());
-        }
-        thing = Integer.toString(items.size());
-
+        createBarModel();
+        createPieModel();
         // Record this search
         if (accountManager.isLoggedIn()) {
             SearchQuery sq = new SearchQuery(0, "untitled", new Date(), date1, date2,
@@ -222,25 +240,17 @@ public class CrimeCaseController implements Serializable {
         }
     }
 
-    public void submitWithoutAddHistory() {
+    public void submitWithoutAddHistory() throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
-        crimeModel = null;
-        crimeModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories, selectedWeapons, selectedNeighborhoods);
+        mapModel = null;
+        mapModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories, selectedWeapons, selectedNeighborhoods);
 
-        createBarModel(date1, date2);
-
-        List<Marker> markers = crimeModel.getMarkers();
-        items = new ArrayList<CrimeCase>();
-
-        for (Marker marker : markers) {
-            items.add((CrimeCase) marker.getData());
-        }
-        thing = Integer.toString(items.size());
+        createBarModel();
     }
 
     /*========== Creating Charts ==============*/
-    private void createBarModel(Date date1, Date date2) {
+    private void createBarModel() throws Exception {
         BarChartModel model = new BarChartModel();
 
         ChartSeries crimes = new ChartSeries();
@@ -248,18 +258,8 @@ public class CrimeCaseController implements Serializable {
 
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
 
-        if (date1 == null && date2 == null) {
-
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.YEAR, 2015);
-            cal.set(Calendar.MONTH, 0);
-            cal.set(Calendar.DAY_OF_MONTH, 1);
-            date1 = cal.getTime();
-
-            cal.set(Calendar.YEAR, 2016);
-            cal.set(Calendar.MONTH, 0);
-            cal.set(Calendar.DAY_OF_MONTH, 1);
-            date2 = cal.getTime();
+        if (date1 == null || date2 == null) {
+            throw new Exception("Either date1 or date2 were not set");
         }
 
         Calendar calDate1 = Calendar.getInstance();

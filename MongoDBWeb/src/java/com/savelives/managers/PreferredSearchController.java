@@ -97,7 +97,7 @@ public class PreferredSearchController implements Serializable {
                 return;
             }
         }
-        
+
     }
 
     public void delete() {
@@ -123,10 +123,11 @@ public class PreferredSearchController implements Serializable {
         crimeCaseController.setDate2(selected.getTo());
         crimeCaseController.setSelectedCrimeCodes(selected.getCrimeCodes());
         crimeCaseController.setSelectedCategories(selected.getCategories());
-        crimeCaseController.submitWithoutAddHistory();
         try {
+            crimeCaseController.submitWithoutAddHistory();
+
             FacesContext.getCurrentInstance().getExternalContext().redirect("CrimeMap.xhtml");
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(PreferredSearchController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

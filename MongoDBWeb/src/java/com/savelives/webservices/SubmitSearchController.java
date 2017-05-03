@@ -42,10 +42,10 @@ public class SubmitSearchController implements Serializable {
         crimeCaseController.setDate2(selected.getTo());
         crimeCaseController.setSelectedCrimeCodes(selected.getCrimeCodes());
         crimeCaseController.setSelectedCategories(selected.getCategories());
-        crimeCaseController.submit();
         try {
+            crimeCaseController.submit();
             FacesContext.getCurrentInstance().getExternalContext().redirect("CrimeMap.xhtml");
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(HistorySearchController.class.getName()).log(Level.SEVERE, null, ex);
         }
 

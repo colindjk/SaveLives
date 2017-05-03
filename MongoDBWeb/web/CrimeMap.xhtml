@@ -71,14 +71,14 @@
                             <br/>
                             <br/>
                             <!-- SUBMIT BUTTON -->
-                            <p:commandButton value="Submit"  update=":views:gmap :views:crimeBarGraph :views:CrimeListForm:crimeList 
+                            <p:commandButton value="Submit"  update=":views:gmap :views:chartViews :views:CrimeListForm:crimeList 
                                              categories restricted1 restricted2 crimecodes crimeweapons crimeneighborhood"
                                              actionListener="#{crimeCaseController.submit}" oncomplete="postSubmit();" ajax="true" class="customButton"/>
-                            
+
                             <c:if test="${accountManager.isLoggedIn()}">
                                 <br/>
                                 <br/>
-                            
+
                                 <p:button outcome="HistorySearch" value="Search History" 
                                           styleClass="customButton" />
 
@@ -97,7 +97,7 @@
                             </h:form>
                             <!-- MAP -->
                             <p:gmap id="gmap" center="39.288752, -76.613069" zoom="13" disableDefaultUI="false" 
-                                    widgetVar="map" model="#{crimeCaseController.crimeModel}" 
+                                    widgetVar="map" model="#{crimeCaseController.mapModel}" 
                                     type="HYBRID" style="width:97%;height:500px" >
                                 <p:ajax event="overlaySelect" listener="#{crimeCaseController.onMarkerSelect}" />
 
@@ -131,103 +131,104 @@
                             </p:gmap>
 
                         </p:tab>
-                        <p:tab title="Chart">
-                            <div>
-                                <!-- CHART -->
-                                <p:panel style="width:97%" closable="true" >
-                                    <p:chart id="crimeBarGraph" type="bar" style="height:400px"
-                                             model="#{crimeCaseController.barModel}" />
-                                </p:panel>
-                            </div>
-
+                        <p:tab title="Charts">
+                            <p:tabView dynamic="true" cache="true" id="chartViews">
+                                <p:tab title="Bar Graph">
+                                    <!-- CHART -->
+                                    <p:chart id="crimeBarGraph" type="bar" style="height:400px" model="#{crimeCaseController.barModel}" />
+                                </p:tab>
+                                <p:tab title="Pie Chart">
+                                    <p:chart id="pieChart" type="pie" model="#{crimeCaseController.pieModel}" style="height:400px" />
+                                </p:tab>
+                            </p:tabView>
                         </p:tab>
                         <p:tab title="Table">
 
                             <h:form id="CrimeListForm">
                                 <p:panel header="Crimes">
 
-                                    <p:dataTable id="crimeList" value="#{crimeCaseController.items}" var="item"
+                                    <p:dataTable id="crimeList" value="#{crimeCaseController.mapModel.markers}" var="item"
                                                  selectionMode="single" selection="#{crimeCaseController.selected}"
                                                  paginator="true" rowKey="#{item.code}" rows="5" class="dataTable"
                                                  rowsPerPageLabel="5,10,15,20,30,40,50" >
                                         <!-- CODE -->
-                                        <p:column sortBy="#{item.code}" style="width:50px;">
+                                        <p:column sortBy="#{item.data.code}" style="width:50px;">
                                             <f:facet name="header">
                                                 <h:outputText value="Code" />
                                             </f:facet>
                                             <div align="center">
-                                                <h:outputText value="#{item.code}" />
+                                                <h:outputText value="#{item.data.code}" />
                                             </div>
                                         </p:column>
 
                                         <!-- DATE -->
-                                        <p:column sortBy="#{item.date}" style="width:180px">
+                                        <p:column sortBy="#{item.data.date}" style="width:180px">
                                             <f:facet name="header">
                                                 <h:outputText value="Date" />
                                             </f:facet>
                                             <div align="center">
-                                                <h:outputText value="#{item.date}" />
+                                                <h:outputText value="#{item.data.date}" />
                                             </div>
                                         </p:column>
 
                                         <!-- TIME -->
-                                        <p:column sortBy="#{item.time}" style="width:60px">
+                                        <p:column sortBy="#{item.data.time}" style="width:60px">
                                             <f:facet name="header">
                                                 <h:outputText value="Time" />
                                             </f:facet>
                                             <div align="center">
-                                                <h:outputText value="#{item.time}" />
+                                                <h:outputText value="#{item.data.time}" />
                                             </div>
                                         </p:column>
 
                                         <!-- LOCATION -->
-                                        <p:column sortBy="#{item.location}">
+                                        <p:column sortBy="#{item.data.location}">
                                             <f:facet name="header">
                                                 <h:outputText value="Location" />
                                             </f:facet>
-                                            <h:outputText value="#{item.location}" />
+                                            <h:outputText value="#{item.data.location}" />
                                         </p:column>
 
                                         <!-- NEIGHBORHOOD -->
-                                        <p:column sortBy="#{item.neighborhood}">
+                                        <p:column sortBy="#{item.data.neighborhood}">
                                             <f:facet name="header">
                                                 <h:outputText value="Neighborhood" />
                                             </f:facet>
-                                            <h:outputText value="#{item.neighborhood}" />
+                                            <h:outputText value="#{item.data.neighborhood}" />
                                         </p:column>
 
                                         <!-- DISTRICT -->
-                                        <p:column sortBy="#{item.district}">
+                                        <p:column sortBy="#{item.data.district}">
                                             <f:facet name="header">
                                                 <h:outputText value="District" />
                                             </f:facet>
-                                            <h:outputText value="#{item.district}" />
+                                            <h:outputText value="#{item.data.district}" />
                                         </p:column>
 
                                         <!-- POST -->
-                                        <p:column sortBy="#{item.post}" style="width:50px">
+                                        <p:column sortBy="#{item.data.post}" style="width:50px">
                                             <f:facet name="header">
                                                 <h:outputText value="Post" />
                                             </f:facet>
                                             <div align="center">
-                                                <h:outputText value="#{item.post}" />
+                                                <h:outputText value="#{item.data.post}" />
                                             </div>
                                         </p:column>
 
                                         <!-- DESCRIPTION -->
-                                        <p:column sortBy="#{item.description}">
+                                        <p:column sortBy="#{item.data.description}">
                                             <f:facet name="header">
                                                 <h:outputText value="Category" />
                                             </f:facet>
-                                            <h:outputText value="#{item.description}" />
+                                            <h:outputText value="#{item.data.description}" />
                                         </p:column>
 
                                         <!-- WEAPON -->
-                                        <p:column sortBy="#{item.weapon}">
+                                        <p:column sortBy="#{item.data.weapon}">
                                             <f:facet name="header">
                                                 <h:outputText value="Weapon" />
                                             </f:facet>
-                                            <h:outputText value="#{item.weapon}" />
+                                            <h:outputText value="#{item.data.weapon}" />
                                         </p:column>
 
                                     </p:dataTable>

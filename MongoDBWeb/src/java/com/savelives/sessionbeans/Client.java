@@ -8,6 +8,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
+import com.mongodb.WriteConcern;
 import com.mongodb.client.MongoCollection;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +45,9 @@ class Client {
         credentialList.add(credentials);
 
         MongoClientOptions.Builder optionBuilder = new MongoClientOptions.Builder();
-        optionBuilder.connectionsPerHost(100);          // 与目标数据库可以建立的最大链接数
-        optionBuilder.connectTimeout(1000 * 60 * 5);    // 与数据库建立链接的超时时间
-        optionBuilder.maxWaitTime(100 * 60 * 5);        // 一个线程成功获取到一个可用数据库之前的最大等待时间
+        optionBuilder.connectionsPerHost(100);          // Set the maximum number of connections that can be established with the database
+        optionBuilder.connectTimeout(1000 * 60 * 5);    // Set the timeout of connections
+        optionBuilder.maxWaitTime(100 * 60 * 5);        // Set the Maximum waiting time for a connection threads 
         optionBuilder.threadsAllowedToBlockForConnectionMultiplier(10);
         optionBuilder.maxConnectionIdleTime(0);
         optionBuilder.maxConnectionLifeTime(0);

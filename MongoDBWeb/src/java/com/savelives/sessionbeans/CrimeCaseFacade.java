@@ -15,6 +15,10 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.gte;
+import static com.mongodb.client.model.Filters.in;
+import static com.mongodb.client.model.Filters.lte;
 import com.mycompany.jsfclasses.util.JsfUtil;
 import com.savelives.entityclasses.CrimeCase;
 import java.io.BufferedReader;
@@ -32,6 +36,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.MapModel;
 import org.joda.time.DateTime;
@@ -81,6 +86,64 @@ public class CrimeCaseFacade {
         });
 
         return crimes;
+    }
+
+    public long getCount(Date from, Date to, List<String> crimeCodes, List<String> categories,
+            List<String> weapons, List<String> neighborhoods, String attribute, String value) {
+      
+        MongoCollection<Document> collection = CLIENT.getCollection();
+
+        BasicDBList andQueryList = new BasicDBList();
+        SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
+
+        String fromDate = formater.format(from) + "T00:00:00.000";
+        String toDate = formater.format(to) + "T23:59:59.999";
+
+        BasicDBObject dateQuery1 = new BasicDBObject("crimedate", new BasicDBObject("$gte", fromDate));
+        BasicDBObject dateQuery2 = new BasicDBObject("crimedate", new BasicDBObject("$lte", toDate));
+
+        andQueryList.add(dateQuery1);
+        andQueryList.add(dateQuery2);
+
+        // CRIME CODES
+        if (crimeCodes != null && !crimeCodes.isEmpty()) {
+
+            BasicDBList dblist = new BasicDBList();
+            dblist.addAll(crimeCodes);
+            BasicDBObject codeQuery = new BasicDBObject("crimecode", new BasicDBObject("$in", dblist));
+            andQueryList.add(codeQuery);
+        }
+
+        //CRIME CATEGORIES
+        if (categories != null && !categories.isEmpty()) {
+
+            BasicDBList dblist = new BasicDBList();
+            dblist.addAll(categories);
+            BasicDBObject descriptionQuery = new BasicDBObject("description", new BasicDBObject("$in", dblist));
+            andQueryList.add(descriptionQuery);
+        }
+
+        //CRIME WEAPONS
+        if (weapons != null && !weapons.isEmpty()) {
+            BasicDBList dblist = new BasicDBList();
+            dblist.addAll(weapons);
+            BasicDBObject weaponQuery = new BasicDBObject("weapon", new BasicDBObject("$in", dblist));
+            andQueryList.add(weaponQuery);
+        }
+
+        //CRIME NEIGHBORHOOD
+        if (neighborhoods != null && !neighborhoods.isEmpty()) {
+            BasicDBList dblist = new BasicDBList();
+            dblist.addAll(neighborhoods);
+            BasicDBObject neighborhoodQuery = new BasicDBObject("neighborhood", new BasicDBObject("$in", dblist));
+            andQueryList.add(neighborhoodQuery);
+        }
+        andQueryList.add(new BasicDBObject(attribute, value));
+        
+        BasicDBObject queryObject = new BasicDBObject("$and", andQueryList);
+
+        return collection.count((Bson)queryObject);
+
     }
 
     public MapModel filterCrimes(Date from, Date to, List<String> crimeCodes, List<String> categories, List<String> weapons, List<String> neighborhoods) {
@@ -154,6 +217,7 @@ public class CrimeCaseFacade {
                 }
             }
         });
+
         return crimes;
     }
 

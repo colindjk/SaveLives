@@ -78,7 +78,7 @@ public class HistorySearchController implements Serializable {
         this.userFacade = userFacade;
     }
 
-    public void searchAgain() {
+    public void searchAgain() throws Exception {
 
         crimeCaseController.setDate1(selected.getFrom());
         crimeCaseController.setDate2(selected.getTo());
