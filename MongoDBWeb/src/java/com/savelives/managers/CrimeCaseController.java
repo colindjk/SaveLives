@@ -6,8 +6,10 @@ package com.savelives.managers;
 
 import com.savelives.entityclasses.CrimeCase;
 import com.savelives.entityclasses.SearchQuery;
+import com.savelives.entityclasses.User;
 import com.savelives.sessionbeans.CrimeCaseFacade;
 import com.savelives.sessionbeans.UserFacade;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -19,12 +21,14 @@ import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
 import java.io.Serializable;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.logging.Logger;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.DateAxis;
@@ -382,5 +386,5 @@ public class CrimeCaseController implements Serializable {
 
         barModel.setTitle("Crimes in Baltimore");
         barModel.setLegendPosition("ne");
-    }
+    }   
 }
