@@ -81,17 +81,16 @@ Copyright © 2017 Taiwen Jin. All rights reserved.
                 var mcOptions = {gridSize: 50, maxZoom: 15, imagePath: 'http://localhost:8080/MongoDBWeb/resources/images/m'};
                 mapCluster = new MarkerClusterer(theMap, theMap.markers, mcOptions);
                 heatMap = new google.maps.visualization.HeatmapLayer({
-                    data: getPoints(),
+                data: getPoints(),
                     map: null
                 });
                 isHeatMap = false;
-                
             }
             /**
              * Build heat map
              */
             function makeHeatMap() {
-                
+
                 heatMap.setMap(theMap);
                 setMarkersVisible(false);
                 mapCluster.clearMarkers();
@@ -101,28 +100,34 @@ Copyright © 2017 Taiwen Jin. All rights reserved.
              * Build Clusters
              */
             function clusterMarkers() {
-                
-                heatMap.setMap(null);
-                setMarkersVisible(true);
-                theMap.fitBounds = google.maps.Map.prototype.fitBounds;
-                mapCluster.addMarkers(mapCluster.getMap().markers);
-                isHeatMap = false;
-                
+
+            heatMap.setMap(null);
+            setMarkersVisible(true);
+            theMap.fitBounds = google.maps.Map.prototype.fitBounds;
+            mapCluster.addMarkers(mapCluster.getMap().markers);
+            isHeatMap = false;
             }
-            
+
             function changeMap() {
 
+            if (isHeatMap) {
+                clusterMarkers();
+            } else {
+                makeHeatMap();
+            }
+            }
+            function postSubmit() {
+                
+                theMap = PF('map').map;
+                mapCluster = new MarkerClusterer(theMap,theMap.markers,{gridSize: 50, maxZoom: 15, imagePath: 'http://localhost:8080/MongoDBWeb/resources/images/m'});
                 if (isHeatMap) {
-                    console.log("cluster map");
-                    clusterMarkers();
+                makeHeatMap();
                 } else {
-                    console.log("heat map");
-                    makeHeatMap();
+                clusterMarkers();
                 }
             }
-
             $(window).load(function () {
-                initMap();
+            initMap();
             });
         </script>
         <!--
