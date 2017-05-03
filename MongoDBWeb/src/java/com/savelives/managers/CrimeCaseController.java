@@ -220,6 +220,8 @@ public class CrimeCaseController implements Serializable {
 
         pieModel.setTitle("Crime Types");
         pieModel.setLegendPosition("w");
+        pieModel.setShowDataLabels(true);
+        pieModel.setShowDatatip(true);
     }
 
     public void onMarkerSelect(OverlaySelectEvent event) {
@@ -386,5 +388,6 @@ public class CrimeCaseController implements Serializable {
 
         barModel.setTitle("Crimes in Baltimore");
         barModel.setLegendPosition("ne");
+        barModel.setAnimate(true);
     }   
 }
