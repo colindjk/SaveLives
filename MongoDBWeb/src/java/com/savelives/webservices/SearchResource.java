@@ -10,7 +10,6 @@ import com.savelives.sessionbeans.UserFacade;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.core.Context;
@@ -36,7 +35,7 @@ public class SearchResource {
     @Context
     private UriInfo context;
 
-    @EJB
+    @Inject
     private UserFacade userFacade;
 
     @Inject

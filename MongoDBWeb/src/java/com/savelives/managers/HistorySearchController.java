@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -32,7 +31,7 @@ public class HistorySearchController implements Serializable {
     private List<SearchQuery> items = null;
     private SearchQuery selected;
 
-    @EJB
+    @Inject
     private UserFacade userFacade;
 
     @Inject

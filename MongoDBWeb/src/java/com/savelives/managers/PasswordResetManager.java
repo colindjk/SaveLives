@@ -9,8 +9,6 @@ import com.savelives.entityclasses.User;
 import com.savelives.sessionbeans.UserFacade;
 import static com.savelives.managers.AccountManager.hashPassword;
 import java.io.Serializable;
-import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
@@ -18,7 +16,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.xml.bind.DatatypeConverter;
 
 @Named(value = "passwordResetManager")
 @SessionScoped
@@ -40,12 +37,8 @@ public class PasswordResetManager implements Serializable {
 
     @Inject
     private AccountManager accountManager;
-    /*
-    The instance variable 'userFacade' is annotated with the @EJB annotation.
-    The @EJB annotation directs the EJB Container (of the GlassFish AS) to inject (store) the object reference
-    of the UserFacade object, after it is instantiated at runtime, into the instance variable 'userFacade'.
-     */
-    @EJB
+
+    @Inject
     private UserFacade userFacade;
 
     /*
@@ -222,7 +215,7 @@ public class PasswordResetManager implements Serializable {
                 // Initialize the instance variables
                 username = message = answer = password = "";
 
-            } catch (EJBException e) {
+            } catch (Exception e) {
                 message = "Something went wrong while resetting your password, please try again!";
                 JsfUtil.addErrorMessage(message);
                 // Redirect to show the ResetPassword page

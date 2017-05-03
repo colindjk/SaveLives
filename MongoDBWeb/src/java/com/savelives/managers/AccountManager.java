@@ -21,13 +21,12 @@ import java.util.Map;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.ejb.EJBException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named(value = "accountManager")
@@ -89,12 +88,7 @@ public class AccountManager implements Serializable {
 
     private User selected;
 
-    /*
-    The instance variable 'userFacade' is annotated with the @EJB annotation.
-    The @EJB annotation directs the EJB Container (of the GlassFish AS) to inject (store) the object reference
-    of the UserFacade object, after it is instantiated at runtime, into the instance variable 'userFacade'.
-     */
-    @EJB
+    @Inject
     private UserFacade userFacade;
 
     // Constructor method instantiating an instance of AccountManager
@@ -359,7 +353,7 @@ public class AccountManager implements Serializable {
                 getUserFacade().create(newUser);
 
 
-            } catch (EJBException e) {
+            } catch (Exception e) {
                 username = "";
                 statusMessage = "Something went wrong while creating user's account! See: " + e.getMessage();
                 JsfUtil.addErrorMessage(statusMessage);
@@ -413,7 +407,7 @@ public class AccountManager implements Serializable {
                 // Store the changes in the User database
                 getUserFacade().edit(editUser);
                 JsfUtil.addSuccessMessage("Profile updated!");
-            } catch (EJBException e) {
+            } catch (Exception e) {
                 username = "";
                 statusMessage = "Something went wrong while editing user's profile! See: " + e.getMessage();
                 JsfUtil.addErrorMessage(statusMessage);
@@ -443,7 +437,7 @@ public class AccountManager implements Serializable {
 
                 statusMessage = "Your account is successfully deleted!";
 
-            } catch (EJBException e) {
+            } catch (Exception e) {
                 username = "";
                 statusMessage = "Something went wrong while deleting user's account! See: " + e.getMessage();
                 return "";

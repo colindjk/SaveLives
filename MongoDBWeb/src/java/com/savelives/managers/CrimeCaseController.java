@@ -6,13 +6,10 @@ package com.savelives.managers;
 
 import com.savelives.entityclasses.CrimeCase;
 import com.savelives.entityclasses.SearchQuery;
-import com.savelives.entityclasses.User;
 import com.savelives.sessionbeans.CrimeCaseFacade;
 import com.savelives.sessionbeans.UserFacade;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -21,14 +18,12 @@ import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
 import java.io.Serializable;
-import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.logging.Logger;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.DateAxis;
@@ -41,8 +36,10 @@ import org.primefaces.model.chart.PieChartModel;
 @SessionScoped
 @Named(value = "crimeCaseController")
 public class CrimeCaseController implements Serializable {
-
-    private final CrimeCaseFacade ejbFacade;
+    
+    @Inject
+    private CrimeCaseFacade crimeCaseFacade;
+    
     private MapModel mapModel;
     private CrimeCase selected;
     private final List<String> weapons;
@@ -63,30 +60,30 @@ public class CrimeCaseController implements Serializable {
     @Inject
     private AccountManager accountManager;
 
-    @EJB
+    @Inject
     private UserFacade userFacade;
 
     /**
      * Default Constructor
      */
     public CrimeCaseController() throws Exception {
-        ejbFacade = new CrimeCaseFacade();
+        crimeCaseFacade = new CrimeCaseFacade();
         initializeDates();
         
-        crimeCategories = ejbFacade.getDistinct("description");
-        crimeCodes = ejbFacade.getDistinct("crimecode");
-        weapons = ejbFacade.getDistinct("weapon");
-        neighborhoods = ejbFacade.getDistinct("neighborhood");
+        crimeCategories = crimeCaseFacade.getDistinct("description");
+        crimeCodes = crimeCaseFacade.getDistinct("crimecode");
+        weapons = crimeCaseFacade.getDistinct("weapon");
+        neighborhoods = crimeCaseFacade.getDistinct("neighborhood");
     }
 
     /*========== Getters and Setters ==============*/
     private CrimeCaseFacade getFacade() {
-        return ejbFacade;
+        return crimeCaseFacade;
     }
 
     public MapModel getMapModel() {
         if(mapModel == null){
-            mapModel = ejbFacade.getCrimesModel(NUMB_OF_CRIMES);
+            mapModel = crimeCaseFacade.getCrimesModel(NUMB_OF_CRIMES);
         }
         return mapModel;
     }
@@ -211,7 +208,7 @@ public class CrimeCaseController implements Serializable {
     private void createPieModel() {
         pieModel = new PieChartModel();
         crimeCategories.forEach((category) -> {
-            long frequency = ejbFacade.getCount(date1, date2, selectedCrimeCodes, 
+            long frequency = crimeCaseFacade.getCount(date1, date2, selectedCrimeCodes, 
                     selectedCategories, selectedWeapons, selectedNeighborhoods,"description", category);
             if (frequency > 0) {
                 pieModel.set(category, frequency);

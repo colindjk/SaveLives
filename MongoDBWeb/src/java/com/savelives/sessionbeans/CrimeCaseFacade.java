@@ -15,15 +15,12 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import static com.mongodb.client.model.Filters.and;
-import static com.mongodb.client.model.Filters.gte;
-import static com.mongodb.client.model.Filters.in;
-import static com.mongodb.client.model.Filters.lte;
 import com.mycompany.jsfclasses.util.JsfUtil;
 import com.savelives.entityclasses.CrimeCase;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.ParseException;
@@ -34,7 +31,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
+import javax.enterprise.context.SessionScoped;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.primefaces.model.map.DefaultMapModel;
@@ -42,12 +39,12 @@ import org.primefaces.model.map.MapModel;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
-@Stateless
+@SessionScoped
 /**
  *
  * @author Berthe
  */
-public class CrimeCaseFacade {
+public class CrimeCaseFacade implements Serializable  {
 
     private static final Logger LOGGER = Logger.getLogger(CrimeCaseFacade.class.getName());
     private static final String COLLECTION_NAME = "CrimeCases";
