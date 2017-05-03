@@ -308,7 +308,7 @@ public class User {
         }
         ArrayList<Document> docs2 = new ArrayList<>();
         for (int i = 0; i < this.preferredSearch.size(); i++) {
-            docs.add(preferredSearch.get(i).toDocument());
+            docs2.add(preferredSearch.get(i).toDocument());
         }
         
         return new Document()

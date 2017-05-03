@@ -4,6 +4,7 @@
  */
 package com.savelives.managers;
 
+import com.mycompany.jsfclasses.util.JsfUtil;
 import com.savelives.entityclasses.SearchQuery;
 import com.savelives.entityclasses.User;
 import com.savelives.sessionbeans.UserFacade;
@@ -30,6 +31,7 @@ public class PreferredSearchController implements Serializable {
 
     private List<SearchQuery> items = null;
     private SearchQuery selected;
+    private String name;
 
     @EJB
     private UserFacade userFacade;
@@ -72,6 +74,47 @@ public class PreferredSearchController implements Serializable {
 
     public void setUserFacade(UserFacade userFacade) {
         this.userFacade = userFacade;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void changeName() {
+
+        Map<String, Object> map = FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap();
+        String userPrimaryKey = (String) map.get("user_id");
+        User u = getUserFacade().findById(userPrimaryKey);
+        for (int i = 0; i < u.getPreferredSearch().size(); i++) {
+            if (u.getPreferredSearch().get(i).getIndex() == selected.getIndex()) {
+                u.getPreferredSearch().get(i).setName(name);
+                userFacade.edit(u);
+                return;
+            }
+        }
+        
+    }
+
+    public void delete() {
+
+        Map<String, Object> map = FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap();
+        String userPrimaryKey = (String) map.get("user_id");
+        User u = getUserFacade().findById(userPrimaryKey);
+        for (int i = 0; i < u.getPreferredSearch().size(); i++) {
+            if (u.getPreferredSearch().get(i).getIndex() == selected.getIndex()) {
+                u.getPreferredSearch().remove(i);
+                userFacade.edit(u);
+                JsfUtil.addSuccessMessage("Successfully deleted the seleted search from preferred search");
+                return;
+            }
+        }
+
     }
 
     public void searchAgain() {

@@ -26,6 +26,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
             <div align="center" style="width:50%; margin:0 auto;">
                 <p:growl id="growl" life="4000" />
                 <h:form id="HistorySearchForm">
+
                     <br/>
                     <br/>
                     <p:panel header="History Searches">
@@ -38,8 +39,8 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                                      class="dataTable"
                                      >
 
-                            <p:ajax event="rowSelect"   update="searchButton shareButton"/>
-                            <p:ajax event="rowUnselect" update="searchButton shareButton"/>
+                            <p:ajax event="rowSelect"   update="searchButton shareButton preferredButton"/>
+                            <p:ajax event="rowUnselect" update="searchButton shareButton preferredButton"/>
 
                             <p:column sortBy="#{item.createTime}">
                                 <f:facet name="header">
@@ -88,17 +89,26 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                                                  styleClass="customButton" actionListener="#{historySearchController.searchAgain}" 
                                                  disabled="#{empty historySearchController.selected}" /> 
                                 &nbsp;&nbsp;
-                                <p:commandButton id="shareButton" value="Share this Search" 
+                                <p:commandButton id="shareButton" value="Share Search" 
                                                  styleClass="customButton" actionListener="#{historySearchController.prepareEmailBody()}" 
                                                  disabled="#{empty historySearchController.selected}" />
+
+                                &nbsp;&nbsp;
+
+                                <p:commandButton id="preferredButton" value="Add to Preferred" update=":AddToPreferredForm"
+                                                 styleClass="customButton" oncomplete="PF('AddToPreferredDialog').show()"/> 
                             </f:facet>
 
                         </p:dataTable>
                     </p:panel>
                 </h:form>
             </div>
+
+
             <br/>
             <br/>
+
+            <ui:include src="AddToPreferred.xhtml"/>
         </ui:define>
 
     </ui:composition>

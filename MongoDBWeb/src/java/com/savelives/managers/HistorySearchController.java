@@ -4,6 +4,7 @@
  */
 package com.savelives.managers;
 
+import com.mycompany.jsfclasses.util.JsfUtil;
 import com.savelives.entityclasses.SearchQuery;
 import com.savelives.entityclasses.User;
 import com.savelives.sessionbeans.UserFacade;
@@ -36,6 +37,9 @@ public class HistorySearchController implements Serializable {
 
     @Inject
     private CrimeCaseController crimeCaseController;
+    
+    @Inject
+    private PreferredSearchController preferredSearchController;
 
     @Inject
     private EditorView editorView;
@@ -88,6 +92,25 @@ public class HistorySearchController implements Serializable {
         }
     }
 
+    public void addToPreferred() {
+
+        Map<String, Object> map = FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap();
+        String userPrimaryKey = (String) map.get("user_id");
+        User u = getUserFacade().findById(userPrimaryKey);
+        
+        for (int i = 0; i < u.getPreferredSearch().size(); i++){
+            if (u.getPreferredSearch().get(i).getIndex() == selected.getIndex()){
+                JsfUtil.addErrorMessage("Selected Search is already in preferred search!");
+                return;
+            }
+        }
+        u.addPreferredSearch(selected);
+        System.out.println(u.toDocument());
+        userFacade.edit(u);
+        JsfUtil.addSuccessMessage("Successfully saved selected search to preferred search");
+    }
+
     public void prepareEmailBody() {
 
         try {
@@ -116,4 +139,5 @@ public class HistorySearchController implements Serializable {
             Logger.getLogger(HistorySearchController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 }
