@@ -58,15 +58,15 @@ public class CrimeCaseFacade {
 
         MapModel crimes = new DefaultMapModel();
         MongoCollection<Document> collection = CLIENT.getCollection();
-        
-        if(collection.count() == 0){
+
+        if (collection.count() == 0) {
             try {
                 this.populateCollection(collection);
             } catch (IOException ex) {
                 Logger.getLogger(CrimeCaseFacade.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         collection.find().limit(NumbOfCrimes).forEach(new Consumer<Document>() {
             @Override
             public void accept(Document doc) {
@@ -112,7 +112,7 @@ public class CrimeCaseFacade {
             BasicDBObject codeQuery = new BasicDBObject("crimecode", new BasicDBObject("$in", dblist));
             andQueryList.add(codeQuery);
         }
-        
+
         //CRIME CATEGORIES
         if (categories != null && !categories.isEmpty()) {
 
@@ -123,21 +123,21 @@ public class CrimeCaseFacade {
         }
 
         //CRIME WEAPONS
-        if(weapons != null && !weapons.isEmpty()){
+        if (weapons != null && !weapons.isEmpty()) {
             BasicDBList dblist = new BasicDBList();
             dblist.addAll(weapons);
             BasicDBObject weaponQuery = new BasicDBObject("weapon", new BasicDBObject("$in", dblist));
             andQueryList.add(weaponQuery);
         }
-        
+
         //CRIME NEIGHBORHOOD
-        if(neighborhoods != null && !neighborhoods.isEmpty()){
+        if (neighborhoods != null && !neighborhoods.isEmpty()) {
             BasicDBList dblist = new BasicDBList();
             dblist.addAll(neighborhoods);
             BasicDBObject neighborhoodQuery = new BasicDBObject("neighborhood", new BasicDBObject("$in", dblist));
             andQueryList.add(neighborhoodQuery);
         }
-        
+
         BasicDBObject queryObject = new BasicDBObject("$and", andQueryList);
 
         FindIterable<Document> cursor = collection.find(queryObject);
@@ -196,7 +196,6 @@ public class CrimeCaseFacade {
         return CLIENT.getCollection().distinct(fieldName, String.class).into(result);
     }
 
-    
     /**
      * Call this to populate local database if it doesn't contain any crime data
      *
@@ -276,5 +275,5 @@ public class CrimeCaseFacade {
             }
         }
     }
-    
+
 }

@@ -59,7 +59,7 @@ public class SearchResource {
     public String getHtml() {
         return "<html><body>hahaha</body></html>";
     }
-    
+
     /**
      * Retrieves representation of an instance of
      * com.savelives.managers.SearchResource

@@ -24,18 +24,18 @@ defines the logical name of the bean that can be used in JSF facelets pages.
 The @SessionScoped annotation indicates that this CDI-managed bean will be
 maintained (i.e., its property values will be kept) across multiple HTTP requests 
 as long as the user's established HTTP session is active. 
-*/
+ */
 @SessionScoped
 
 public class EditorView implements Serializable {
 
     private String text;
-    
+
     // Constructor method to provide initial content
     public EditorView() {
         text = "Please enter your HTML email message here.";
     }
-    
+
     public String getText() {
         return text;
     }

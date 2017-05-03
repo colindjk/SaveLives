@@ -32,7 +32,7 @@ public class User {
     private String securityAnswer;
     private String email;
     private ArrayList<SearchQuery> historySearch;
-    
+
     public User() {
     }
 
@@ -110,7 +110,7 @@ public class User {
         this.historySearch = new ArrayList<>();
         JSONObject obj = new JSONObject(doc);
         JSONArray arr = obj.getJSONArray("historySearch");
-        for (int i = 0; i < arr.length(); i++){
+        for (int i = 0; i < arr.length(); i++) {
             this.historySearch.add(new SearchQuery(Document.parse(arr.get(i).toString())));
         }
     }
@@ -259,24 +259,22 @@ public class User {
     public void setHistorySearch(ArrayList<SearchQuery> historySearch) {
         this.historySearch = historySearch;
     }
-   
-    
-    public void addHistorySearch(SearchQuery sq){
+
+    public void addHistorySearch(SearchQuery sq) {
         ArrayList<SearchQuery> temp = new ArrayList<>();
         sq.setIndex(0);
-        temp.add(sq); 
-        for (int i = 0; i < historySearch.size(); i ++){
-            historySearch.get(i).setIndex(i+1);
+        temp.add(sq);
+        for (int i = 0; i < historySearch.size(); i++) {
+            historySearch.get(i).setIndex(i + 1);
             temp.add(historySearch.get(i));
         }
         this.historySearch = temp;
-      
+
     }
 
-    
     public Document toDocument() {
         ArrayList<Document> docs = new ArrayList<>();
-        for(int i = 0; i < this.historySearch.size(); i++){
+        for (int i = 0; i < this.historySearch.size(); i++) {
             docs.add(historySearch.get(i).toDocument());
         }
         return new Document()
@@ -295,6 +293,6 @@ public class User {
                 .append("email", getEmail())
                 .append("iterations", getIterations())
                 .append("salt", DatatypeConverter.printBase64Binary(getSalt()))
-                .append("historySearch",docs);
+                .append("historySearch", docs);
     }
 }

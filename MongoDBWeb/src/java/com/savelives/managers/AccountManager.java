@@ -225,6 +225,7 @@ public class AccountManager implements Serializable {
     public UserFacade getUserFacade() {
         return userFacade;
     }
+
     /*
     private Map<String, Object> security_questions;
         String      int
@@ -652,7 +653,7 @@ public class AccountManager implements Serializable {
 
         if (verifyPassword.isEmpty()) {
             statusMessage = "Please enter a password!";
-            JsfUtil.addErrorMessage(statusMessage);            
+            JsfUtil.addErrorMessage(statusMessage);
             return false;
 
         } else if (verifyPassword.equals(password)) {

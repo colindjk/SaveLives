@@ -6,10 +6,8 @@ package com.savelives.managers;
 
 import com.savelives.entityclasses.CrimeCase;
 import com.savelives.entityclasses.SearchQuery;
-import com.savelives.entityclasses.User;
 import com.savelives.sessionbeans.CrimeCaseFacade;
 import com.savelives.sessionbeans.UserFacade;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;

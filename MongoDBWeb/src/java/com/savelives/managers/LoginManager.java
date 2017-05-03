@@ -146,7 +146,7 @@ public class LoginManager implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().
                 getSessionMap().put("user_id", user.getId());
     }
-    
+
     private boolean isCorrectPassword(User user, String entered_password) {
         byte[] entered_passwordKey = hashPassword(entered_password.toCharArray(), user.getSalt(), user.getIterations(), 256);
         return Arrays.equals(entered_passwordKey, user.getPasswordKey());

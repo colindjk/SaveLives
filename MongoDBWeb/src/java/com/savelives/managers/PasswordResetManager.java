@@ -218,7 +218,7 @@ public class PasswordResetManager implements Serializable {
                 user.setPasswordKey(passwordKey);
                 getUserFacade().edit(user);
                 accountManager.logout();
-                
+
                 // Initialize the instance variables
                 username = message = answer = password = "";
 

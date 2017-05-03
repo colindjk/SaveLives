@@ -47,7 +47,7 @@ public class CrimeCase extends Marker {
         if ((!doc.containsKey("coorY")) || (!doc.containsKey("coorX"))) {
             super.setVisible(false);
         }
-        
+
         this.code = doc.getString("crimecode");
         /*try {
             this.time = LocalTime.parse(doc.getString("crimetime"), DateTimeFormatter.ofPattern("HH:mm:ss"));
@@ -57,10 +57,10 @@ public class CrimeCase extends Marker {
             // the string and formatting accordingly. 
             this.time = LocalTime.parse(doc.getString("crimetime"), DateTimeFormatter.ofPattern("Hmm.ss"));
         }*/
-        
+
         String crimeString = doc.getString("crimetime");
-        
-        switch(crimeString.length()) {
+
+        switch (crimeString.length()) {
             case 8:
                 this.time = LocalTime.parse(crimeString, DateTimeFormatter.ofPattern("HH:mm:ss"));
                 break;

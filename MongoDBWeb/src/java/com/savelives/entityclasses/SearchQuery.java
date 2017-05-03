@@ -55,14 +55,13 @@ public class SearchQuery {
 
         // Convert Document to onj to handle array
         JSONObject obj = new JSONObject(doc);
-        
+
         this.index = obj.getInt("index");
 
         // Set Formatter
         DateFormat dnt = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         DateFormat d = new SimpleDateFormat("yyyy/MM/dd");
 
-        
         try {
             this.createTime = dnt.parse(obj.getString("createTime"));
             this.from = d.parse(obj.getString("from"));
@@ -131,7 +130,7 @@ public class SearchQuery {
     public void setIndex(int index) {
         this.index = index;
     }
-    
+
     public Document toDocument() {
 
         DateFormat dnt = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");

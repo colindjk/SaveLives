@@ -48,7 +48,8 @@ class Client {
 
     /**
      * Get the collection
-     * @return the 
+     *
+     * @return the
      */
     MongoCollection<Document> getCollection() {
         return _client.getDatabase(DATABASE).getCollection(COLLECTION);

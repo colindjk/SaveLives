@@ -9,7 +9,6 @@ import com.savelives.entityclasses.User;
 import com.savelives.sessionbeans.UserFacade;
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -106,7 +104,7 @@ public class HistorySearchController implements Serializable {
             // Compose the email content in HTML format
             String emailBodyText = "<div align=\"center\">" + imageUrl + "<br /><br /><h2>Open Baltimore</h2><br /><br />"
                     + u.getFirstName() + " sends you a search query. If you want to see the search result, please click <a href=\""
-                    +url+"\">here</a> to view the search details and search the crime cases. <br /><br /> <p>&nbsp;</p></div>";
+                    + url + "\">here</a> to view the search details and search the crime cases. <br /><br /> <p>&nbsp;</p></div>";
 
             // Set the HTML content to be the body of the email message
             editorView.setText(emailBodyText);

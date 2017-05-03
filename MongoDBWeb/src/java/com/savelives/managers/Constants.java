@@ -12,7 +12,6 @@ import javax.faces.context.FacesContext;
  */
 final class Constants {
 
-
     public static final String[] QUESTIONS
             = {
                 "In what city were you born?",
