@@ -98,7 +98,6 @@ public class LoginManager implements Serializable {
     @return "" if an error occurs; otherwise, redirect to show the Profile page
      */
     public String loginUser() {
-
         // Obtain the object reference of the User object from the entered username
         User user = getUserFacade().findByUsername(getUsername());
 
