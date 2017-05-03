@@ -12,11 +12,10 @@ html, body {
     /* background-color: #DCDCDC;   /* Gainsboro */
     /* background-color: #FFFFF0;   /* Ivory */
     /* background-color: #FAF0E6;   /* Linen */
-    background-color: #FDF5E6;   /* OldLace */
+/*    background-color: #FDF5E6;    OldLace */
     /* background-color: #FFEFD5;   /* PapayaWhip */
     /* background-color: #F5DEB3;   /* Wheat */
-    /* background-color: #B0E0E6;   /* PowderBlue */
-
+    background-color: #edeff0;
     /* Stretch the background image to cover the entire screen. 
     This is used only if you choose to display a background image. */
     -webkit-background-size: cover; /* For WebKit */
@@ -31,7 +30,7 @@ html, body {
 
 /* Style the text used under the standard HTML tag "body" */
 body {
-    font-family: "Times New Roman", Times, Serif;
+    font-family: Futura;
     font-size: 12pt;
     font-style: normal;
     font-weight: normal;
@@ -41,7 +40,7 @@ body {
 
 /* Style the text used under the standard HTML tag "p" for paragraph */
 p {
-    font-family: "Times New Roman", Times, serif;
+    font-family: Futura, Times, serif;
     font-size: 12pt;
     font-style: normal;
     font-weight: normal;
@@ -52,7 +51,7 @@ p {
 
 /* Style the text used under the standard HTML tag "h1" for header 1 */
 h1 {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Futura, Arial, Helvetica, sans-serif;
     font-size: 12pt;
     font-style: normal;
     font-weight: normal;
@@ -62,7 +61,7 @@ h1 {
 
 /* Style the text used under the standard HTML tag "h2" for header 2 */
 h2 {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Futura, Arial, Helvetica, sans-serif;
     font-size: 12pt;
     font-style: normal;
     font-weight: normal;
@@ -70,63 +69,12 @@ h2 {
     color: #800000; /* Maroon */
 }
 
-/*
-==================
-Styling Hyperlinks
-==================
-The <a> tag defines a hyperlink.
-Hyperlinks (or links) are styled differently depending on what state they are in:
-    a:link      - normal state (unvisited link)
-    a:visited   - visited state (link clicked on by user earlier)
-    a:hover     - mouse over state (link when the user hovers over it)
-    a:active    - active state (link currently clicked on by user)
-*/
-
-/* Set the font family for the standard HTML tag "a" for hyperlinks */
-a {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 10pt;
-}
-
-a:link {
-    text-decoration: none; /* Do not underline the link in normal state */
-}
-
-a:visited {
-    text-decoration: none; /* Do not underline the link in visited state */
-}
-
-a:hover {
-    text-decoration: underline; /* Underline the link in hover state */
-}
-
-a:active {
-    text-decoration: underline; /* Underline the link in active state */
-}
-
-/*
-===============================
-Site Template Component Styling
-===============================
-
-In XHTML code, we refer to a CSS style defined in a CSS file by using Selectors. 
-
-See CSS Selector Reference at http://www.w3schools.com/cssref/css_selectors.asp
-
-#id defines the style of a page component whose unique identification is id.
-.stylename defines the style of all elements marked as class="stylename" or
-styleClass="stylename". Note that styleClass is converted to class.
-
-Since ids are unique, the #id styling is used only once.
-.stylename can be used many times to style a class of elements.
-*/
-
 /* 
 Style the div component whose unique id is "page" per reference
 <div id="page"> in siteTemplate.xhtml
 */
 #page {
-    font-family: "Times New Roman", Times, Serif;
+    font-family: Futura, "Times New Roman", Times, Serif;
     font-size: 12pt;
     font-style: normal;
     font-weight: normal;
@@ -138,11 +86,12 @@ Style the div component whose unique id is "header" per reference
 <div id="header"> in siteTemplate.xhtml
 */
 #header {
+    background-color: #3e474f;
     width: 100%;
-    height: 120px;
-    position: absolute;
+    height: 80px;
+    position:absolute;
     left: 0px;
-    top: 0px;
+    top: -10px;
     right: 0px;
     margin-bottom: 16px;
 }
@@ -203,7 +152,7 @@ Vertical Navigation Menu
 
 /* Style class for <ul>, <li> and <a> hyperlink tag */
 .verticalMenu, .verticalMenuItem a {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Futura, Arial, Helvetica, sans-serif;
     font-size: 10pt;
     font-style: normal;
     font-weight: normal;
@@ -226,18 +175,9 @@ Other Style Definitions
 =======================
 */
 
-/* Used in footerTemplate and Profile */
-.arialTen {
-    font-family: Arial, Helvetica, sans-serif;
-    color: #FF7800;
-    font-size: 15pt;
-    font-style:normal;
-    font-weight: normal;
-}
-
 /* Used in EditAccount and UserFiles */
 .alertUser {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Futura, Arial, Helvetica, sans-serif;
     font-size: 10pt;
     font-style: normal;
     font-weight: normal;
@@ -259,7 +199,7 @@ Other Style Definitions
 
 /* Style error messages text */
 .errorMessages {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Futura, Arial, Helvetica, sans-serif;
     font-size: 12pt;
     font-style: normal;
     font-weight: normal;
@@ -268,7 +208,7 @@ Other Style Definitions
 
 /* Style a heading text */
 .heading {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Futura, Arial, Helvetica, sans-serif;
     font-size: 14pt;
     font-style: normal;
     font-weight: normal;
@@ -277,7 +217,7 @@ Other Style Definitions
 
 /* Style form item text */
 .formItemText {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Futura, Arial, Helvetica, sans-serif;
     font-size: 12pt;
     font-style: normal;
     font-weight: normal;
@@ -375,7 +315,7 @@ cascading hierarchy, use the !important attribute.
 /* Style PrimeFaces Command Button --> p:commandButton  */
 .commandButton, .ui-confirmdialog-yes, .ui-confirmdialog-no, .ui-fileupload-choose, .ui-fileupload-upload, .ui-fileupload-cancel {
     border-radius: 2em !important;
-    font-family: Arial, Helvetica, sans-serif !important;
+    font-family: Futura, Arial, Helvetica, sans-serif;
     font-size: 10pt !important;
     font-style: normal !important;
     font-weight: normal !important;
@@ -400,7 +340,7 @@ reference <p:confirmDialog id="confirmDialogBox" ...> in Profile.xhtml
 
 /* Override PrimeFaces style definitions for the Data Table component */
 .ui-datatable-data, .facetHeader, .ui-panel-titlebar, .ui-paginator, .ui-dialog-content, .ui-confirm-dialog-message, .ui-widget-content {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Futura, Arial, Helvetica, sans-serif;
     font-size: 10pt;
     font-style: normal;
     font-weight: normal;
@@ -409,7 +349,7 @@ reference <p:confirmDialog id="confirmDialogBox" ...> in Profile.xhtml
 
 /* Override PrimeFaces style definitions for the Data Grid component */
 .ui-datagrid, .ui-datagrid-content, .ui-datagrid-data, .ui-datagrid-row, .ui-datagrid-column {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Futura, Arial, Helvetica, sans-serif;
     font-size: 10pt;
     font-style: normal;
     font-weight: normal;
@@ -419,7 +359,7 @@ reference <p:confirmDialog id="confirmDialogBox" ...> in Profile.xhtml
 
 /* Override PrimeFaces style definitions for the Panel component */
 .ui-panel, .ui-panel-content {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Futura, Arial, Helvetica, sans-serif;
     font-size: 10pt;
     font-style: normal;
     font-weight: normal;
@@ -487,4 +427,46 @@ if content overflows an element's box.
 /* Leave 10px pading on top for the ui-button elements */
 .ui-button {
     margin-top: 10px !important;
+}
+
+.fa-icon {
+    color:#5fcf80;
+}
+
+.weblogo {
+    color: #5fcf80;
+    font-size: 80px;
+    font-family: Futura, Arial, Helvetica, sans-serif;
+    text-decoration: none;
+}
+
+.arialTen {
+    font-family: Futura;
+    color: #b2bbbd;
+    font-size: 15pt;
+    font-style:normal;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.arialTen:hover {
+    color:#7b8b8e;
+}
+
+.footerLink {
+    text-decoration: none;
+    color:#3f8abf;
+    
+}
+.footerLink:visited, .footerLink:link  {
+    color:#3f8abf;
+    text-decoration: none;
+}
+
+.footerLink:hover {
+    color:#5fcf80;
+}
+
+.footerText {
+    color:#8d9aa5;
 }
