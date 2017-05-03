@@ -26,6 +26,8 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
             <div align="center" style="width:50%; margin:0 auto;">
                 <p:growl id="growl" life="4000" />
                 <h:form id="HistorySearchForm">
+                    <br/>
+                    <br/>
                     <p:panel header="History Searches">
                         <p:dataTable id="datalist" value="#{historySearchController.items}" var="item"
                                      selectionMode="single" selection="#{historySearchController.selected}"
@@ -35,10 +37,10 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                                      rowsPerPageTemplate="5,10,15,20,30,40,50"
                                      class="dataTable"
                                      >
-                            
+
                             <p:ajax event="rowSelect"   update="searchButton shareButton"/>
                             <p:ajax event="rowUnselect" update="searchButton shareButton"/>
-                            
+
                             <p:column sortBy="#{item.createTime}">
                                 <f:facet name="header">
                                     <h:outputText value="Create Time" class="facetHeader"/>
@@ -55,7 +57,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                                 <h:outputText class="dataFields" value="#{item.from}">
                                     <f:convertDateTime pattern="MM-dd-yyyy" />
                                 </h:outputText>
-                                 
+
                             </p:column>
 
                             <p:column sortBy="#{item.to.toString()}">
@@ -80,7 +82,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                                 </f:facet>
                                 <h:outputText class="dataFields" value="#{item.crimeCodes.toString()}"/>
                             </p:column>
-                            
+
                             <f:facet name="footer">
                                 <p:commandButton id="searchButton" value="Search Again" 
                                                  styleClass="customButton" actionListener="#{historySearchController.searchAgain}" 
@@ -95,6 +97,8 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                     </p:panel>
                 </h:form>
             </div>
+            <br/>
+            <br/>
         </ui:define>
 
     </ui:composition>
