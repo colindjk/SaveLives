@@ -1,6 +1,6 @@
 
 
-html, body {
+html{
     /*-------------------------------------------------------------
     Preferably, use a background color. Uncomment the one you like 
     from examples below or select your own. See more HTML colors at 
@@ -72,7 +72,7 @@ Style the div component whose unique id is "header" per reference
     left: 0px;
     top: -10px;
     right: 0px;
-    margin-bottom: 16px;
+/*    margin-bottom: 16px;*/
 }
 /* 
 Style the div component whose unique id is "editableContent" per reference 
@@ -80,11 +80,11 @@ Style the div component whose unique id is "editableContent" per reference
 */
 #editableContent {
     /* height = 100% window height - (header height 84px + footer height 100px) */
-    height: calc(100% - 184px); 
+    height: calc(100% - 180px); 
     width: 100%;
     margin-left: 10px;
     margin-right: 10px;
-    margin-top: 150px;
+    margin-top: 80px;
     margin-bottom: 16px;
 }
 /* 
@@ -318,7 +318,7 @@ if content overflows an element's box.
 
 .weblogo {
     color: #5fcf80;
-    font-size: 90px;
+    font-size: 55px;
     font-family: Futura, Arial, Helvetica, sans-serif;
     text-decoration: none;
 }

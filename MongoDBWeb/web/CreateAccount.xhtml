@@ -13,12 +13,9 @@
         <ui:define name="editableContent">
             <p:growl id="growl" life="4000"/>
             <div align="center" style="width:50%; margin:0 auto;">
-
-
-
                 <h:outputLabel id="form-error-message" class="errorMessages" value="#{accountManager.statusMessage}"/>
                 <h:form id="AccountCreationForm">
-
+                    <br/>
                     <i class="gridTitle">Create Your Account</i>
                     <br/>
                     <br/>
@@ -128,11 +125,11 @@
                     </p:panelGrid>
                     <br />
                     <p:commandButton id="Submit" value="Submit" action="#{accountManager.createAccount()}" 
-                                     styleClass="commandButton" ajax="false" icon="ui-icon-extlink" />
-
-                    <p:button outcome="SignIn" value="Sign In" icon="ui-icon-arrowthick-1-e" styleClass="commandButton" />
-
-                    <p:button outcome="index" value="Cancel" icon="ui-icon-cancel" styleClass="commandButton" />
+                                     styleClass="customButton" ajax="false" />
+                    &nbsp;
+                    <p:button outcome="SignIn" value="Sign In"  styleClass="customButton" />
+                    &nbsp;
+                    <p:button outcome="index" value="Cancel" styleClass="customButton" />
 
                 </h:form>
             </div>
