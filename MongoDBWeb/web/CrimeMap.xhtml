@@ -198,7 +198,8 @@
                     </p:selectCheckboxMenu>
 
                     <!-- SUBMIT BUTTON -->
-                    <p:commandButton value="Submit"  update=":views:gmap"
+                    <p:commandButton value="Submit"  update=":views:gmap :views:crimeBarGraph :views:CrimeListForm:crimeList 
+                                     categories restricted1 restricted2 crimecodes crimeweapons crimeneighborhood"
                                      actionListener="#{crimeCaseController.submit}" oncomplete="postSubmit();" ajax="true"/>
                     <br/>
 

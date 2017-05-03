@@ -120,6 +120,10 @@ Copyright © 2017 Taiwen Jin. All rights reserved.
                 
                 theMap = PF('map').map;
                 mapCluster = new MarkerClusterer(theMap,theMap.markers,{gridSize: 50, maxZoom: 15, imagePath: 'http://localhost:8080/MongoDBWeb/resources/images/m'});
+                heatMap = new google.maps.visualization.HeatmapLayer({
+                data: getPoints(),
+                    map: null
+                });
                 if (isHeatMap) {
                 makeHeatMap();
                 } else {
