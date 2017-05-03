@@ -20,6 +20,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -84,6 +85,8 @@ public class HistorySearchController implements Serializable {
         crimeCaseController.setDate2(selected.getTo());
         crimeCaseController.setSelectedCrimeCodes(selected.getCrimeCodes());
         crimeCaseController.setSelectedCategories(selected.getCategories());
+        crimeCaseController.setSelectedWeapons(selected.getWeapons());
+        crimeCaseController.setSelectedNeighborhoods(selected.getNeighborhoods());
         crimeCaseController.submitWithoutAddHistory();
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("CrimeMap.xhtml");
@@ -121,7 +124,9 @@ public class HistorySearchController implements Serializable {
             String userPrimaryKey = (String) map.get("user_id");
             User u = getUserFacade().findById(userPrimaryKey);
 
-            String url = "http://localhost:8080/MongoDBWeb/webresources/search/" + u.getUsername() + "/" + selected.getIndex();
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            String url = request.getRequestURL().substring(0, request.getRequestURL().toString().length() - request.getServletPath().length());
+            url = url + "/webresources/search/" + u.getUsername() + "/" + selected.getIndex();
 
             // Compose the email content in HTML format
             String emailBodyText = "<div align=\"center\">" + imageUrl + "<br /><br /><h2>Open Baltimore</h2><br /><br />"
@@ -139,8 +144,8 @@ public class HistorySearchController implements Serializable {
             Logger.getLogger(HistorySearchController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-        public void prepareEmailBodyForLastSearch() {
+
+    public void prepareEmailBodyForLastSearch() {
 
         try {
             String imageUrl = "<img src=\"https://data.baltimorecity.gov/api/assets/AF2C3AF6-C1EF-4A09-9B7D-70B8E3C695BE?ob_beta.png\" style=\"width:200px;\">";
@@ -150,8 +155,9 @@ public class HistorySearchController implements Serializable {
             String userPrimaryKey = (String) map.get("user_id");
             User u = getUserFacade().findById(userPrimaryKey);
 
-            String url = "http://localhost:8080/MongoDBWeb/webresources/search/" + u.getUsername() + "/" + u.getHistorySearch().get(0).getIndex();
-
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            String url = request.getRequestURL().substring(0, request.getRequestURL().toString().length() - request.getServletPath().length());
+            url = url + "/webresources/search/" + u.getUsername() + "/" + selected.getIndex();
             // Compose the email content in HTML format
             String emailBodyText = "<div align=\"center\">" + imageUrl + "<br /><br /><h2>Open Baltimore</h2><br /><br />"
                     + u.getFirstName() + " sends you a search query. If you want to see the search result, please click <a href=\""

@@ -237,7 +237,8 @@ public class CrimeCaseController implements Serializable {
         // Record this search
         if (accountManager.isLoggedIn()) {
             SearchQuery sq = new SearchQuery(0, "untitled", new Date(), date1, date2,
-                    (ArrayList<String>) selectedCategories, (ArrayList<String>) selectedCrimeCodes);
+                    (ArrayList<String>) selectedCategories, (ArrayList<String>) selectedCrimeCodes,
+                    (ArrayList<String>) selectedWeapons, (ArrayList<String>)selectedNeighborhoods);
             accountManager.getSelected().addHistorySearch(sq);
             getUserFacade().edit(accountManager.getSelected());
             //User u = getUserFacade().findById(accountManager.getSelected().getId());

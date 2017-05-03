@@ -46,7 +46,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                                 <h:outputText class="dataFields" value="#{item.name}"/>
                             </p:column>
 
-                            <p:column sortBy="#{item.createTime}">
+                            <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="Create Time" class="facetHeader"/>
                                 </f:facet>
@@ -55,7 +55,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                                 </h:outputText>
                             </p:column>
 
-                            <p:column sortBy="#{item.from.toString()}">
+                            <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="From Date" class="facetHeader"/>
                                 </f:facet>
@@ -65,7 +65,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
 
                             </p:column>
 
-                            <p:column sortBy="#{item.to.toString()}">
+                            <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="To Date" class="facetHeader"/>
                                 </f:facet>
@@ -74,18 +74,32 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                                 </h:outputText>
                             </p:column>
 
-                            <p:column sortBy="#{item.categories.toString()}">
+                            <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Categories" class="facetHeader"/>
                                 </f:facet>
                                 <h:outputText class="dataFields" value="#{item.categories.toString()}"/>
                             </p:column>
 
-                            <p:column sortBy="#{item.crimeCodes.toString()}">
+                            <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Crime Code" class="facetHeader"/>
                                 </f:facet>
                                 <h:outputText class="dataFields" value="#{item.crimeCodes.toString()}"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Weapon" class="facetHeader"/>
+                                </f:facet>
+                                <h:outputText class="dataFields" value="#{item.weapons.toString()}"/>
+                            </p:column>
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Neighborhood" class="facetHeader"/>
+                                </f:facet>
+                                <h:outputText class="dataFields" value="#{item.neighborhoods.toString()}"/>
                             </p:column>
 
                             <f:facet name="footer">

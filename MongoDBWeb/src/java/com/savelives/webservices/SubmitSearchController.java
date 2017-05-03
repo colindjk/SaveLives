@@ -42,6 +42,8 @@ public class SubmitSearchController implements Serializable {
         crimeCaseController.setDate2(selected.getTo());
         crimeCaseController.setSelectedCrimeCodes(selected.getCrimeCodes());
         crimeCaseController.setSelectedCategories(selected.getCategories());
+        crimeCaseController.setSelectedWeapons(selected.getWeapons());
+        crimeCaseController.setSelectedNeighborhoods(selected.getNeighborhoods());
         try {
             crimeCaseController.submit();
             FacesContext.getCurrentInstance().getExternalContext().redirect("CrimeMap.xhtml");

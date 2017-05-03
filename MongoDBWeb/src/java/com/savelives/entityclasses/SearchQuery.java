@@ -28,6 +28,8 @@ public class SearchQuery {
     private Date to;
     private ArrayList<String> categories;
     private ArrayList<String> crimeCodes;
+    private ArrayList<String> weapons;
+    private ArrayList<String> neighborhoods;
 
     public SearchQuery() {
     }
@@ -36,14 +38,18 @@ public class SearchQuery {
      * Custom Constructor. Builds searchQuery object based on given parameter
      *
      * @param index search index
+     * @param name name of the search
      * @param createTime Date and time the Query is created
      * @param from Search from date
      * @param to Search to date
      * @param categories Search categories
      * @param crimeCodes Search crime codes
+     * @param weapons Weapon used
+     * @param neighborhoods neighborhoods crime happens
      */
     public SearchQuery(int index, String name, Date createTime, Date from, Date to,
-            ArrayList<String> categories, ArrayList<String> crimeCodes) {
+            ArrayList<String> categories, ArrayList<String> crimeCodes,
+            ArrayList<String> weapons, ArrayList<String> neighborhoods) {
         this.index = index;
         this.name = name;
         this.createTime = createTime;
@@ -51,6 +57,8 @@ public class SearchQuery {
         this.to = to;
         this.categories = categories;
         this.crimeCodes = crimeCodes;
+        this.weapons = weapons;
+        this.neighborhoods = neighborhoods;
     }
 
     public SearchQuery(Document doc) {
@@ -83,6 +91,18 @@ public class SearchQuery {
         arr = obj.getJSONArray("crimeCodes");
         for (int i = 0; i < arr.length(); i++) {
             this.crimeCodes.add(arr.getString(i));
+        }
+
+        this.weapons = new ArrayList<>();
+        arr = obj.getJSONArray("weapons");
+        for (int i = 0; i < arr.length(); i++) {
+            this.weapons.add(arr.getString(i));
+        }
+
+        this.neighborhoods = new ArrayList<>();
+        arr = obj.getJSONArray("neighborhoods");
+        for (int i = 0; i < arr.length(); i++) {
+            this.neighborhoods.add(arr.getString(i));
         }
     }
 
@@ -141,8 +161,22 @@ public class SearchQuery {
     public void setName(String name) {
         this.name = name;
     }
-    
-    
+
+    public ArrayList<String> getWeapons() {
+        return weapons;
+    }
+
+    public void setWeapons(ArrayList<String> weapons) {
+        this.weapons = weapons;
+    }
+
+    public ArrayList<String> getNeighborhoods() {
+        return neighborhoods;
+    }
+
+    public void setNeighborhoods(ArrayList<String> neighborhoods) {
+        this.neighborhoods = neighborhoods;
+    }
 
     public Document toDocument() {
 
@@ -154,6 +188,8 @@ public class SearchQuery {
         String t = d.format(this.to);
         JSONArray cg = new JSONArray(this.categories);
         JSONArray cc = new JSONArray(this.crimeCodes);
+        JSONArray w = new JSONArray(this.weapons);
+        JSONArray n = new JSONArray(this.neighborhoods);
 
         return new Document()
                 .append("index", this.index)
@@ -162,6 +198,8 @@ public class SearchQuery {
                 .append("from", f)
                 .append("to", t)
                 .append("categories", cg)
-                .append("crimeCodes", cc);
+                .append("crimeCodes", cc)
+                .append("weapons", w)
+                .append("neighborhoods", n);
     }
 }
