@@ -468,16 +468,24 @@ if content overflows an element's box.
     border: none;
 }
 
-.column1{
+.column1 {
     color: #384047;
     text-align: right;
-    font-size: 15pt;
+    font-size: 13pt;
     background-color: #edeff0;
     white-space: nowrap;
 }
 
-/* Used in CreateAccount and EditAccount */
-.column2{
+.column2 {
     text-align: left;
+    font-size: 15pt;
+    font-style: italic;
     background-color: #edeff0;
 }
+
+.column2-EditAccount{
+    text-align: left;
+    font-size: 13pt;
+    background-color: #edeff0;
+}
+

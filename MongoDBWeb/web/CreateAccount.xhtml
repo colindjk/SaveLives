@@ -113,14 +113,14 @@
                         </p:inputText>
 
                         <!-- ACCOUNT PASSWORD -->
-                        <h:outputLabel value="#{bundle.CreateUserLabel_password} *" for="password" />
+                        <h:outputLabel value="#{bundle.CreateUserLabel_password}" for="password" />
                         <p:password id="password" value="#{accountManager.password}" feedback="true" required="true" styleClass="accountInputTextField">
                             <!-- Execute the "validate" method in the "PasswordValidator.java" class file to validate the password entered. -->
                             <f:validator validatorId="passwordValidator" /> 
                         </p:password>
 
                         <!-- CONFIRM PASSWORD -->
-                        <h:outputLabel value="Confirm Password: *" for="confirmPassword" />
+                        <h:outputLabel value="Confirm Password:" for="confirmPassword" />
                         <p:password id="confirmPassword" value="ToBeReadFromThisFieldByAccountManager" required="true" 
                                     styleClass="accountInputTextField"/>
 

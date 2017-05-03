@@ -3,7 +3,6 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
@@ -13,100 +12,49 @@
         <ui:define name="editableContent">
 
             <p:growl id="growl" life="5000" />
+            <div align="center" style="width:80%; margin:0 auto;">
 
-            <h:form id="UserProfileForm">
+                <h:form id="UserProfileForm">
+                    <i class="gridTitle"> #{accountManager.selected.firstName} #{accountManager.selected.lastName}'s Account Profile </i>
 
-                <table width="100%" border="0" cellspacing="0" cellpadding="10">
-                    <tr>
-                        <!-- The first <td> contains the VERTICAL NAVIGATION MENU -->
-                        <td width="180" align="left" valign="middle" nowrap="nowrap">
-                            <ul class="verticalMenu">
+                    <br />
+                    <br />
+                    <p:panelGrid columns="2" columnClasses="column1, column2" class="panelGrid">
 
-                                <li class="verticalMenuItem">
-                                    <!-- HOME -->
-                                    <h:link outcome="index">
-                                        <i class="fa fa-home">&nbsp;</i>Home
-                                    </h:link>
-                                </li>
+                        <h:outputText value="#{bundle.ViewUserLabel_firstName}"/>
+                        <h:outputText value="#{accountManager.selected.firstName}" />
 
-                                <li class="verticalMenuItem">
-                                    <!-- EDIT PROFILE -->
-                                    <h:link outcome="EditAccount">
-                                        <i class="fa fa-pencil-square-o">&nbsp;</i>Edit Profile
-                                    </h:link>
-                                </li>
+                        <h:outputText value="#{bundle.ViewUserLabel_middleName}"/>
+                        <h:outputText value="#{accountManager.selected.middleName}" />
 
-                                <li class="verticalMenuItem">
-                                    <!-- CHANGE PASSWORD -->
-                                    <h:link outcome="EnterUsername">
-                                        <i class="fa fa-key">&nbsp;</i>Change Password
-                                    </h:link>
-                                </li>
+                        <h:outputText value="#{bundle.ViewUserLabel_lastName}"/>
+                        <h:outputText value="#{accountManager.selected.lastName}" />
 
-                                <li class="verticalMenuItem">
-                                    <!-- HISTORY QUERY -->
-                                    <h:link outcome="HistorySearch">
-                                        <i class="fa fa-history">&nbsp;</i>Search History
-                                    </h:link>
-                                </li>
+                        <h:outputText value="#{bundle.ViewUserLabel_address1}"/>
+                        <h:outputText value="#{accountManager.selected.address1}" />
 
-                                <li class="verticalMenuItem">
-                                    <!-- SIGN OUT -->
-                                    <h:commandLink action="#{accountManager.logout()}">
-                                        <i class="fa fa-sign-out">&nbsp;</i>Sign Out
-                                    </h:commandLink>
-                                </li>
+                        <h:outputText value="#{bundle.ViewUserLabel_address2}"/>
+                        <h:outputText value="#{accountManager.selected.address2}" />
 
-                            </ul>
+                        <h:outputText value="#{bundle.ViewUserLabel_city}"/>
+                        <h:outputText value="#{accountManager.selected.city}" />
 
-                        </td>
+                        <h:outputText value="#{bundle.ViewUserLabel_state}"/>
+                        <h:outputText value="#{accountManager.selected.state}" />
 
-                        <!-- The second <td> contains the USER PROFILE DATA -->
-                        <td align="center" valign="top">
+                        <h:outputText value="#{bundle.ViewUserLabel_zipcode}"/>
+                        <h:outputText value="#{accountManager.selected.zipcode}" />
 
-                            <h2> #{accountManager.selected.firstName} #{accountManager.selected.lastName}'s Account Profile </h2>
+                        <h:outputText value="#{bundle.ViewUserLabel_email}"/>
+                        <h:outputText value="#{accountManager.selected.email}" />
 
-                            <br />
-                            <br />
-                            <p:panelGrid columns="2" columnClasses="profileColumn1, profileColumn2" >
+                        <h:outputText value="#{bundle.ViewUserLabel_username}"/>
+                        <h:outputText value="#{accountManager.selected.username}" />
 
-                                <h:outputText value="#{bundle.ViewUserLabel_firstName}"/>
-                                <h:outputText value="#{accountManager.selected.firstName}" />
+                    </p:panelGrid>
 
-                                <h:outputText value="#{bundle.ViewUserLabel_middleName}"/>
-                                <h:outputText value="#{accountManager.selected.middleName}" />
-
-                                <h:outputText value="#{bundle.ViewUserLabel_lastName}"/>
-                                <h:outputText value="#{accountManager.selected.lastName}" />
-
-                                <h:outputText value="#{bundle.ViewUserLabel_address1}"/>
-                                <h:outputText value="#{accountManager.selected.address1}" />
-
-                                <h:outputText value="#{bundle.ViewUserLabel_address2}"/>
-                                <h:outputText value="#{accountManager.selected.address2}" />
-
-                                <h:outputText value="#{bundle.ViewUserLabel_city}"/>
-                                <h:outputText value="#{accountManager.selected.city}" />
-
-                                <h:outputText value="#{bundle.ViewUserLabel_state}"/>
-                                <h:outputText value="#{accountManager.selected.state}" />
-
-                                <h:outputText value="#{bundle.ViewUserLabel_zipcode}"/>
-                                <h:outputText value="#{accountManager.selected.zipcode}" />
-
-                                <h:outputText value="#{bundle.ViewUserLabel_email}"/>
-                                <h:outputText value="#{accountManager.selected.email}" />
-
-                                <h:outputText value="#{bundle.ViewUserLabel_username}"/>
-                                <h:outputText value="#{accountManager.selected.username}" />
-
-                            </p:panelGrid>
-
-                        </td>
-                    </tr>
-                </table>
-
-            </h:form>
+                </h:form>
+            </div>
         </ui:define>
     </ui:composition>
 

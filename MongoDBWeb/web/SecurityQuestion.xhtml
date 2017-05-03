@@ -22,10 +22,11 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
         <!-- Create the content for this page below -->
         <ui:define name="editableContent">
             <p:growl id="growl" life="4000"/>
-            <div align="center" style="width:50%; margin:0 auto;">
+            <div align="center" style="width:40%; margin:0 auto;">
                 <h:form>
-                    <h2>Please Answer Your Security Question</h2>
-
+                    <i class="gridTitle">Please Answer Your Security Question</i>
+                    <br />
+                    <br />
                     <fieldset>
                         <div style="margin-bottom:20px">
                             <h:outputLabel for="question" value="#{passwordResetManager.getSecurityQuestion()}" />

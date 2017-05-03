@@ -8,7 +8,8 @@ Copyright © 2017 Taiwen Jin. All rights reserved.
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
         <h:form>
@@ -34,9 +35,17 @@ Copyright © 2017 Taiwen Jin. All rights reserved.
                                 <i class="fa fa-sign-out fa-icon">&nbsp;</i>Sign Out
                             </h:commandLink>&nbsp;&nbsp;
 
-                            <h:link outcome="Profile" styleClass="arialTen">
-                                <i class="fa fa-user fa-icon">&nbsp;</i>My Account
+                            <h:link id="profileLink" styleClass="arialTen">
+                                <i class="fa fa-bars fa-icon">&nbsp;</i>My Account
                             </h:link>&nbsp;&nbsp;
+
+                            <p:menu overlay="true" trigger="profileLink" my="left top" at="left bottom">
+                                <p:menuitem outcome="Profile"><i class="fa fa-user">&nbsp;</i>User Profile</p:menuitem>
+                                <p:menuitem outcome="EditAccount"><i class="fa fa-pencil-square-o">&nbsp;</i>Edit Information</p:menuitem>
+                                <p:menuitem outcome="EnterUsername"><i class="fa fa-key">&nbsp;</i>Change Password</p:menuitem>
+
+                                <p:menuitem outcome="HistorySearch"><i class="fa fa-history">&nbsp;</i>Search History</p:menuitem>
+                            </p:menu>
 
                         </c:if>
                         <c:if test="${not accountManager.isLoggedIn()}">

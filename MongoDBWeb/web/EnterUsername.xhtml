@@ -9,11 +9,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
-    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
-
-    <!-- This page is constructed based on the siteTemplate -->
     <ui:composition template="template/siteTemplate.xhtml">
-        
 
         <ui:define name="title">
             <!-- Set the page title -->
@@ -23,20 +19,23 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
         <!-- Create the content for this page below -->
         <ui:define name="editableContent">
             <p:growl id="growl" life="4000"/>
-            <div align="center" style="width:50%; margin:0 auto;">
+            <div align="center" style="width:40%; margin:0 auto;">
                 <h:form id="EnterUsernameForm">
-                    <h2>Please Enter Your Username</h2>
+                    <i class="gridTitle">Please Enter Your Username</i>
+
+                    <br />
+                    <br />
                     <fieldset>
+                        <br/>
                         <div style="margin-bottom: 5px">
                             <p:inputText id="username" value="#{passwordResetManager.username}" required="true"
                                          requiredMessage="Please enter your username!" 
                                          styleClass="usernameInputTextField" />
                         </div>
-                        <br/>
+
                         <p:commandButton id="submit" value="Submit" icon="ui-icon-extlink"
                                          action="#{passwordResetManager.usernameSubmit()}" 
                                          styleClass="commandButton" />
-
                         &nbsp;
                         <p:button outcome="index" value="Cancel" icon="ui-icon-cancel" 
                                   styleClass="commandButton" />
@@ -47,6 +46,5 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
         </ui:define>
 
     </ui:composition>
-    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
 </html>
 
