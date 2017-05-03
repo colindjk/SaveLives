@@ -37,7 +37,7 @@ public class HistorySearchController implements Serializable {
 
     @Inject
     private CrimeCaseController crimeCaseController;
-    
+
     @Inject
     private PreferredSearchController preferredSearchController;
 
@@ -98,9 +98,9 @@ public class HistorySearchController implements Serializable {
                 .getExternalContext().getSessionMap();
         String userPrimaryKey = (String) map.get("user_id");
         User u = getUserFacade().findById(userPrimaryKey);
-        
-        for (int i = 0; i < u.getPreferredSearch().size(); i++){
-            if (u.getPreferredSearch().get(i).getIndex() == selected.getIndex()){
+
+        for (int i = 0; i < u.getPreferredSearch().size(); i++) {
+            if (u.getPreferredSearch().get(i).getIndex() == selected.getIndex()) {
                 JsfUtil.addErrorMessage("Selected Search is already in preferred search!");
                 return;
             }
@@ -122,6 +122,35 @@ public class HistorySearchController implements Serializable {
             User u = getUserFacade().findById(userPrimaryKey);
 
             String url = "http://localhost:8080/MongoDBWeb/webresources/search/" + u.getUsername() + "/" + selected.getIndex();
+
+            // Compose the email content in HTML format
+            String emailBodyText = "<div align=\"center\">" + imageUrl + "<br /><br /><h2>Open Baltimore</h2><br /><br />"
+                    + u.getFirstName() + " sends you a search query. If you want to see the search result, please click <a href=\""
+                    + url + "\">here</a> to view the search details and search the crime cases. <br /><br /> <p>&nbsp;</p></div>";
+
+            // Set the HTML content to be the body of the email message
+            editorView.setText(emailBodyText);
+
+            // Redirect to show the SendMail.xhtml page
+            FacesContext.getCurrentInstance().getExternalContext().redirect("SendEmail.xhtml");
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(HistorySearchController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(HistorySearchController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+        public void prepareEmailBodyForLastSearch() {
+
+        try {
+            String imageUrl = "<img src=\"https://data.baltimorecity.gov/api/assets/AF2C3AF6-C1EF-4A09-9B7D-70B8E3C695BE?ob_beta.png\" style=\"width:200px;\">";
+
+            Map<String, Object> map = FacesContext.getCurrentInstance()
+                    .getExternalContext().getSessionMap();
+            String userPrimaryKey = (String) map.get("user_id");
+            User u = getUserFacade().findById(userPrimaryKey);
+
+            String url = "http://localhost:8080/MongoDBWeb/webresources/search/" + u.getUsername() + "/" + u.getHistorySearch().get(0).getIndex();
 
             // Compose the email content in HTML format
             String emailBodyText = "<div align=\"center\">" + imageUrl + "<br /><br /><h2>Open Baltimore</h2><br /><br />"

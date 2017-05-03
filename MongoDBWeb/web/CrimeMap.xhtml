@@ -16,6 +16,7 @@
 
             <p:layout style="height: 700px; margin: 20px">
                 <p:layoutUnit position="west" size="250" resizable="false">
+
                     <div align="center">
 
                         <!-- FILTERS -->
@@ -74,18 +75,36 @@
                             <p:commandButton value="Submit"  update=":views:gmap :views:crimeBarGraph :views:CrimeListForm:crimeList 
                                              categories restricted1 restricted2 crimecodes crimeweapons crimeneighborhood"
                                              actionListener="#{crimeCaseController.submit}" oncomplete="postSubmit();" ajax="true" class="customButton"/>
-                            
+                        </h:form>
+
+
+
+                    </div>
+                    <div align="center">
+                        <h:form>
+                            <br/>
+                            <br/>
                             <c:if test="${accountManager.isLoggedIn()}">
-                                <br/>
-                                <br/>
-                            
                                 <p:button outcome="HistorySearch" value="Search History" 
                                           styleClass="customButton" />
 
+                                <p:commandButton id="shareButton" value="Share Search" 
+                                                 styleClass="customButton" actionListener="#{historySearchController.prepareEmailBodyForLastSearch()}" 
+                                                 />
                             </c:if>
-
+                            <c:if test="${not accountManager.isLoggedIn()}">
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                You need to <h:link outcome="SignIn" >sign in</h:link> to <b>save</b> <br/>or <b>share</b> your searches.
+                            </c:if>
                         </h:form>
                     </div>
+
+
+
+
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center" resizable="false" size="700">
