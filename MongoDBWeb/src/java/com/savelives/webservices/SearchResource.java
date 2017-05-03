@@ -76,15 +76,10 @@ public class SearchResource {
     public Response getHtml(@PathParam("username") String username, @PathParam("index") int index) {
 
         User u = userFacade.findByUsername(username);
-        System.out.println("shang4");
-        System.out.println(username);
-        System.out.println(index);
-        //  String current_username = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("username");
-
         if (u == null) {
             return null;
         }
-        SearchQuery sq = u.getHistorySearch().get(index);
+        SearchQuery sq = u.getHistorySearch().get(u.getHistorySearch().size() - index - 1);
         confirmSearchController.setSelected(sq);
         try {
             java.net.URI location = new java.net.URI("../ConfirmSearch.xhtml");

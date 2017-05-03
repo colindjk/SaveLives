@@ -32,6 +32,7 @@ public class User {
     private String securityAnswer;
     private String email;
     private ArrayList<SearchQuery> historySearch;
+    private ArrayList<SearchQuery> preferredSearch;
 
     public User() {
     }
@@ -58,6 +59,7 @@ public class User {
      * @param salt Salt
      * @param iterations iteration number
      * @param historySearch history search
+     * @param preferredSearch preferred search
      */
     public User(String id, String username,
             byte[] passwordKey, String firstName,
@@ -66,7 +68,8 @@ public class User {
             String zipCode, int securityQuestion,
             String securityAnswer, String email,
             byte[] salt, int iterations,
-            ArrayList<SearchQuery> historySearch) {
+            ArrayList<SearchQuery> historySearch,
+            ArrayList<SearchQuery> preferredSearch) {
         this.id = id;
         this.username = username;
         this.passwordKey = passwordKey;
@@ -82,6 +85,7 @@ public class User {
         this.salt = salt;
         this.iterations = iterations;
         this.historySearch = historySearch;
+        this.preferredSearch = preferredSearch;
     }
 
     /**
@@ -107,11 +111,19 @@ public class User {
         this.zipCode = doc.getString("zipCode");
         this.iterations = doc.getInteger("iterations");
         this.salt = DatatypeConverter.parseBase64Binary(doc.getString("salt"));
+
         this.historySearch = new ArrayList<>();
         JSONObject obj = new JSONObject(doc);
         JSONArray arr = obj.getJSONArray("historySearch");
         for (int i = 0; i < arr.length(); i++) {
             this.historySearch.add(new SearchQuery(Document.parse(arr.get(i).toString())));
+        }
+
+        this.preferredSearch = new ArrayList<>();
+        obj = new JSONObject(doc);
+        arr = obj.getJSONArray("preferredSearch");
+        for (int i = 0; i < arr.length(); i++) {
+            this.preferredSearch.add(new SearchQuery(Document.parse(arr.get(i).toString())));
         }
     }
 
@@ -260,15 +272,32 @@ public class User {
         this.historySearch = historySearch;
     }
 
+    public ArrayList<SearchQuery> getPreferredSearch() {
+        return preferredSearch;
+    }
+
+    public void setPreferredSearch(ArrayList<SearchQuery> preferredSearch) {
+        this.preferredSearch = preferredSearch;
+    }
+
     public void addHistorySearch(SearchQuery sq) {
         ArrayList<SearchQuery> temp = new ArrayList<>();
-        sq.setIndex(0);
+        sq.setIndex(historySearch.size());
         temp.add(sq);
         for (int i = 0; i < historySearch.size(); i++) {
-            historySearch.get(i).setIndex(i + 1);
             temp.add(historySearch.get(i));
         }
         this.historySearch = temp;
+
+    }
+
+    public void addPreferredSearch(SearchQuery sq) {
+        ArrayList<SearchQuery> temp = new ArrayList<>();
+        temp.add(sq);
+        for (int i = 0; i < preferredSearch.size(); i++) {
+            temp.add(preferredSearch.get(i));
+        }
+        this.preferredSearch = temp;
 
     }
 
@@ -277,6 +306,11 @@ public class User {
         for (int i = 0; i < this.historySearch.size(); i++) {
             docs.add(historySearch.get(i).toDocument());
         }
+        ArrayList<Document> docs2 = new ArrayList<>();
+        for (int i = 0; i < this.preferredSearch.size(); i++) {
+            docs.add(preferredSearch.get(i).toDocument());
+        }
+        
         return new Document()
                 .append("username", getUsername())
                 .append("passwordKey", DatatypeConverter.printBase64Binary(getPasswordKey()))
@@ -293,6 +327,8 @@ public class User {
                 .append("email", getEmail())
                 .append("iterations", getIterations())
                 .append("salt", DatatypeConverter.printBase64Binary(getSalt()))
-                .append("historySearch", docs);
+                .append("historySearch", docs)
+                .append("preferredSearch", docs2);
+        
     }
 }

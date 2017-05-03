@@ -1,5 +1,5 @@
 /*
- * Created by Pingxin Shang on 2017.04.26  * 
+ * Created by Pingxin Shang on 2017.05.03  * 
  * Copyright © 2017 Pingxin Shang. All rights reserved. * 
  */
 package com.savelives.managers;
@@ -24,9 +24,9 @@ import javax.inject.Named;
  *
  * @author ping
  */
-@Named(value = "historySearchController")
+@Named(value = "preferredSearchController")
 @SessionScoped
-public class HistorySearchController implements Serializable {
+public class PreferredSearchController implements Serializable {
 
     private List<SearchQuery> items = null;
     private SearchQuery selected;
@@ -40,7 +40,7 @@ public class HistorySearchController implements Serializable {
     @Inject
     private EditorView editorView;
 
-    public HistorySearchController() {
+    public PreferredSearchController() {
     }
 
     public List<SearchQuery> getItems() {
@@ -48,7 +48,7 @@ public class HistorySearchController implements Serializable {
                 .getExternalContext().getSessionMap();
         String userPrimaryKey = (String) map.get("user_id");
         User u = getUserFacade().findById(userPrimaryKey);
-        this.items = u.getHistorySearch();
+        this.items = u.getPreferredSearch();
 
         return items;
     }
@@ -84,7 +84,7 @@ public class HistorySearchController implements Serializable {
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("CrimeMap.xhtml");
         } catch (IOException ex) {
-            Logger.getLogger(HistorySearchController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PreferredSearchController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -111,9 +111,10 @@ public class HistorySearchController implements Serializable {
             // Redirect to show the SendMail.xhtml page
             FacesContext.getCurrentInstance().getExternalContext().redirect("SendEmail.xhtml");
         } catch (UnknownHostException ex) {
-            Logger.getLogger(HistorySearchController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PreferredSearchController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(HistorySearchController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PreferredSearchController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 }

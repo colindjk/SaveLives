@@ -22,6 +22,7 @@ import org.primefaces.json.JSONObject;
 public class SearchQuery {
 
     private int index;
+    private String name;
     private Date createTime;
     private Date from;
     private Date to;
@@ -41,9 +42,10 @@ public class SearchQuery {
      * @param categories Search categories
      * @param crimeCodes Search crime codes
      */
-    public SearchQuery(int index, Date createTime, Date from, Date to,
+    public SearchQuery(int index, String name, Date createTime, Date from, Date to,
             ArrayList<String> categories, ArrayList<String> crimeCodes) {
         this.index = index;
+        this.name = name;
         this.createTime = createTime;
         this.from = from;
         this.to = to;
@@ -57,6 +59,7 @@ public class SearchQuery {
         JSONObject obj = new JSONObject(doc);
 
         this.index = obj.getInt("index");
+        this.name = obj.getString("name");
 
         // Set Formatter
         DateFormat dnt = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -131,6 +134,16 @@ public class SearchQuery {
         this.index = index;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    
+
     public Document toDocument() {
 
         DateFormat dnt = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -144,6 +157,7 @@ public class SearchQuery {
 
         return new Document()
                 .append("index", this.index)
+                .append("name", this.name)
                 .append("createTime", ct)
                 .append("from", f)
                 .append("to", t)

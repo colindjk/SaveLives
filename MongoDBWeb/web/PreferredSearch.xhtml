@@ -18,7 +18,7 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
 
         <ui:define name="title">
             <!-- Set the page title -->
-            <h:outputText value="History Search"></h:outputText>
+            <h:outputText value="Preferred Search"></h:outputText>
         </ui:define>
 
         <!-- Create the content for this page below -->
@@ -27,8 +27,8 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
                 <p:growl id="growl" life="4000" />
                 <h:form id="HistorySearchForm">
                     <p:panel header="History Searches">
-                        <p:dataTable id="datalist" value="#{historySearchController.items}" var="item"
-                                     selectionMode="single" selection="#{historySearchController.selected}"
+                        <p:dataTable id="datalist" value="#{preferredSearchController.items}" var="item"
+                                     selectionMode="single" selection="#{preferredSearchController.selected}"
                                      paginator="true"
                                      rowKey="#{item.index}"
                                      rows="5"
@@ -38,6 +38,13 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
 
                             <p:ajax event="rowSelect"   update="searchButton shareButton"/>
                             <p:ajax event="rowUnselect" update="searchButton shareButton"/>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Name" class="facetHeader"/>
+                                </f:facet>
+                                <h:outputText class="dataFields" value="#{item.name}"/>
+                            </p:column>
 
                             <p:column sortBy="#{item.createTime}">
                                 <f:facet name="header">
@@ -83,11 +90,11 @@ Copyright © 2017 Cheick Berthe. All rights reserved.
 
                             <f:facet name="footer">
                                 <p:commandButton id="searchButton" icon="ui-icon-arrowrefresh-1-e" value="Search Again" 
-                                                 styleClass="commandButton" actionListener="#{historySearchController.searchAgain}" 
-                                                 disabled="#{empty historySearchController.selected}" /> 
+                                                 styleClass="commandButton" actionListener="#{preferredSearchController.searchAgain}" 
+                                                 disabled="#{empty preferredSearchController.selected}" /> 
                                 <p:commandButton id="shareButton" icon="ui-icon-extlink" value="Share this Search" 
-                                                 styleClass="commandButton" actionListener="#{historySearchController.prepareEmailBody()}" 
-                                                 disabled="#{empty historySearchController.selected}" />
+                                                 styleClass="commandButton" actionListener="#{preferredSearchController.prepareEmailBody()}" 
+                                                 disabled="#{empty preferredSearchController.selected}" />
                             </f:facet>
 
                         </p:dataTable>

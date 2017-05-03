@@ -337,6 +337,7 @@ public class AccountManager implements Serializable {
                 Set the properties of the newly created newUser object with the values
                 entered by the user in the AccountCreationForm in CreateAccount.xhtml
                  */
+
                 newUser.setFirstName(firstName);
                 newUser.setMiddleName(middleName);
                 newUser.setLastName(lastName);
@@ -353,7 +354,9 @@ public class AccountManager implements Serializable {
                 newUser.setSalt(salt);
                 newUser.setIterations(iterations);
                 newUser.setHistorySearch(new ArrayList<>());
+                newUser.setPreferredSearch(new ArrayList<>());
                 getUserFacade().create(newUser);
+
 
             } catch (EJBException e) {
                 username = "";
