@@ -29,7 +29,7 @@
                                 <p:outputLabel for="restricted1" value="From:" />
                                 <p:calendar id="restricted1" value="#{crimeCaseController.date1}" 
                                             mindate="1/1/12" maxdate="2/18/17" pattern="MM/dd/yyyy"
-                                            navigator="true" required="true" >
+                                            navigator="true" required="true">
                                     <f:convertDateTime pattern="MM/dd/yyyy" />
                                 </p:calendar>
 
@@ -72,9 +72,12 @@
                             <br/>
                             <br/>
                             <!-- SUBMIT BUTTON -->
-                            <p:commandButton value="Submit"  update=":views:gmap :views:chartViews :views:CrimeListForm:crimeList 
+                            <p:commandButton id="submitBtn" value="Submit"  update=":views:gmap :views:chartViews :views:CrimeListForm:crimeList 
                                              categories restricted1 restricted2 crimecodes crimeweapons crimeneighborhood"
                                              actionListener="#{crimeCaseController.submit}" oncomplete="postSubmit();" ajax="true" class="customButton"/>
+                            <p:blockUI block="views" trigger="submitBtn" >
+                                <p:graphicImage value="#{resource['images:statusbar.gif']}" />
+                            </p:blockUI> 
                         </h:form>
 
 
@@ -157,9 +160,9 @@
                             <p:tabView dynamic="true" cache="true" id="chartViews"  >
                                 <p:tab title="Bar Graph">
                                     <!-- BAR GRAPH -->
-                                             
+
                                     <p:chart id="crimeBarGraph" type="bar" style="height:400px" model="#{crimeCaseController.barModel}" />
-                                    
+
                                 </p:tab>
                                 <p:tab title="Pie Chart">
                                     <!-- PIE CHART -->
@@ -270,7 +273,9 @@
 
                         </p:tab>
                     </p:accordionPanel>
-
+                    <p:blockUI block="views" trigger="views">
+                        <p:graphicImage value="#{resource['images:statusbar.gif']}" />
+                    </p:blockUI>
                 </p:layoutUnit>
             </p:layout>
 
