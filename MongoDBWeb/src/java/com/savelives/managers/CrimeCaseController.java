@@ -308,6 +308,9 @@ public class CrimeCaseController implements Serializable {
 
         //Calendar cal30 = Calendar.getInstance();
         //cal30.setTime(date1);
+        
+        int maxCrimes = 0;
+        
         for (int i = 1; i < 12; i++) {
 
             //cal30.add(Calendar.DATE, (multiple * 30));
@@ -362,8 +365,19 @@ public class CrimeCaseController implements Serializable {
             }
 
             //return number of crimes within this month
-            crimes.set(f.format(cal.getTime()),
-                    getFacade().filterCrimes(cal4.getTime(), cal3.getTime(), selectedCrimeCodes, selectedCategories, selectedWeapons, selectedNeighborhoods).getMarkers().size());
+            int numCrimes = getFacade().filterCrimes(
+                    cal4.getTime(), 
+                    cal3.getTime(), 
+                    selectedCrimeCodes, 
+                    selectedCategories, 
+                    selectedWeapons, 
+                    selectedNeighborhoods).getMarkers().size();
+            
+            if (numCrimes > maxCrimes) {
+                maxCrimes = numCrimes;
+            }
+            
+            crimes.set(f.format(cal.getTime()), numCrimes);
         }
 
         model.addSeries(crimes);
@@ -373,7 +387,7 @@ public class CrimeCaseController implements Serializable {
         barModel.getAxis(AxisType.Y).setLabel("Crime Count");
         barModel.getAxis(AxisType.Y).setTickFormat("%d");
         barModel.getAxis(AxisType.Y).setMin(0);
-        barModel.getAxis(AxisType.Y).setMax(5000);
+        barModel.getAxis(AxisType.Y).setMax(maxCrimes * 1.15);
 
         DateAxis axis = new DateAxis("Date");
         axis.setTickAngle(-50);
