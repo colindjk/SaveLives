@@ -24,12 +24,13 @@ Copyright © 2017 Pingxin Shang. All rights reserved.
         <!-- Create the content for this page below -->
         <ui:define name="editableContent">
             <div align="center">
-                
+                <p:growl id="growl" life="4000"/>
+
                 <h:form id="EmailCompositionForm"> 
                     <br/>
                     <br/>
                     <h1>Compose and Send Your Email Message</h1>
-                    
+
                     <br/>
                     <p:panelGrid columns="2" columnClasses="column1, column2-EditAccount" class="panelGrid">
 
@@ -68,12 +69,12 @@ Copyright © 2017 Pingxin Shang. All rights reserved.
                     <br />
 
                     <p:commandButton value="Send Email" ajax="false" class="customButton"
-                                     type="submit" action="#{emailSender.sendEmail()}" />
+                                     type="submit" action="#{emailSender.sendEmail()}" update=":growl"/>
                     &nbsp;&nbsp;
                     <p:button value="Cancel"  class="customButton" outcome="HistorySearch"/>
                     &nbsp;&nbsp;
                     <p:button value="Back Profile"  class="customButton" outcome="Profile"/>
-                    
+
                     <br /><br />
                 </h:form>
 

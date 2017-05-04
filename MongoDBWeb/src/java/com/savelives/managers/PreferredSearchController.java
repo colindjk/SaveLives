@@ -19,6 +19,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -134,19 +135,24 @@ public class PreferredSearchController implements Serializable {
     public void prepareEmailBody() {
 
         try {
-            String imageUrl = "<img src=\"https://data.baltimorecity.gov/api/assets/AF2C3AF6-C1EF-4A09-9B7D-70B8E3C695BE?ob_beta.png\" style=\"width:200px;\">";
+            String headerUrl = "<img src=\"https://image.ibb.co/j93imQ/email_header.png\" style=\"width:1000px;\">";
+            String footerUrl = "<img src=\"https://image.ibb.co/bEeZt5/email_footer.png\" style=\"width:1000px;\">";
 
             Map<String, Object> map = FacesContext.getCurrentInstance()
                     .getExternalContext().getSessionMap();
             String userPrimaryKey = (String) map.get("user_id");
             User u = getUserFacade().findById(userPrimaryKey);
 
-            String url = "http://localhost:8080/MongoDBWeb/webresources/search/" + u.getUsername() + "/" + selected.getIndex();
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            String baseUrl = request.getRequestURL().substring(0, request.getRequestURL().toString().length() - request.getServletPath().length());
+            String wsUrl = baseUrl + "/webresources/search/" + u.getUsername() + "/" + selected.getIndex();
+            String indexUrl = baseUrl + "/index.xhtml";
 
             // Compose the email content in HTML format
-            String emailBodyText = "<div align=\"center\">" + imageUrl + "<br /><br /><h2>Open Baltimore</h2><br /><br />"
-                    + u.getFirstName() + " sends you a search query. If you want to see the search result, please click <a href=\""
-                    + url + "\">here</a> to view the search details and search the crime cases. <br /><br /> <p>&nbsp;</p></div>";
+            String emailBodyText = "<div align=\"left\">" + headerUrl + "<br /><br /><h3>   Shared Search Query on SaveLives</h3> <br />  "
+                    + u.getFirstName() + " sends you a search query on <a href=\"" + indexUrl + "\">SaveLives</a>. If you want to see the search result, please click <a href=\""
+                    + wsUrl + "\">here</a> to view the search details and search the crime cases. <br /><br />   If you did not know SaveLives and the person send the search to you, please discard this email. "
+                    + "Sorry for the inconvenience.<br /><br />  If you have any questions, please reply this email with questions. <br /><br /> Thank you.<br /><br />" + footerUrl + " <p>&nbsp;</p></div>";
 
             // Set the HTML content to be the body of the email message
             editorView.setText(emailBodyText);
