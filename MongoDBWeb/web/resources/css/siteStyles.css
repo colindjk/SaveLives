@@ -37,32 +37,6 @@ body {
     color: black;
 }
 
-/* Style the text used under the standard HTML tag "p" for paragraph */
-p {
-    font-family: Futura, Times, serif;
-    font-size: 12pt;
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: none;
-    text-align: left;
-    color: #3e474f;
-}
-
-h2 {
-    color: #3e474f;
-}
-
-h3{
-    font-family: Futura, Times, serif;
-    font-size: 12pt;
-    font-style: normal;
-    font-weight: bold;
-    text-decoration: none;
-    text-align: left;
-    color: #0a83a1;
-}
-
-
 /* 
 Style the div component whose unique id is "page" per reference
 <div id="page"> in siteTemplate.xhtml
@@ -460,9 +434,59 @@ if content overflows an element's box.
 
 #index_container
 {
-    width:100%;
-    margin:auto; 
-   background-color: #D8D8D8; 
+    align-content: center;
+    width:80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    background-color: #FFF; 
 
 }
 
+#index_right {
+    width:42.5%;
+    float: left; 
+    padding-left:5%;
+    padding-right: 2.5%;
+    background-color: #FFF; 
+}
+
+#index_left {
+    width:42.5%;
+    float: left; 
+    padding-left:2.5%;
+    padding-right: 5%;
+    background-color: #FFF; 
+}
+
+/* Style the text used under the standard HTML tag "p" for paragraph */
+p {
+    font-family: Futura, Times, serif;
+    font-size: 12pt;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    text-align: left;
+        color: #717f86;
+}
+
+.h2Title {
+    text-align: center;
+    align-content: center;
+    font-family: Futura, Times, serif;
+    font-size: 25pt;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    color: #384047;
+}
+
+.h3Title{
+    text-align: center;
+    align-content: center;
+    font-family: Futura, Times, serif;
+    font-size: 15pt;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    color: #42b4d6;
+}
