@@ -12,7 +12,7 @@ html{
     /* background-color: #DCDCDC;   /* Gainsboro */
     /* background-color: #FFFFF0;   /* Ivory */
     /* background-color: #FAF0E6;   /* Linen */
-/*    background-color: #FDF5E6;    OldLace */
+    /*    background-color: #FDF5E6;    OldLace */
     /* background-color: #FFEFD5;   /* PapayaWhip */
     /* background-color: #F5DEB3;   /* Wheat */
     /* Stretch the background image to cover the entire screen. 
@@ -45,8 +45,23 @@ p {
     font-weight: normal;
     text-decoration: none;
     text-align: left;
-    color: black;
+    color: #3e474f;
 }
+
+h2 {
+    color: #3e474f;
+}
+
+h3{
+    font-family: Futura, Times, serif;
+    font-size: 12pt;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: left;
+    color: #0a83a1;
+}
+
 
 /* 
 Style the div component whose unique id is "page" per reference
@@ -72,7 +87,7 @@ Style the div component whose unique id is "header" per reference
     left: 0px;
     top: -10px;
     right: 0px;
-/*    margin-bottom: 16px;*/
+    /*    margin-bottom: 16px;*/
 }
 /* 
 Style the div component whose unique id is "editableContent" per reference 
@@ -345,7 +360,7 @@ if content overflows an element's box.
 .footerLink {
     text-decoration: none;
     color:#3f8abf;
-    
+
 }
 .footerLink:visited, .footerLink:link  {
     color:#3f8abf;
@@ -410,20 +425,20 @@ if content overflows an element's box.
 .ui-steps .ui-steps-item {
     width: 24%;
 }
- 
+
 .ui-state-highlight {
     text-shadow: none !important;
 }
- 
+
 .ui-steps.custom {
     margin-bottom: 30px;
 }
- 
+
 .ui-steps.custom .ui-steps-item .ui-menuitem-link {
     height: 10px;
     padding: 0 1em;
 }
- 
+
 .ui-steps.custom .ui-steps-item .ui-steps-number {
     background-color: #0081c2;
     color: #FFFFFF;
@@ -433,7 +448,7 @@ if content overflows an element's box.
     margin-top: -10px;
     margin-bottom: 10px;
 }
- 
+
 .ui-steps.custom .ui-steps-item.ui-state-highlight .ui-steps-title {
     color: #555;
 }
@@ -441,5 +456,13 @@ if content overflows an element's box.
 .ui-widget-content {
     background: #edeff0;
     color: #4f4f4f;
+}
+
+#index_container
+{
+    width:100%;
+    margin:auto; 
+   background-color: #D8D8D8; 
+
 }
 
