@@ -12,7 +12,7 @@ html{
     /* background-color: #DCDCDC;   /* Gainsboro */
     /* background-color: #FFFFF0;   /* Ivory */
     /* background-color: #FAF0E6;   /* Linen */
-/*    background-color: #FDF5E6;    OldLace */
+    /*    background-color: #FDF5E6;    OldLace */
     /* background-color: #FFEFD5;   /* PapayaWhip */
     /* background-color: #F5DEB3;   /* Wheat */
     /* Stretch the background image to cover the entire screen. 
@@ -34,17 +34,6 @@ body {
     font-style: normal;
     font-weight: normal;
     text-decoration: none;
-    color: black;
-}
-
-/* Style the text used under the standard HTML tag "p" for paragraph */
-p {
-    font-family: Futura, Times, serif;
-    font-size: 12pt;
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: none;
-    text-align: left;
     color: black;
 }
 
@@ -72,7 +61,7 @@ Style the div component whose unique id is "header" per reference
     left: 0px;
     top: -10px;
     right: 0px;
-/*    margin-bottom: 16px;*/
+    /*    margin-bottom: 16px;*/
 }
 /* 
 Style the div component whose unique id is "editableContent" per reference 
@@ -345,7 +334,7 @@ if content overflows an element's box.
 .footerLink {
     text-decoration: none;
     color:#3f8abf;
-    
+
 }
 .footerLink:visited, .footerLink:link  {
     color:#3f8abf;
@@ -410,20 +399,20 @@ if content overflows an element's box.
 .ui-steps .ui-steps-item {
     width: 24%;
 }
- 
+
 .ui-state-highlight {
     text-shadow: none !important;
 }
- 
+
 .ui-steps.custom {
     margin-bottom: 30px;
 }
- 
+
 .ui-steps.custom .ui-steps-item .ui-menuitem-link {
     height: 10px;
     padding: 0 1em;
 }
- 
+
 .ui-steps.custom .ui-steps-item .ui-steps-number {
     background-color: #0081c2;
     color: #FFFFFF;
@@ -433,7 +422,7 @@ if content overflows an element's box.
     margin-top: -10px;
     margin-bottom: 10px;
 }
- 
+
 .ui-steps.custom .ui-steps-item.ui-state-highlight .ui-steps-title {
     color: #555;
 }
@@ -443,3 +432,61 @@ if content overflows an element's box.
     color: #4f4f4f;
 }
 
+#index_container
+{
+    align-content: center;
+    width:80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    background-color: #FFF; 
+
+}
+
+#index_right {
+    width:42.5%;
+    float: left; 
+    padding-left:5%;
+    padding-right: 2.5%;
+    background-color: #FFF; 
+}
+
+#index_left {
+    width:42.5%;
+    float: left; 
+    padding-left:2.5%;
+    padding-right: 5%;
+    background-color: #FFF; 
+}
+
+/* Style the text used under the standard HTML tag "p" for paragraph */
+p {
+    font-family: Futura, Times, serif;
+    font-size: 12pt;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    text-align: left;
+        color: #717f86;
+}
+
+.h2Title {
+    text-align: center;
+    align-content: center;
+    font-family: Futura, Times, serif;
+    font-size: 25pt;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    color: #384047;
+}
+
+.h3Title{
+    text-align: center;
+    align-content: center;
+    font-family: Futura, Times, serif;
+    font-size: 15pt;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    color: #42b4d6;
+}

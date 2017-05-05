@@ -39,6 +39,14 @@
                         <h:outputText value="#{comfirmSearchController.selected.crimeCodes.toString()}" style="width: 200px">
                         </h:outputText>
 
+                        <h:outputText value="Weapons:" />
+                        <h:outputText value="#{comfirmSearchController.selected.weapons.toString()}" style="width: 200px">
+                        </h:outputText>
+
+                        <h:outputText value="neighborhoods:" />
+                        <h:outputText value="#{comfirmSearchController.selected.neighborhoods.toString()}" style="width: 200px">
+                        </h:outputText>
+
                     </p:panelGrid>
                     <p:commandButton id="Submit" value="Search This" action="#{submitSearchController.search()}" 
                                      styleClass="customButton" ajax="false"/>

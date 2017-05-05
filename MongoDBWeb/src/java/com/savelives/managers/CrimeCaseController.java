@@ -37,370 +37,380 @@ import org.primefaces.model.chart.PieChartModel;
 @SessionScoped
 @Named(value = "crimeCaseController")
 public class CrimeCaseController implements Serializable {
-    
-    @Inject
-    private CrimeCaseFacade crimeCaseFacade;
-    
-    private MapModel mapModel;
-    private CrimeCase selected;
-    private final List<String> weapons;
-    private List<String> selectedWeapons;
-    private final List<String> neighborhoods;
-    private List<String> selectedNeighborhoods;
-    private Date date1;
-    private Date date2;
-    private final List<String> crimeCategories;
-    private final List<String> crimeCodes;
-    private List<String> selectedCategories;
-    private List<String> selectedCrimeCodes;
-    private final int NUMB_OF_CRIMES = 500;
-    private String thing;
-    private BarChartModel barModel;
-    private PieChartModel pieModel;
 
-    @Inject
-    private AccountManager accountManager;
+	@Inject
+	private CrimeCaseFacade crimeCaseFacade;
 
-    @Inject
-    private UserFacade userFacade;
+	private MapModel mapModel;
+	private CrimeCase selected;
+	private final List<String> weapons;
+	private List<String> selectedWeapons;
+	private final List<String> neighborhoods;
+	private List<String> selectedNeighborhoods;
+	private Date date1;
+	private Date date2;
+	private final List<String> crimeCategories;
+	private final List<String> crimeCodes;
+	private List<String> selectedCategories;
+	private List<String> selectedCrimeCodes;
+	private final int NUMB_OF_CRIMES = 500;
+	private BarChartModel barModel;
+	private PieChartModel pieModel;
 
-    /**
-     * Default Constructor
-     */
-    public CrimeCaseController() throws Exception {
-        crimeCaseFacade = new CrimeCaseFacade();
-        initializeDates();
-        
-        crimeCategories = crimeCaseFacade.getDistinct("description");
-        crimeCodes = crimeCaseFacade.getDistinct("crimecode");
-        weapons = crimeCaseFacade.getDistinct("weapon");
-        neighborhoods = crimeCaseFacade.getDistinct("neighborhood");
-    }
+	@Inject
+	private AccountManager accountManager;
 
-    /*========== Getters and Setters ==============*/
-    private CrimeCaseFacade getFacade() {
-        return crimeCaseFacade;
-    }
+	@Inject
+	private UserFacade userFacade;
 
-    public MapModel getMapModel() {
-        if(mapModel == null){
-            mapModel = crimeCaseFacade.getCrimesModel(NUMB_OF_CRIMES);
-        }
-        return mapModel;
-    }
+	/**
+	 * Default Constructor
+	 */
+	public CrimeCaseController() throws Exception {
+		crimeCaseFacade = new CrimeCaseFacade();
+		initializeDates();
+		crimeCategories = crimeCaseFacade.getDistinct("description");
+		crimeCodes = crimeCaseFacade.getDistinct("crimecode");
+		weapons = crimeCaseFacade.getDistinct("weapon");
+		neighborhoods = crimeCaseFacade.getDistinct("neighborhood");
+	}
 
-    public Marker getSelected() {
-        return selected;
-    }
+	/*========== Getters and Setters ==============*/
+	private CrimeCaseFacade getFacade() {
+		return crimeCaseFacade;
+	}
 
-    public Date getDate1() {
-        return date1;
-    }
+	public Marker getSelected() {
+		return selected;
+	}
 
-    public void setDate1(Date date1) {
-        this.date1 = date1;
-    }
+	public Date getDate1() {
+		return date1;
+	}
 
-    public Date getDate2() {
-        return date2;
-    }
+	public void setDate1(Date date1) {
+		this.date1 = date1;
+	}
 
-    public void setDate2(Date date2) {
-        this.date2 = date2;
-    }
+	public Date getDate2() {
+		return date2;
+	}
 
-    public List<String> getCrimeCategories() {
-        return crimeCategories;
-    }
+	public void setDate2(Date date2) {
+		this.date2 = date2;
+	}
 
-    public List<String> getCrimeCodes() {
-        return crimeCodes;
-    }
+	public List<String> getCrimeCategories() {
+		return crimeCategories;
+	}
 
-    public void setSelectedCategories(List<String> selectedCategories) {
-        this.selectedCategories = selectedCategories;
-    }
+	public List<String> getCrimeCodes() {
+		return crimeCodes;
+	}
 
-    public List<String> getSelectedCategories() {
+	public void setSelectedCategories(List<String> selectedCategories) {
+		this.selectedCategories = selectedCategories;
+	}
 
-        return selectedCategories;
-    }
+	public List<String> getSelectedCategories() {
 
-    public List<String> getSelectedCrimeCodes() {
-        return selectedCrimeCodes;
-    }
+		return selectedCategories;
+	}
 
-    public void setSelectedCrimeCodes(List<String> selectedCrimeCodes) {
-        this.selectedCrimeCodes = selectedCrimeCodes;
-    }
+	public List<String> getSelectedCrimeCodes() {
+		return selectedCrimeCodes;
+	}
 
-    public UserFacade getUserFacade() {
-        return userFacade;
-    }
+	public void setSelectedCrimeCodes(List<String> selectedCrimeCodes) {
+		this.selectedCrimeCodes = selectedCrimeCodes;
+	}
 
-    public void setUserFacade(UserFacade userFacade) {
-        this.userFacade = userFacade;
-    }
+	public UserFacade getUserFacade() {
+		return userFacade;
+	}
 
-    public List<String> getWeapons() {
-        return weapons;
-    }
+	public void setUserFacade(UserFacade userFacade) {
+		this.userFacade = userFacade;
+	}
 
-    public List<String> getSelectedWeapons() {
-        return selectedWeapons;
-    }
+	public List<String> getWeapons() {
+		return weapons;
+	}
 
-    public void setSelectedWeapons(List<String> selectedWeapons) {
-        this.selectedWeapons = selectedWeapons;
-    }
+	public List<String> getSelectedWeapons() {
+		return selectedWeapons;
+	}
 
-    public void setSelectedNeighborhoods(List<String> selectedNeighborhoods) {
-        this.selectedNeighborhoods = selectedNeighborhoods;
-    }
+	public void setSelectedWeapons(List<String> selectedWeapons) {
+		this.selectedWeapons = selectedWeapons;
+	}
 
-    public List<String> getNeighborhoods() {
-        return neighborhoods;
-    }
+	public void setSelectedNeighborhoods(List<String> selectedNeighborhoods) {
+		this.selectedNeighborhoods = selectedNeighborhoods;
+	}
 
-    public List<String> getSelectedNeighborhoods() {
-        return selectedNeighborhoods;
-    }
+	public List<String> getNeighborhoods() {
+		return neighborhoods;
+	}
 
-    public BarChartModel getBarModel() {
-        if(barModel == null){
-            try {
-                createBarModel();
-            } catch (Exception ex) {
-                Logger.getLogger(CrimeCaseController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return barModel;
-    }
+	public List<String> getSelectedNeighborhoods() {
+		return selectedNeighborhoods;
+	}
 
-    public PieChartModel getPieModel() {
-        if(pieModel == null){
-            createPieModel();
-        }
-        return pieModel;
-    }
+	public BarChartModel getBarModel() {
+		if (barModel == null) {
+			try {
+				createBarModel();
+			} catch (Exception ex) {
+				Logger.getLogger(CrimeCaseController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return barModel;
+	}
 
-    public void setBarModel(BarChartModel model) {
-        this.barModel = model;
-    }
+	public PieChartModel getPieModel() {
+		if (pieModel == null) {
+			createPieModel();
+		}
+		return pieModel;
+	}
 
-    public String getThing() {
-        return thing;
-    }
+	public MapModel getMapModel() {
+		if (mapModel == null) {
+			Calendar cal = Calendar.getInstance();
+			cal.set(Calendar.YEAR, 2016);
+			cal.set(Calendar.MONTH, 0);
+			cal.set(Calendar.DAY_OF_MONTH, 1);
+			Date tempDate1 = cal.getTime();
 
-    //============== INSTANCE METHODS =====================//
-    private void initializeDates() {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 2015);
-        cal.set(Calendar.MONTH, 0);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        date1 = cal.getTime();
+			cal.set(Calendar.YEAR, 2016);
+			cal.set(Calendar.MONTH, 11);
+			cal.set(Calendar.DAY_OF_MONTH, 30);
+			Date tempDate2 = cal.getTime();
+			mapModel = getFacade().filterCrimes(tempDate1, tempDate2, null, null, null, null);
+		}
+		return mapModel;
+	}
 
-        cal.set(Calendar.YEAR, 2016);
-        cal.set(Calendar.MONTH, 0);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        date2 = cal.getTime();
-    }
+	public void setBarModel(BarChartModel model) {
+		this.barModel = model;
+	}
 
-    private void createPieModel() {
-        pieModel = new PieChartModel();
-        crimeCategories.forEach((category) -> {
-            long frequency = crimeCaseFacade.getCount(date1, date2, selectedCrimeCodes, 
-                    selectedCategories, selectedWeapons, selectedNeighborhoods,"description", category);
-            if (frequency > 0) {
-                pieModel.set(category, frequency);
-            }
-        });
+	public void onMarkerSelect(OverlaySelectEvent event) {
+		selected = (CrimeCase) event.getOverlay();
+	}
 
-        pieModel.setTitle("Crime Types");
-        pieModel.setLegendPosition("w");
-        pieModel.setShowDataLabels(true);
-        pieModel.setShowDatatip(true);
-    }
+	private void initializeDates() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, 2016);
+		cal.set(Calendar.MONTH, 0);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		date1 = cal.getTime();
 
-    public void onMarkerSelect(OverlaySelectEvent event) {
-        selected = (CrimeCase) event.getOverlay();
-    }
+		cal.set(Calendar.YEAR, 2016);
+		cal.set(Calendar.MONTH, 11);
+		cal.set(Calendar.DAY_OF_MONTH, 30);
+		date2 = cal.getTime();
+	}
 
-    public void submit() throws Exception {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.getExternalContext().getFlash().setKeepMessages(true);
-        mapModel = null;
-        mapModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories, selectedWeapons, selectedNeighborhoods);
+	private void createPieModel() {
+		pieModel = new PieChartModel();
+		crimeCategories.forEach((category) -> {
+			long frequency = crimeCaseFacade.getCount(date1, date2, selectedCrimeCodes,
+					selectedCategories, selectedWeapons, selectedNeighborhoods, "description", category);
+			if (frequency > 0) {
+				pieModel.set(category, frequency);
+			}
+		});
 
-        createBarModel();
-        createPieModel();
-        // Record this search
-        if (accountManager.isLoggedIn()) {
-            SearchQuery sq = new SearchQuery(0, "untitled", new Date(), date1, date2,
-                    (ArrayList<String>) selectedCategories, (ArrayList<String>) selectedCrimeCodes,
-                    (ArrayList<String>) selectedWeapons, (ArrayList<String>)selectedNeighborhoods);
-            accountManager.getSelected().addHistorySearch(sq);
-            getUserFacade().edit(accountManager.getSelected());
-            //User u = getUserFacade().findById(accountManager.getSelected().getId());
-        }
-    }
+		pieModel.setTitle("Crime Types");
+		pieModel.setLegendPosition("w");
+		pieModel.setShowDataLabels(true);
+		pieModel.setShowDatatip(true);
+	}
 
-    public void submitWithoutAddHistory() throws Exception {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.getExternalContext().getFlash().setKeepMessages(true);
-        mapModel = null;
-        mapModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories, selectedWeapons, selectedNeighborhoods);
+	private void createBarModel() throws Exception {
+		BarChartModel model = new BarChartModel();
 
-        createBarModel();
-    }
+		ChartSeries crimes = new ChartSeries();
+		crimes.setLabel("Crimes");
 
-    /*========== Creating Charts ==============*/
-    private void createBarModel() throws Exception {
-        BarChartModel model = new BarChartModel();
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
 
-        ChartSeries crimes = new ChartSeries();
-        crimes.setLabel("Crimes");
+		if (date1 == null || date2 == null) {
+			throw new Exception("Either date1 or date2 were not set");
+		}
 
-        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar calDate1 = Calendar.getInstance();
+		Calendar calDate2 = Calendar.getInstance();
 
-        if (date1 == null || date2 == null) {
-            throw new Exception("Either date1 or date2 were not set");
-        }
+		calDate1.setTime(date1);
+		calDate2.setTime(date2);
 
-        Calendar calDate1 = Calendar.getInstance();
-        Calendar calDate2 = Calendar.getInstance();
+		if (calDate1.get(Calendar.YEAR) == calDate2.get(Calendar.YEAR)) {
+			int diffMonths = 12 - (calDate2.get(Calendar.MONTH) - calDate1.get(Calendar.MONTH));
+			if (diffMonths > 0) {
+				calDate2.add(Calendar.MONTH, diffMonths);
 
-        calDate1.setTime(date1);
-        calDate2.setTime(date2);
+				//date2 = calDate2.getTime();
+			}
+		}
 
-        if (calDate1.get(Calendar.YEAR) == calDate2.get(Calendar.YEAR)) {
-            int diffMonths = 12 - (calDate2.get(Calendar.MONTH) - calDate1.get(Calendar.MONTH));
-            if (diffMonths > 0) {
-                calDate2.add(Calendar.MONTH, diffMonths);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(calDate1.getTime());
+		int month1 = cal.get(Calendar.MONTH);
+		int year1 = cal.get(Calendar.YEAR);
+		cal.setTime(calDate2.getTime());
+		int month2 = cal.get(Calendar.MONTH);
+		int year2 = cal.get(Calendar.YEAR);
 
-                date2 = calDate2.getTime();
-            }
-        }
+		int totalMonths = 0;
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date1);
-        int month1 = cal.get(Calendar.MONTH);
-        int year1 = cal.get(Calendar.YEAR);
-        cal.setTime(date2);
-        int month2 = cal.get(Calendar.MONTH);
-        int year2 = cal.get(Calendar.YEAR);
+//        if (year2 == year1) {
+//            totalMonths = month2 - month1 + 1;
+//        } else if ((year2 - year1) < 2) {
+//            totalMonths = (12 - month1 + 1) + month2;
+//        } else {
+//            totalMonths = (year2 - year1 - 1) * 12 + (12 - month1 + 1) + month2;
+//        }
+		// Please check the logic here.
+		if (year2 == year1) {
+			totalMonths = month2 - month1 + 1;
+		} else {
+			totalMonths = (year2 - year1 - 1) * 12 + (12 - month1 + 1) + month2;
+		}
+		int multiple = totalMonths / 12;
 
-        int totalMonths = 0;
+		//beginning of x-axis
+		cal.setTime(calDate1.getTime());
+		cal.set(Calendar.DAY_OF_MONTH, 1);
 
-        if (year2 == year1) {
-            totalMonths = month2 - month1 + 1;
-        } else if ((year2 - year1) < 2) {
-            totalMonths = (12 - month1 + 1) + month2;
-        } else {
-            totalMonths = (year2 - year1 - 1) * 12 + (12 - month1 + 1) + month2;
-        }
+		//Calendar cal30 = Calendar.getInstance();
+		//cal30.setTime(date1);
+		
+		int maxCrimes = 0;
+		
+		for (int i = 1; i < 12; i++) {
 
-        int multiple = totalMonths / 12;
+			//cal30.add(Calendar.DATE, (multiple * 30));
+			cal.add(Calendar.MONTH, multiple);
 
-        //beginning of x-axis
-        cal.setTime(date1);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
+			Calendar cal4 = Calendar.getInstance(); //first day of month
+			cal4.setTime(cal.getTime());
+			cal4.set(Calendar.DAY_OF_MONTH, 1);
 
-        //Calendar cal30 = Calendar.getInstance();
-        //cal30.setTime(date1);
-        
-        int maxCrimes = 0;
-        
-        for (int i = 1; i < 12; i++) {
+			Calendar cal3 = Calendar.getInstance(); //last day of month
+			cal3.setTime(cal.getTime());
 
-            //cal30.add(Calendar.DATE, (multiple * 30));
-            cal.add(Calendar.MONTH, multiple);
+			switch (cal3.get(Calendar.MONTH)) {
+				case 0:
+					cal3.set(Calendar.DAY_OF_MONTH, 31);
+					break;
+				case 1:
+					cal3.set(Calendar.DAY_OF_MONTH, 28);
+					break;
+				case 2:
+					cal3.set(Calendar.DAY_OF_MONTH, 31);
+					break;
+				case 3:
+					cal3.set(Calendar.DAY_OF_MONTH, 30);
+					break;
+				case 4:
+					cal3.set(Calendar.DAY_OF_MONTH, 31);
+					break;
+				case 5:
+					cal3.set(Calendar.DAY_OF_MONTH, 30);
+					break;
+				case 6:
+					cal3.set(Calendar.DAY_OF_MONTH, 31);
+					break;
+				case 7:
+					cal3.set(Calendar.DAY_OF_MONTH, 31);
+					break;
+				case 8:
+					cal3.set(Calendar.DAY_OF_MONTH, 30);
+					break;
+				case 9:
+					cal3.set(Calendar.DAY_OF_MONTH, 31);
+					break;
+				case 10:
+					cal3.set(Calendar.DAY_OF_MONTH, 30);
+					break;
+				case 11:
+					cal3.set(Calendar.DAY_OF_MONTH, 31);
+					break;
+				default:
+					break;
+			}
 
-            Calendar cal4 = Calendar.getInstance(); //first day of month
-            cal4.setTime(cal.getTime());
-            cal4.set(Calendar.DAY_OF_MONTH, 1);
+			//return number of crimes within this month
+			int numCrimes = getFacade().filterCrimes(
+					cal4.getTime(), 
+					cal3.getTime(), 
+					selectedCrimeCodes, 
+					selectedCategories, 
+					selectedWeapons, 
+					selectedNeighborhoods).getMarkers().size();
+			
+			if (numCrimes > maxCrimes) {
+				maxCrimes = numCrimes;
+			}
+			
+			crimes.set(f.format(cal.getTime()), numCrimes);
+		}
 
-            Calendar cal3 = Calendar.getInstance(); //last day of month
-            cal3.setTime(cal.getTime());
+		model.addSeries(crimes);
 
-            switch (cal3.get(Calendar.MONTH)) {
-                case 0:
-                    cal3.set(Calendar.DAY_OF_MONTH, 31);
-                    break;
-                case 1:
-                    cal3.set(Calendar.DAY_OF_MONTH, 28);
-                    break;
-                case 2:
-                    cal3.set(Calendar.DAY_OF_MONTH, 31);
-                    break;
-                case 3:
-                    cal3.set(Calendar.DAY_OF_MONTH, 30);
-                    break;
-                case 4:
-                    cal3.set(Calendar.DAY_OF_MONTH, 31);
-                    break;
-                case 5:
-                    cal3.set(Calendar.DAY_OF_MONTH, 30);
-                    break;
-                case 6:
-                    cal3.set(Calendar.DAY_OF_MONTH, 31);
-                    break;
-                case 7:
-                    cal3.set(Calendar.DAY_OF_MONTH, 31);
-                    break;
-                case 8:
-                    cal3.set(Calendar.DAY_OF_MONTH, 30);
-                    break;
-                case 9:
-                    cal3.set(Calendar.DAY_OF_MONTH, 31);
-                    break;
-                case 10:
-                    cal3.set(Calendar.DAY_OF_MONTH, 30);
-                    break;
-                case 11:
-                    cal3.set(Calendar.DAY_OF_MONTH, 31);
-                    break;
-                default:
-                    break;
-            }
+		barModel = model;
 
-            //return number of crimes within this month
-            int numCrimes = getFacade().filterCrimes(
-                    cal4.getTime(), 
-                    cal3.getTime(), 
-                    selectedCrimeCodes, 
-                    selectedCategories, 
-                    selectedWeapons, 
-                    selectedNeighborhoods).getMarkers().size();
-            
-            if (numCrimes > maxCrimes) {
-                maxCrimes = numCrimes;
-            }
-            
-            crimes.set(f.format(cal.getTime()), numCrimes);
-        }
+		barModel.getAxis(AxisType.Y).setLabel("Crime Count");
+		barModel.getAxis(AxisType.Y).setTickFormat("%d");
+		barModel.getAxis(AxisType.Y).setMin(0);
+		barModel.getAxis(AxisType.Y).setMax(maxCrimes * 1.15);
 
-        model.addSeries(crimes);
+		DateAxis axis = new DateAxis("Date");
+		axis.setTickAngle(-50);
+		axis.setMin(f.format(calDate1.getTime()));
+		System.out.println("hahaha" + calDate1.getTime());
+		System.out.println("lalala" + date1);
+		axis.setMax(f.format(calDate2.getTime()));
+		axis.setTickFormat("%b, %Y");
+		axis.setTickCount(13);
+		barModel.getAxes().put(AxisType.X, axis);
 
-        barModel = model;
+		barModel.setBarWidth(45);
 
-        barModel.getAxis(AxisType.Y).setLabel("Crime Count");
-        barModel.getAxis(AxisType.Y).setTickFormat("%d");
-        barModel.getAxis(AxisType.Y).setMin(0);
-        barModel.getAxis(AxisType.Y).setMax(maxCrimes * 1.15);
+		barModel.setTitle("Crimes in Baltimore");
+		barModel.setLegendPosition("ne");
+		barModel.setAnimate(true);
+	}
 
-        DateAxis axis = new DateAxis("Date");
-        axis.setTickAngle(-50);
-        axis.setMin(f.format(date1));
-        axis.setMax(f.format(date2));
-        axis.setTickFormat("%b, %Y");
-        axis.setTickCount(13);
-        barModel.getAxes().put(AxisType.X, axis);
+	public void submit() throws Exception {
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.getExternalContext().getFlash().setKeepMessages(true);
+		mapModel = null;
+		mapModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories, selectedWeapons, selectedNeighborhoods);
 
-        barModel.setBarWidth(45);
+		createBarModel();
+		createPieModel();
+		// Record this search
+		if (accountManager.isLoggedIn()) {
+			SearchQuery sq = new SearchQuery(0, "untitled", new Date(), date1, date2,
+					(ArrayList<String>) selectedCategories, (ArrayList<String>) selectedCrimeCodes,
+					(ArrayList<String>) selectedWeapons, (ArrayList<String>) selectedNeighborhoods);
+			accountManager.getSelected().addHistorySearch(sq);
+			getUserFacade().edit(accountManager.getSelected());
+			//User u = getUserFacade().findById(accountManager.getSelected().getId());
+		}
+	}
 
-        barModel.setTitle("Crimes in Baltimore");
-        barModel.setLegendPosition("ne");
-        barModel.setAnimate(true);
-    }   
+	public void submitWithoutAddHistory() throws Exception {
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.getExternalContext().getFlash().setKeepMessages(true);
+		mapModel = null;
+		mapModel = getFacade().filterCrimes(date1, date2, selectedCrimeCodes, selectedCategories, selectedWeapons, selectedNeighborhoods);
+
+		createBarModel();
+		createPieModel();
+	}
 }
