@@ -177,17 +177,8 @@ public class CrimeCaseController implements Serializable {
 
 	public MapModel getMapModel() {
 		if (mapModel == null) {
-			Calendar cal = Calendar.getInstance();
-			cal.set(Calendar.YEAR, 2016);
-			cal.set(Calendar.MONTH, 0);
-			cal.set(Calendar.DAY_OF_MONTH, 1);
-			Date tempDate1 = cal.getTime();
-
-			cal.set(Calendar.YEAR, 2016);
-			cal.set(Calendar.MONTH, 11);
-			cal.set(Calendar.DAY_OF_MONTH, 30);
-			Date tempDate2 = cal.getTime();
-			mapModel = getFacade().filterCrimes(tempDate1, tempDate2, null, null, null, null);
+			
+			mapModel = getFacade().filterCrimes(getDate1(), getDate2(), null, null, null, null);
 		}
 		return mapModel;
 	}

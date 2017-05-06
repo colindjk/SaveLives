@@ -10,7 +10,7 @@
     <ui:composition template="/template/siteTemplate.xhtml">
 
         <ui:define id="content" name="editableContent">
-            <h:form>
+            <h:form id="notification-msg">
                 <p:growl id="growl" life="4000" />
             </h:form>
             <br/>
@@ -72,8 +72,8 @@
                             <br/>
                             <!-- SUBMIT BUTTON -->
                             <p:commandButton id="submitBtn" value="Submit"  update=":views:gmap :views:chartViews :views:CrimeListForm:crimeList 
-                                             categories restricted1 restricted2 crimecodes crimeweapons crimeneighborhood"
-                                             actionListener="#{crimeCaseController.submit}" oncomplete="postSubmit();" ajax="false" class="customButton"/>
+                                             categories restricted1 restricted2 crimecodes crimeweapons crimeneighborhood :notification-msg:growl"
+                                             actionListener="#{crimeCaseController.submit}" oncomplete="postSubmit();" ajax="true" class="customButton"/>
                             <p:blockUI block="views" trigger="submitBtn" >
                                 <p:graphicImage value="#{resource['images:statusbar.gif']}" />
                             </p:blockUI> 

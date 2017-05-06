@@ -58,6 +58,9 @@ Copyright © 2017 Taiwen Jin. All rights reserved.
             function getPoints() {
             var myMarkers = theMap.markers;
             var allPoints = [];
+            if(myMarkers == null){
+                return allPoints;
+            }
             for (var pt = 0;  pt &lt; myMarkers.length ; pt++) {
             var temp = myMarkers[pt].getPosition();
             allPoints.push(new google.maps.LatLng(temp.lat(), temp.lng()));
@@ -70,6 +73,9 @@ Copyright © 2017 Taiwen Jin. All rights reserved.
              */
             function setMarkersVisible(visible){
             var myMarkers = theMap.markers;
+            if(myMarkers == null){
+                return;
+            }
             for (var pt = 0; pt &lt; myMarkers.length; pt++) {
             myMarkers[pt].setMap(visible ? theMap : null);
             myMarkers[pt].setVisible(visible);
@@ -103,8 +109,12 @@ Copyright © 2017 Taiwen Jin. All rights reserved.
             heatMap.setMap(null);
             setMarkersVisible(true);
             theMap.fitBounds = google.maps.Map.prototype.fitBounds;
-            mapCluster.addMarkers(mapCluster.getMap().markers);
             isHeatMap = false;
+            if(mapCluster.getMap().markers == null){
+                return;
+            }
+            mapCluster.addMarkers(mapCluster.getMap().markers);
+            
             }
 
             function changeMap() {
