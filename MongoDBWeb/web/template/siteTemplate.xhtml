@@ -83,7 +83,7 @@ Copyright © 2017 Taiwen Jin. All rights reserved.
             }
             function initMap() {
             theMap = PF('map').map;
-            var mcOptions = {gridSize: 50, maxZoom: 15, imagePath: 'resources/images/m'};
+            var mcOptions = {gridSize: 50, maxZoom: 15, imagePath: '#{application.contextPath}/resources/images/m'};
             mapCluster = new MarkerClusterer(theMap, theMap.markers, mcOptions);
             heatMap = new google.maps.visualization.HeatmapLayer({
             data: getPoints(),
@@ -128,7 +128,7 @@ Copyright © 2017 Taiwen Jin. All rights reserved.
             function postSubmit() {
 
             theMap = PF('map').map;
-            mapCluster = new MarkerClusterer(theMap, theMap.markers, {gridSize: 50, maxZoom: 15, imagePath: 'http://jupiter.cs.vt.edu/SaveLives/MongoDBWeb/resources/images/m'});
+            mapCluster = new MarkerClusterer(theMap, theMap.markers, {gridSize: 50, maxZoom: 15, imagePath: '#{application.contextPath}/resources/images/m'});
             heatMap = new google.maps.visualization.HeatmapLayer({
             data: getPoints(),
                     map: null
